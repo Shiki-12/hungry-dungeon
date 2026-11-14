@@ -1,0 +1,238 @@
+[gd_scene load_steps=9 format=3 uid="uid://b7v2t5w1q8k4x"]
+
+[ext_resource type="Script" path="res://levels/test_kitchen.gd" id="1_testk"]
+[ext_resource type="Script" path="res://sim/entities/cook.gd" id="2_cook"]
+[ext_resource type="Script" path="res://view/cook_view.gd" id="3_cview"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horiz"]
+size = Vector2(480, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vert"]
+size = Vector2(10, 224)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_station"]
+size = Vector2(32, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cook1"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cook2"]
+radius = 7.0
+
+[node name="TestKitchen" type="Node2D"]
+script = ExtResource("1_testk")
+
+[node name="KitchenArea" type="Node2D" parent="."]
+
+[node name="Floor" type="ColorRect" parent="KitchenArea"]
+offset_top = 30.0
+offset_right = 480.0
+offset_bottom = 254.0
+color = Color(0.180392, 0.203922, 0.25098, 1)
+
+[node name="KitchenGrid" type="ColorRect" parent="KitchenArea"]
+offset_left = 16.0
+offset_top = 46.0
+offset_right = 464.0
+offset_bottom = 238.0
+color = Color(0.145098, 0.168627, 0.207843, 0.6)
+
+[node name="Boundaries" type="StaticBody2D" parent="KitchenArea"]
+
+[node name="TopWall" type="CollisionShape2D" parent="KitchenArea/Boundaries"]
+position = Vector2(240, 25)
+shape = SubResource("RectangleShape2D_horiz")
+
+[node name="BottomWall" type="CollisionShape2D" parent="KitchenArea/Boundaries"]
+position = Vector2(240, 259)
+shape = SubResource("RectangleShape2D_horiz")
+
+[node name="LeftWall" type="CollisionShape2D" parent="KitchenArea/Boundaries"]
+position = Vector2(-5, 142)
+shape = SubResource("RectangleShape2D_vert")
+
+[node name="RightWall" type="CollisionShape2D" parent="KitchenArea/Boundaries"]
+position = Vector2(485, 142)
+shape = SubResource("RectangleShape2D_vert")
+
+[node name="StationChopping" type="StaticBody2D" parent="KitchenArea"]
+position = Vector2(240, 100)
+
+[node name="Shape" type="CollisionShape2D" parent="KitchenArea/StationChopping"]
+shape = SubResource("RectangleShape2D_station")
+
+[node name="Visual" type="ColorRect" parent="KitchenArea/StationChopping"]
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
+color = Color(0.45098, 0.301961, 0.188235, 1)
+
+[node name="Label" type="Label" parent="KitchenArea/StationChopping"]
+offset_left = -20.0
+offset_top = -18.0
+offset_right = 20.0
+offset_bottom = -8.0
+theme_override_font_sizes/font_size = 7
+text = "Potong"
+horizontal_alignment = 1
+
+[node name="StationStove" type="StaticBody2D" parent="KitchenArea"]
+position = Vector2(240, 184)
+
+[node name="Shape" type="CollisionShape2D" parent="KitchenArea/StationStove"]
+shape = SubResource("RectangleShape2D_station")
+
+[node name="Visual" type="ColorRect" parent="KitchenArea/StationStove"]
+offset_left = -16.0
+offset_top = -8.0
+offset_right = 16.0
+offset_bottom = 8.0
+color = Color(0.705882, 0.235294, 0.156863, 1)
+
+[node name="Label" type="Label" parent="KitchenArea/StationStove"]
+offset_left = -20.0
+offset_top = -18.0
+offset_right = 20.0
+offset_bottom = -8.0
+theme_override_font_sizes/font_size = 7
+text = "Tungku"
+horizontal_alignment = 1
+
+[node name="CookRangga" type="CharacterBody2D" parent="KitchenArea"]
+position = Vector2(160, 142)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("2_cook")
+cook_id = 1
+cook_name = "Rangga"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KitchenArea/CookRangga"]
+shape = SubResource("CircleShape2D_cook1")
+
+[node name="CookView" type="Node2D" parent="KitchenArea/CookRangga"]
+script = ExtResource("3_cview")
+
+[node name="BodyRect" type="ColorRect" parent="KitchenArea/CookRangga/CookView"]
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+color = Color(0.160784, 0.501961, 0.72549, 1)
+
+[node name="FacingMarker" type="Polygon2D" parent="KitchenArea/CookRangga/CookView"]
+color = Color(1, 0.843137, 0, 1)
+polygon = PackedVector2Array(-2, -2, 2, -2, 0, 4)
+
+[node name="NameLabel" type="Label" parent="KitchenArea/CookRangga/CookView"]
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = -7.0
+theme_override_font_sizes/font_size = 8
+text = "Rangga (P1)"
+horizontal_alignment = 1
+
+[node name="CookSekar" type="CharacterBody2D" parent="KitchenArea"]
+position = Vector2(320, 142)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("2_cook")
+cook_id = 2
+cook_name = "Sekar"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KitchenArea/CookSekar"]
+shape = SubResource("CircleShape2D_cook2")
+
+[node name="CookView" type="Node2D" parent="KitchenArea/CookSekar"]
+script = ExtResource("3_cview")
+
+[node name="BodyRect" type="ColorRect" parent="KitchenArea/CookSekar/CookView"]
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+color = Color(0.827451, 0.329412, 0, 1)
+
+[node name="FacingMarker" type="Polygon2D" parent="KitchenArea/CookSekar/CookView"]
+color = Color(1, 0.843137, 0, 1)
+polygon = PackedVector2Array(-2, -2, 2, -2, 0, 4)
+
+[node name="NameLabel" type="Label" parent="KitchenArea/CookSekar/CookView"]
+offset_left = -24.0
+offset_top = -20.0
+offset_right = 24.0
+offset_bottom = -7.0
+theme_override_font_sizes/font_size = 8
+text = "Sekar (P2)"
+horizontal_alignment = 1
+
+[node name="HUDTop" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="HUDTop"]
+offset_right = 480.0
+offset_bottom = 30.0
+color = Color(0.0941176, 0.101961, 0.121569, 1)
+
+[node name="Margin" type="MarginContainer" parent="HUDTop"]
+offset_right = 480.0
+offset_bottom = 30.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="HUDTop/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="OrdersLabel" type="Label" parent="HUDTop/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+text = "PESANAN: Nasi Goreng Jamur"
+
+[node name="ScoreLabel" type="Label" parent="HUDTop/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+text = "SKOR: 0"
+horizontal_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="HUDTop/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+text = "03:00"
+horizontal_alignment = 2
+
+[node name="HUDBottom" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="HUDBottom"]
+offset_top = 254.0
+offset_right = 480.0
+offset_bottom = 270.0
+color = Color(0.0941176, 0.101961, 0.121569, 1)
+
+[node name="Margin" type="MarginContainer" parent="HUDBottom"]
+offset_top = 254.0
+offset_right = 480.0
+offset_bottom = 270.0
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="HBox" type="HBoxContainer" parent="HUDBottom/Margin"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="HUDBottom/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "HATI DAPUR: ♥ ♥ ♥ ♥ ♥ (5/5)"
+
+[node name="ControlsLabel" type="Label" parent="HUDBottom/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "P1: WASD+E,F,Spasi,C | P2: Panah+K,L,M,I"
+horizontal_alignment = 2
