@@ -37,6 +37,7 @@ func _run_test_script(path: String) -> void:
 		return
 	if not instance.has_method("run_all"):
 		push_error("Missing run_all: " + path)
+		_free_instance(instance)
 		_failed = true
 		return
 	var result: Variant = instance.call("run_all")
@@ -45,3 +46,14 @@ func _run_test_script(path: String) -> void:
 		push_error("FAILED: " + path)
 	else:
 		print("PASS: " + path)
+	_free_instance(instance)
+
+func _free_instance(obj: Object) -> void:
+	if obj == null:
+		return
+	if obj is Node:
+		obj.free()
+	elif obj is RefCounted:
+		pass # RefCounted auto-freed
+	else:
+		obj.free()

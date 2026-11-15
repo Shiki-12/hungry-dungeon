@@ -67,20 +67,20 @@ Berdasarkan struktur repositori saat ini:
 - **Referensi PRD v1.0:** `§4.5`, `§5.5`, `§7`, `§8.4–8.8`, `§9.4`, `§13.2`.
 - **Checklist Tugas:**
   - [x] Buat `res://data/sprite_set_data.gd` (`class_name SpriteSetData`) sesuai spesifikasi `§5.5` (`id`, `prefix`, `frame_size`, `pivot`, `anims`, `placeholder`, `status`).
-  - [ ] Perbarui `res://data/item_data.gd` (`class_name ItemData`): `id: StringName`, `category: StringName` (`INGREDIENT`, `DISH`, `COOKWARE`, `PLATE`, `SNACK`), `form: StringName` (`raw`, `prepped`, `cooked`, `burnt`), `container: StringName`, `sprite_id: StringName`, `icon_id: StringName`, `can_throw: bool`, `components: Array[StringName]`.
-  - [ ] Perbarui `res://data/step_data.gd` (`class_name StepData`): `type: StringName` (`CHOP`, `MIX`, `COOK`, `FRY`, `BOIL`, `WILT`, `WRAP`, `STEAM`, `GRILL`, `POUND`, `ASSEMBLE`), `inputs: Array[StringName]`, `output: StringName`, `station_type: StringName`, `duration: float`, `rhythm_bpm: int`, `rhythm_beats: int`, `attention_interval: float`, `attention_window: float`, `attention_miss_penalty: float` (awal $0.3$).
-  - [ ] Perbarui `res://data/recipe_data.gd` (`class_name RecipeData`): `id: StringName`, `display_name_key: StringName`, `steps: Array[StepData]`, `final_components: Array[StringName]`, `container_type: StringName`, `dish_item_id: StringName`, `icon_id: StringName`, `base_points: int` (awal $150$), `burn_time: float` (awal $10.0$).
-  - [ ] Perbarui `res://data/station_data.gd` (`class_name StationData`): `id: StringName`, `type: StringName`, `size_tiles: Vector2i`, `capacity: int`, `accepted_steps: Array[StringName]`, `auto_work: bool`, `burn_duration: float`, `linked_rack_id: StringName`.
-  - [ ] Perbarui `res://data/monster_data.gd` (`class_name MonsterData`): `id: StringName`, `size_px: Vector2i`, `base_patience_sec: float`, `favorite_recipes: Array[StringName]`, `attack_pattern: StringName` (`MELEE_RAGE`, `STEAL_RUN`, `TAIL_SWEEP`, `SHOCKWAVE`, `FREEZE_TOUCH`, `NONE`), `allowed_seat_types: Array[StringName]`, `cracker_pause_sec: float` (awal $8.0$), `rare_drop_id: StringName`, `variants: Array[StringName]`.
-  - [ ] Buat `res://data/seating_data.gd` (`class_name SeatingData`): definisi kursi meja panjang (`long_seats`), meja kecil (`small_tables`), `max_active_monsters: int`, `max_open_tickets: int`, `long_table_bias: float`, `seat_patience_scale_long: float` ($1.0$), `seat_patience_scale_small: float` ($0.85$), serta offset titik jangkar balon & emoticon (`FR-SEAT-01` s.d. `FR-SEAT-09`).
-  - [ ] Perbarui `res://data/level_data.gd` (`class_name LevelData`): `id: StringName`, `stage: int`, `duration_sec: float`, `lapak_module_id: StringName`, `stations_layout: Array[Dictionary]`, `seating: SeatingData`, `active_recipes: Array[StringName]`, `monster_waves: Array[Dictionary]`, `hazards: Array[StringName]`, `star_thresholds: Vector3i`, `special_guest_id: StringName`, `unlocked_skills: Array[StringName]`, `plate_count: int`, `washing_enabled: bool`, `is_tutorial: bool`.
-  - [ ] Buat script Resource pendukung: `res://data/skill_data.gd`, `res://data/hazard_data.gd`, `res://data/tutorial_data.gd`, `res://data/world_map_data.gd`, `res://data/emote_map_data.gd` (`FR-EMO-02`), dan `res://data/facing_map_data.gd` (`FR-MOV-10`).
+  - [x] Perbarui `res://data/item_data.gd` (`class_name ItemData`): `id: StringName`, `category: StringName` (`INGREDIENT`, `DISH`, `COOKWARE`, `PLATE`, `SNACK`), `form: StringName` (`raw`, `prepped`, `cooked`, `burnt`), `container: StringName`, `sprite_id: StringName`, `icon_id: StringName`, `can_throw: bool`, `components: Array[StringName]`.
+  - [x] Perbarui `res://data/step_data.gd` (`class_name StepData`): `type: StringName` (`CHOP`, `MIX`, `COOK`, `FRY`, `BOIL`, `WILT`, `WRAP`, `STEAM`, `GRILL`, `POUND`, `ASSEMBLE`), `inputs: Array[StringName]`, `output: StringName`, `station_type: StringName`, `duration: float`, `rhythm_bpm: int`, `rhythm_beats: int`, `attention_interval: float`, `attention_window: float`, `attention_miss_penalty: float` (awal $0.3$).
+  - [x] Perbarui `res://data/recipe_data.gd` (`class_name RecipeData`): `id: StringName`, `display_name_key: StringName`, `steps: Array[StepData]`, `final_components: Array[StringName]`, `container_type: StringName`, `dish_item_id: StringName`, `icon_id: StringName`, `base_points: int` (awal $150$), `burn_time: float` (awal $10.0$).
+  - [x] Perbarui `res://data/station_data.gd` (`class_name StationData`): `id: StringName`, `type: StringName`, `size_tiles: Vector2i`, `capacity: int`, `accepted_steps: Array[StringName]`, `auto_work: bool`, `burn_duration: float`, `linked_rack_id: StringName`.
+  - [x] Perbarui `res://data/monster_data.gd` (`class_name MonsterData`): `id: StringName`, `size_px: Vector2i`, `base_patience_sec: float`, `favorite_recipes: Array[StringName]`, `attack_pattern: StringName` (`MELEE_RAGE`, `STEAL_RUN`, `TAIL_SWEEP`, `SHOCKWAVE`, `FREEZE_TOUCH`, `NONE`), `allowed_seat_types: Array[StringName]`, `cracker_pause_sec: float` (awal $8.0$), `rare_drop_id: StringName`, `variants: Array[StringName]`.
+  - [x] Buat `res://data/seating_data.gd` (`class_name SeatingData`): definisi kursi meja panjang (`long_seats`), meja kecil (`small_tables`), `max_active_monsters: int`, `max_open_tickets: int`, `long_table_bias: float`, `seat_patience_scale_long: float` ($1.0$), `seat_patience_scale_small: float` ($0.85$), serta offset titik jangkar balon & emoticon (`FR-SEAT-01` s.d. `FR-SEAT-09`).
+  - [x] Perbarui `res://data/level_data.gd` (`class_name LevelData`): `id: StringName`, `stage: int`, `duration_sec: float`, `lapak_module_id: StringName`, `stations_layout: Array[Dictionary]`, `seating: SeatingData`, `active_recipes: Array[StringName]`, `monster_waves: Array[Dictionary]`, `hazards: Array[StringName]`, `star_thresholds: Vector3i`, `special_guest_id: StringName`, `unlocked_skills: Array[StringName]`, `plate_count: int`, `washing_enabled: bool`, `is_tutorial: bool`.
+  - [x] Buat script Resource pendukung: `res://data/skill_data.gd`, `res://data/hazard_data.gd`, `res://data/tutorial_data.gd`, `res://data/world_map_data.gd`, `res://data/emote_map_data.gd` (`FR-EMO-02`), dan `res://data/facing_map_data.gd` (`FR-MOV-10`).
 - **Verifikasi AI:** Buat `res://tests/test_data_resources.gd` untuk menginstansiasi seluruh `Resource` di atas, memverifikasi properti default dan serialisasi tanpa error via `run_tests.gd`.
 
 ### M0.3 — Sistem Aset, Manifest CSV, `PlaceholderFactory`, & Autoload `Assets` (`§5.1–5.9`)
 - **Referensi PRD v1.0:** `FR-AST-01` s.d. `FR-AST-15`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://data/assets/manifest.csv` yang mendaftarkan seluruh ID aset Milestone M0 & M1 sesuai tabel prefix `§5.2` dan tag animasi `§13.1`:
+  - [x] Buat `res://data/assets/manifest.csv` yang mendaftarkan seluruh ID aset Milestone M0 & M1 sesuai tabel prefix `§5.2` dan tag animasi `§13.1`:
     - `cook_rangga`, `cook_sekar` ($32 \times 32$, `box_blue`, tag: `idle_down`, `idle_up`, `idle_side`, `walk_down`, `walk_up`, `walk_side`, `work_down`, `work_up`, `work_side`, `strike_down`, `strike_up`, `strike_side`, `throw_down`, `throw_up`, `throw_side`, `knocked`, `dash_down`, `dash_up`, `dash_side`).
     - `mon_goblin`, `mon_goblin_chief`, `mon_scarecrow` ($32 \times 32$, `box_red`, tag: `walk_down`, `walk_up`, `walk_side`, `sit_a`, `sit_b`, `eat`, `rage`, `expelled`).
     - Semua `item_*` Stage 1 (`bawang`, `jamur_tiram`, `tempe`, `tepung`, `daun_bawang`, `singkong`, `santan`, `gula_merah`, `nasi`, `kerupuk`, `truffle_gua`, `kuali`, `sutil`, `burnt_food` dalam form `_raw`, `_prepped`, `_cooked`, `_burnt` ukuran $16 \times 16$, `box_orange`).
@@ -90,11 +90,11 @@ Berdasarkan struktur repositori saat ini:
     - Semua `furn_*` (`tikar_lapak`, `table_long`, `table_small`, `seat_bench`, `seat_stool`, `kendi`, `box_gray`) dan `cart_stall_clean`, `cart_stall_dusty`, `cart_stall_loaded` ($24 \times 32$, `box_brown`).
     - Atlas `tile_lapak`, `tile_gua`, `tile_halaman` (`box_gray`) serta `res://data/assets/tile_slots.csv` (Slot 0–7 sesuai `§5.6`).
     - Ke-19 `emote_*` ($16 \times 16$, `box_pink`, `FR-EMO-01`) dan elemen `ui_*` (`box_green`) serta `vfx_*` (`box_white`).
-  - [ ] Buat `res://view/placeholder_factory.gd` (`class_name PlaceholderFactory`) yang men-generate `ImageTexture` dan `SpriteFrames` `box_<warna>` secara prosedural di memori:
+  - [x] Buat `res://view/placeholder_factory.gd` (`class_name PlaceholderFactory`) yang men-generate `ImageTexture` dan `SpriteFrames` `box_<warna>` secara prosedural di memori:
     - Warna sesuai prefix (`box_blue`, `box_red`, `box_orange`, `box_brown`, `box_gray`, `box_white`, `box_pink`, `box_green`, `box_purple`, serta `MISSING` magenta dan `INVALID` berbingkai merah).
     - Menggambar garis tepi $1\text{ px}$ lebih gelap, label teks ID/tag dipotong, panah arah untuk tag berarah (`_down`, `_up`, `_side`), serta pergeseran $1\text{ px}$ per nomor frame agar animasi placeholder tampak bergerak (`FR-AST-04`).
     - Menghasilkan `AudioStreamWAV` bunyi bip sintetis pendek untuk prefix `sfx_*` atau hening (`FR-AST-15`).
-  - [ ] Buat Autoload ke-7 `res://autoload/assets.gd` dan daftarkan sebagai `Assets` di `project.godot`:
+  - [x] Buat Autoload ke-7 `res://autoload/assets.gd` dan daftarkan sebagai `Assets` di `project.godot`:
     - Menyediakan fungsi `frames(id: StringName) -> SpriteFrames`, `texture(id: StringName) -> Texture2D`, `audio(id: StringName) -> AudioStream`, `status(id: StringName, anim: StringName = &"") -> StringName`, dan `reload() -> void` (`FR-AST-02`, `FR-AST-11`).
     - Mengimplementasikan urutan *fallback* per animasi (`FR-AST-05`): aset final `<anim>_<arah>` $\rightarrow$ aset final `<anim>` tanpa arah $\rightarrow$ placeholder `<anim>_<arah>`.
     - Menjadi *no-op* (tidak mengalokasikan tekstur/audio) ketika berjalan di mode server dedicated (`OS.has_feature("dedicated_server")` — `FR-AST-12`).
@@ -103,13 +103,13 @@ Berdasarkan struktur repositori saat ini:
 ### M0.4 — Tool Pipeline Aset (`sync_assets.gd`, `asset_audit.gd`) & `anim_gallery.tscn` (`§5.7–5.9`)
 - **Referensi PRD v1.0:** `§5.7`, `§5.8`, `FR-AST-06`, `FR-AST-10`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://tools/make_placeholders.gd` dan `res://tools/sync_assets.gd` (dijalankan dengan `godot --headless --script res://tools/sync_assets.gd`):
+  - [x] Buat `res://tools/make_placeholders.gd` dan `res://tools/sync_assets.gd` (dijalankan dengan `godot --headless --script res://tools/sync_assets.gd`):
     - Memindahkan file dari `res://assets/_incoming/` ke `res://assets/<prefix>/<ID>/` sesuai aturan nama `§5.3`.
     - Memvalidasi format nama (`<ID>.png` atau `<ID>__<anim>.png`), ukuran frame terhadap `manifest.csv`, dan membangun `res://data/assets/index.json` serta laporan `res://reports/asset_status.md` dan `res://reports/asset_status.json`.
     - Keluar dengan kode bukan nol jika ditemukan aset berstatus `INVALID`.
-  - [ ] Buat `res://tools/asset_audit.gd` untuk mengaudit ukuran frame, transparansi, dan batas warna palet.
-  - [ ] Buat `res://tools/gif_to_strip.py` (konverter GIF di `_incoming/` menjadi strip horizontal PNG `FR-AST-14`).
-  - [ ] Buat `res://tests/anim_gallery.tscn` dan `res://tests/anim_gallery.gd` yang menampilkan seluruh ID dari `manifest.csv` berdampingan dengan pemutar animasi dan label status (`box_*` atau `FINAL`), ditambah *overlay debug* tombol **F3** (`FR-AST-10`) dan *hot-reload* **F5** (`FR-AST-11`).
+  - [x] Buat `res://tools/asset_audit.gd` untuk mengaudit ukuran frame, transparansi, dan batas warna palet.
+  - [x] Buat `res://tools/gif_to_strip.py` (konverter GIF di `_incoming/` menjadi strip horizontal PNG `FR-AST-14`).
+  - [x] Buat `res://tests/anim_gallery.tscn` dan `res://tests/anim_gallery.gd` yang menampilkan seluruh ID dari `manifest.csv` berdampingan dengan pemutar animasi dan label status (`box_*` atau `FINAL`), ditambah *overlay debug* tombol **F3** (`FR-AST-10`) dan *hot-reload* **F5** (`FR-AST-11`).
 - **Verifikasi AI:** Jalankan `godot --headless --script res://tools/sync_assets.gd` dan tambahkan pengujian di `res://tests/test_assets_system.gd` yang memverifikasi `res://data/assets/index.json` dan `res://reports/asset_status.json` terbentuk valid tanpa status `INVALID`.
 
 ---
@@ -220,7 +220,7 @@ Berdasarkan struktur repositori saat ini:
     - **Level 1-2 (`level_1_2` — Tungku Menyala):** Durasi $180\text{ s}$, `max_open_tickets = 3`, `max_active_monsters = 5`, `plate_count = 4`, `washing_enabled = true` (pop-up cuci piring `FR-TUT-07`), Kursi panjang = 5, Meja kecil = `0/0`, Menu: Nasi Goreng Jamur, Bintang: `350 / 700 / 1000`.
     - **Level 1-3 (`level_1_3` — Si Pencuri):** Durasi $180\text{ s}$, `max_open_tickets = 3`, `max_active_monsters = 5`, `plate_count = 4`, `washing_enabled = true`, Kursi panjang = 5, Meja kecil dekat = `1`, Menu: Nasi Goreng Jamur + Tempe Mendoan, Goblin `STEAL_RUN` aktif, Hazard `MUSHROOM_SPORES`, membuka skill `Dash` Rangga, Bintang: `400 / 800 / 1150`.
     - **Level 1-4 (`level_1_4` — Pesta Goblin):** Durasi $240\text{ s}$, `max_open_tickets = 4`, `max_active_monsters = 6`, `plate_count = 5`, `washing_enabled = true`, Kursi panjang = 5, Meja kecil dekat = `2`, Menu: Nasi Goreng Jamur + Tempe Mendoan + Bubur Singkong, Tamu Istimewa: `mon_goblin_chief` (drop `item_truffle_gua`), Bintang: `550 / 1100 / 1550`.
-  - [ ] Hubungkan keseluruhan simulasi Stage 1 ke scene permainan utama `res://levels/kitchen_stage.tscn` (dan perbarui `test_kitchen.tscn` agar memakai sistem baru ini).
+  - [x] Hubungkan keseluruhan simulasi Stage 1 ke scene permainan utama `res://levels/kitchen_stage.tscn` (dan perbarui `test_kitchen.tscn` agar memakai sistem baru ini).
 - **Verifikasi AI:** Buat `res://tests/test_stage1_levels.gd` yang memuat ke-4 `LevelData` Stage 1, memvalidasi aturan `plate_count >= max_open_tickets + 1`, dan menjalankan simulasi headless dari awal sampai akhir level hingga memperoleh minimal 1 bintang dan drop `item_truffle_gua` di 1-4.
 
 ---

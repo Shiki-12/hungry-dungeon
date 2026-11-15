@@ -5,7 +5,7 @@ extends Node2D
 var item_id: StringName = &""
 var displayed_components: Array[StringName] = []
 
-func set_item(item: SimItem) -> void:
+func set_item_from(item: RefCounted) -> void:
 	item_id = item.item_id
 	displayed_components = item.components.duplicate()
 
