@@ -26,7 +26,15 @@ func _run_test_script(path: String) -> void:
 		push_error("Failed load: " + path)
 		_failed = true
 		return
+	if not script.can_instantiate():
+		push_error("Cannot instantiate: " + path)
+		_failed = true
+		return
 	var instance: Object = script.new()
+	if instance == null:
+		push_error("Instantiation failed: " + path)
+		_failed = true
+		return
 	if not instance.has_method("run_all"):
 		push_error("Missing run_all: " + path)
 		_failed = true

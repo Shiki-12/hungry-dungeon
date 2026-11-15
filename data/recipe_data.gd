@@ -3,7 +3,7 @@ extends Resource
 
 @export var id: StringName = &""
 @export var display_name_key: StringName = &""
-@export var steps: Array[StepData] = []
+@export var steps: Array = []
 @export var final_components: Array[StringName] = []
 @export var container_type: StringName = &""
 @export var dish_item_id: StringName = &""

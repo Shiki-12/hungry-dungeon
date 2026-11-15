@@ -1,0 +1,40 @@
+[gd_resource type="RecipeData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/recipe_data.gd" id="1_recipe"]
+[ext_resource type="Script" path="res://data/step_data.gd" id="2_step"]
+
+[sub_resource type="Resource" id="StepChopTempe"]
+script = ExtResource("2_step")
+type = &"CHOP"
+inputs = [&"tempe_raw"]
+output = &"tempe_prepped"
+station_type = &"MEJA_POTONG"
+duration = 3.0
+
+[sub_resource type="Resource" id="StepMixTempe"]
+script = ExtResource("2_step")
+type = &"MIX"
+inputs = [&"tempe_prepped", &"tepung_raw", &"daun_bawang_raw"]
+output = &"tempe_battered"
+station_type = &"MEJA_KERJA"
+duration = 3.0
+
+[sub_resource type="Resource" id="StepFryTempe"]
+script = ExtResource("2_step")
+type = &"FRY"
+inputs = [&"tempe_battered"]
+output = &"dish_tempe_mendoan"
+station_type = &"TUNGKU"
+duration = 8.0
+
+[resource]
+script = ExtResource("1_recipe")
+id = &"recipe_tempe_mendoan"
+display_name_key = &"recipe.tempe_mendoan"
+steps = [SubResource("StepChopTempe"), SubResource("StepMixTempe"), SubResource("StepFryTempe")]
+final_components = [&"tempe_prepped", &"tepung_raw", &"daun_bawang_raw"]
+container_type = &"PAN"
+dish_item_id = &"dish_tempe_mendoan"
+icon_id = &"icon_tempe_mendoan"
+base_points = 150
+burn_time = 10.0

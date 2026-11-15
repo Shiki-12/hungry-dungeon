@@ -120,25 +120,25 @@ Berdasarkan struktur repositori saat ini:
 ### M1.1 — Fisika Deterministik (`collision.gd`), Gerak 8 Arah, & Probe Interaksi (`§7`)
 - **Referensi PRD v1.0:** `FR-MOV-01` s.d. `FR-MOV-11` (**Tanpa `FR-MOV-05` / Tanpa `CharacterBody2D`**).
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/systems/collision.gd` (`class_name SimCollision`):
+  - [x] Buat `res://sim/systems/collision.gd` (`class_name SimCollision`):
     - Menyimpan *grid* statis $30 \times 14$ tile ($16 \times 16\text{ px}$ per tile) dengan tipe sel (`FLOOR`, `MAT`, `WALL`, `GATE`, `LONG_TABLE`, `WATER`, `LAVA`, `ICE`) serta daftar AABB stasiun/meja dan lingkaran koki lain.
     - Fungsi `move_circle_with_slide(pos: Vector2, delta_move: Vector2, radius: float = 6.0)` yang menyelesaikan benturan lingkaran radius $6\text{ px}$ melawan dinding *grid*, AABB stasiun/meja panjang, dan lingkaran koki lain dengan *corner sliding* mulus (`FR-MOV-02`, `FR-MOV-08`, `FR-LAY-04`).
-  - [ ] Refactor `res://sim/entities/cook.gd` (`class_name SimCook` mewarisi `RefCounted` atau `Node` murni tanpa node visual/fisika Godot):
+  - [x] Refactor `res://sim/entities/cook.gd` (`class_name SimCook` mewarisi `RefCounted` atau `Node` murni tanpa node visual/fisika Godot):
     - Input per tick via `CookInput`: vektor arah 8 arah ternormalisasi, kecepatan dasar $5.0\text{ tile/s}$ ($80.0\text{ px/s}$), waktu percepatan $0.06\text{ s}$ ($0.35\text{ s}$ di lantai es `FR-MOV-03`).
     - Enum `Facing8` (`E`, `SE`, `S`, `SW`, `W`, `NW`, `N`, `NE`) dibulatkan ke kelipatan $45^\circ$ dan bertahan saat diam (`FR-MOV-04`).
     - Fungsi `query_interaction_target()` dengan *probe* lingkaran radius $9.0\text{ px}$ (diperlebar menjadi $14.0\text{ px}$ untuk kursi) berpusat di $\text{posisi koki} + \text{Facing8} \times 12.0\text{ px}$ dengan urutan prioritas: **1. Stasiun $\rightarrow$ 2. Item di lantai $\rightarrow$ 3. Kursi**, seri diputus dengan jarak terdekat ke pusat *probe* (`FR-MOV-06`).
     - Fungsi `get_strike_aabb()` untuk pukulan Sutil ($1.2\text{ tile} = 19.2\text{ px}$) dan Kuali ($1.6\text{ tile} = 25.6\text{ px}$) berpusat di $\text{posisi koki} + \text{Facing8} \times 0.9\text{ tile}$ ($14.4\text{ px}$), tanpa rotasi (`FR-MOV-07`).
-  - [ ] Refactor `res://view/cook_view.gd`:
+  - [x] Refactor `res://view/cook_view.gd`:
     - Membaca state `SimCook`, memetakan `Facing8` ke arah sprite (`down`, `up`, `side` + `flip_h`) menggunakan `FacingMapData` (`FR-MOV-10`), memutar `SpriteFrames` dari `Assets.frames(cook_id)`, menampilkan panah kecil `Facing8` di atas kotak koki (`FR-MOV-11`), dan menggambar sprite item yang sedang dipegang $16 \times 16\text{ px}$ di atas kepala (`FR-INT-01`).
 - **Verifikasi AI:** Buat `res://tests/test_sim_movement.gd` untuk menguji normalisasi kecepatan diagonal ($80\text{ px/s}$), penolakan tembus dinding/meja panjang, *sliding* di sudut, akurasi `Facing8`, dan prioritas *probe* interaksi.
 
 ### M1.2 — Entitas Item, Wadah Piring, Meja Alas, & Siklus Cuci Piring (`§8.5–§8.7`)
 - **Referensi PRD v1.0:** `FR-INT-01` s.d. `FR-INT-05`, `FR-STA-14`, `FR-STA-15`, `FR-STA-17`, `FR-STA-18`, `FR-WSH-01` s.d. `FR-WSH-09`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/entities/item.gd` (`class_name SimItem`):
+  - [x] Buat `res://sim/entities/item.gd` (`class_name SimItem`):
     - Menyimpan `item_id: StringName`, `category`, `form`, daftar `components: Array[StringName]` (maksimal 3 komponen untuk piring biasa, 8 untuk nampan tumpeng `FR-INT-05`), status `is_dirty: bool`, `stack_count: int` (untuk tumpukan piring kotor maksimal 3), dan `cookware_locked_timer: float`.
     - Fungsi pencocokan tanda tangan komponen tanpa urutan (`matches_signature(required: Array[StringName]) -> bool` — `FR-STA-12`, `FR-INT-05`).
-  - [ ] Buat sistem manajemen piring & stasiun pendukung di `res://sim/entities/station.gd`:
+  - [x] Buat sistem manajemen piring & stasiun pendukung di `res://sim/entities/station.gd`:
     - **Peti Bahan (`FR-STA-15`):** Memberi bahan `RAW` tanpa batas; **Peti Nasi** memberi `item_nasi_cooked`; **Peti Bumbu Kacang** memberi `item_bumbu_kacang`; **Kendi** memberi `item_air`.
     - **Meja Alas (`FR-STA-17`):** Permukaan 1 slot. Jika koki memegang piring dan berinteraksi dengan komponen di Meja Alas, komponen masuk ke piring. Jika koki memegang komponen dan berinteraksi dengan piring di Meja Alas, komponen masuk ke piring.
     - **Tempat Sampah (`FR-STA-14`):** Membuang bahan/masakan di tangan; jika koki memegang Piring atau Kuali berisi masakan/gosong, isinya terbuang sementara Piring/Kuali tetap di tangan dalam keadaan kosong dan bersih.
@@ -148,16 +148,16 @@ Berdasarkan struktur repositori saat ini:
 ### M1.3 — State Machine Stasiun Masak, Kuali Serbaguna, & Mekanik Aduk/Balik (`§8.4, §8.5, §8.8`)
 - **Referensi PRD v1.0:** `FR-STA-01` s.d. `FR-STA-07`, `FR-STA-11` s.d. `FR-STA-13`, `FR-STA-16`, `FR-STA-21`.
 - **Checklist Tugas:**
-  - [ ] Lengkapi `res://sim/entities/station.gd` (`class_name SimStation`) dengan state machine: `EMPTY`, `WORKING`, `DONE`, `BURNING`, `BURNT` (`FR-STA-01`) dan flag kondisi (`DISABLED`, `FROZEN`, `NO_COOKWARE`, `NEEDS_ATTENTION`).
-  - [ ] Implementasikan kerja manual vs otomatis (`FR-STA-02`):
+  - [x] Lengkapi `res://sim/entities/station.gd` (`class_name SimStation`) dengan state machine: `EMPTY`, `WORKING`, `DONE`, `BURNING`, `BURNT` (`FR-STA-01`) dan flag kondisi (`DISABLED`, `FROZEN`, `NO_COOKWARE`, `NEEDS_ATTENTION`).
+  - [x] Implementasikan kerja manual vs otomatis (`FR-STA-02`):
     - **Manual (`meja_potong`, `meja_kerja`, `cobek`, `tempat_cuci`):** Progres bertambah hanya saat koki menahan `work` (atau mode toggle *Tekan untuk bekerja* `FR-STA-21`).
     - **Otomatis (`tungku` dengan `kuali`, `dandang`, `anglo`, `panci`):** Bekerja otomatis begitu bahan di dalamnya cocok dengan salah satu resep (`FR-STA-12`). Sebelum cocok, `interact` tangan kosong mengeluarkan bahan terakhir yang dimasukkan.
-  - [ ] Implementasikan timer gosong (`FR-STA-03`, `FR-STA-13`): Setelah `DONE`, hitung mundur `burn_duration` (awal $10.0\text{ s}$): masuk `BURNING` (asap) lalu `BURNT` (mengubah isi menjadi `item_burnt_food` dan mengurangi skor $-25\text{ poin}$).
-  - [ ] Implementasikan mekanik **Aduk & Balik (`NEEDS_ATTENTION` — `FR-STA-04` s.d. `FR-STA-07`)**:
+  - [x] Implementasikan timer gosong (`FR-STA-03`, `FR-STA-13`): Setelah `DONE`, hitung mundur `burn_duration` (awal $10.0\text{ s}$): masuk `BURNING` (asap) lalu `BURNT` (mengubah isi menjadi `item_burnt_food` dan mengurangi skor $-25\text{ poin}$).
+  - [x] Implementasikan mekanik **Aduk & Balik (`NEEDS_ATTENTION` — `FR-STA-04` s.d. `FR-STA-07`)**:
     - Membaca `StepData.attention = {interval, window, miss_penalty}` (jika `Settings.wide_attention_window` aktif, `window` dikali $1.5$).
     - Saat masuk `NEEDS_ATTENTION`, pancarkan sinyal untuk menampilkan `emote_stir`. Jika koki tidak menekan `work` dalam `window` detik, timer gosong saat `DONE` dikalikan `miss_penalty` ($0.3 \times 10\text{ s} = 3.0\text{ s}$).
-  - [ ] Implementasikan **Kuali Bisa Diangkat (`FR-STA-16`)**: Kuali di tungku menampung maksimal 3 bahan dan menjalankan `COOK`, `FRY`, dan `BOIL`. Saat kuali diangkat dari tungku, tungku menjadi `NO_COOKWARE`, progres masak berhenti sementara di dalam item kuali, dan berlanjut saat ditaruh kembali di tungku.
-  - [ ] Buat file `.tres` atau registri data untuk **3 Resep Stage 1 (`§8.8`)**:
+  - [x] Implementasikan **Kuali Bisa Diangkat (`FR-STA-16`)**: Kuali di tungku menampung maksimal 3 bahan dan menjalankan `COOK`, `FRY`, dan `BOIL`. Saat kuali diangkat dari tungku, tungku menjadi `NO_COOKWARE`, progres masak berhenti sementara di dalam item kuali, dan berlanjut saat ditaruh kembali di tungku.
+  - [x] Buat file `.tres` atau registri data untuk **3 Resep Stage 1 (`§8.8`)**:
     1. **Nasi Goreng Jamur (`recipe_nasi_goreng_jamur`):** Potong jamur ($3\text{ s}$) + potong bawang ($2\text{ s}$) $\rightarrow$ Kuali: `nasi_cooked` + `jamur_prepped` + `bawang_prepped` (`COOK` $10\text{ s}$, aduk tiap $4\text{ s}$ jendela $1.5\text{ s}$).
     2. **Tempe Mendoan (`recipe_tempe_mendoan`):** Potong tempe ($3\text{ s}$) $\rightarrow$ Meja Kerja: `tempe_prepped` + `tepung_raw` + `daun_bawang_raw` (`MIX` $3\text{ s}$) $\rightarrow$ Kuali (`FRY` $8\text{ s}$).
     3. **Bubur Singkong (`recipe_bubur_singkong`):** Cobek: parut singkong (`POUND` tahan biasa $3\text{ s}$) $\rightarrow$ Kuali: `singkong_prepped` + `santan_raw` + `gula_merah_raw` (`BOIL` $12\text{ s}$).
@@ -166,10 +166,10 @@ Berdasarkan struktur repositori saat ini:
 ### M1.4 — Lapak Kaki Lima (`LapakModule`), Kursi (`Seat`), & Meja Panjang/Kecil (`§9.1–§9.4`)
 - **Referensi PRD v1.0:** `FR-LAY-01` s.d. `FR-LAY-06`, `FR-SEAT-01` s.d. `FR-SEAT-10`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/entities/seat.gd` (`class_name SimSeat` dan `class_name SimSeatingTable`):
+  - [x] Buat `res://sim/entities/seat.gd` (`class_name SimSeat` dan `class_name SimSeatingTable`):
     - Menyimpan `seat_id`, `table_id`, `table_kind` (`LONG`, `SMALL`, `ALTAR`), `position: Vector2`, `facing: Vector2`, `seat_type` (`BENCH`, `STOOL`, `MAT`), `serve_radius: float` ($12.0\text{ px}$), `plate_state` (`NONE`, `SERVED`, `DIRTY`), `occupant_monster_id: int`, serta offset balon pesanan dan emoticon (`FR-SEAT-09`).
     - Timer otomatis $2.0\text{ s}$ setelah monster pergi untuk mengubah piring di kursi menjadi `DIRTY` (`FR-SEAT-07`) agar bisa diambil koki dan dibawa ke Tempat Cuci.
-  - [ ] Buat `res://levels/lapak_module.gd` dan `res://levels/lapak_module.tscn` sesuai denah ASCII `§9.2` ($30 \times 14$ tile = $480 \times 224\text{ px}$):
+  - [x] Buat `res://levels/lapak_module.gd` dan `res://levels/lapak_module.tscn` sesuai denah ASCII `§9.2` ($30 \times 14$ tile = $480 \times 224\text{ px}$):
     - Kolom `0..11`: Tikar lapak krem, prop statis Gerobak $2 \times 2$ tile (`cart_stall_clean` $24 \times 32\text{ px}$) di `(x=0..1, r=4..5)`, dan slot penempatan stasiun.
     - Kolom `12`: Meja Panjang $1 \times 10$ tile (`r=1..10`) yang memblokir jalan koki tetapi bisa dilewati lemparan (`FR-LAY-04`), serta **Gerbang 2 tile** di `(x=12, r=11..12)`.
     - Kolom `13`: 5–7 kursi Meja Panjang berjarak $18\text{ px}$ vertikal (`FR-SEAT-01`) dengan balon pesanan di sisi kanan monster (`FR-SEAT-09`).
@@ -179,43 +179,43 @@ Berdasarkan struktur repositori saat ini:
 ### M1.5 — Monster Goblin, State `BROWSING`, `STEAL_RUN`, & Samperin (`§9.6, §10.1`)
 - **Referensi PRD v1.0:** `FR-SRV-01`, `FR-SRV-02`, `FR-MON-01` s.d. `FR-MON-09`, `FR-MON-12`, `FR-MON-13`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/entities/monster.gd` (`class_name SimMonster`) dengan state machine lengkap (`FR-MON-02`):
+  - [x] Buat `res://sim/entities/monster.gd` (`class_name SimMonster`) dengan state machine lengkap (`FR-MON-02`):
     - `ARRIVING` $\rightarrow$ `SEATED` $\rightarrow$ `BROWSING` $\rightarrow$ `WAITING` $\rightarrow$ `EATING` $\rightarrow$ `SATISFIED` $\rightarrow$ `LEAVING`, serta cabang amarah `ENRAGED` $\rightarrow$ `ATTACKING` / `STEAL_RUN` $\rightarrow$ `EXPELLED`.
-  - [ ] Implementasikan `res://sim/systems/orders.gd` (`class_name SimOrderSystem`):
+  - [x] Implementasikan `res://sim/systems/orders.gd` (`class_name SimOrderSystem`):
     - Spawner memilih kursi kosong menggunakan RNG ber-seed dengan `long_table_bias` ($0.6$ di Stage 1) dan menjamin porsi meja kecil minimal $40\%$ jika level memiliki meja kecil (`FR-SEAT-03`).
     - Jika jumlah tiket aktif sudah mencapai `max_open_tickets`, monster yang baru duduk masuk state `BROWSING` (menampilkan `emote_menu`, kesabaran belum berkurang `FR-SEAT-06`, `FR-MON-12`) sampai ada slot tiket terbuka.
     - Saat masuk `WAITING`, kesabaran turun linear dari $100$ ke $0$ selama $\text{base\_patience\_sec} \times \text{seat\_patience\_scale}$ (Goblin $40\text{ s}$ di meja panjang, $40 \times 0.85 = 34\text{ s}$ di meja kecil `FR-MON-03`, `FR-SEAT-08`).
     - **Tahap Kesabaran (`FR-MON-04`):** Tahap 1 ($>50\%$): normal/menggerutu; Tahap 2 ($50\%..0\%$): bonus cepat berhenti; Tahap 3 ($0\%$): masuk `ENRAGED`.
-  - [ ] Implementasikan **Goblin `STEAL_RUN` & Serangan Mengamuk (`FR-MON-05`, `FR-MON-13`)**:
+  - [x] Implementasikan **Goblin `STEAL_RUN` & Serangan Mengamuk (`FR-MON-05`, `FR-MON-13`)**:
     - Pada Tahap 3 ($0\%$), Goblin dapat menjalankan `STEAL_RUN`: berdiri, mengambil 1 item terdekat di permukaan stasiun/meja/lantai (bukan di tangan koki), lalu berlari $3.0\text{ tile/s}$ menuju terowongan `D`. Jika sampai di `D`, item hilang dan Hati Dapur $-1$.
     - Jika mode `ATTACKING` (mengamuk menyerang dapur selama $10.0\text{ s}$): bila tidak diusir dalam $10.0\text{ s}$, Hati Dapur $-1$, stasiun terdekat menjadi `DISABLED` selama $8.0\text{ s}$, lalu monster pergi.
-  - [ ] Implementasikan **Samperin (`FR-SRV-01`)**:
+  - [x] Implementasikan **Samperin (`FR-SRV-01`)**:
     - Saat koki menekan `interact` sambil membawa hidangan di dekat kursi (radius *probe* $14\text{ px}$), sistem memilih kursi dalam jangkauan yang pesanannya cocok. Jika cocok: hidangan tersaji aman, hitung kepuasan $\text{satisfaction} = \min(100.0, 40.0 + \text{patience\_left} \times 0.4 + \text{sambal\_bonus} + \text{jitu\_bonus})$ (`FR-MON-06`). Jika tidak ada yang cocok: tampilkan `emote_no` tanpa penalti.
 - **Verifikasi AI:** Buat `res://tests/test_monster_and_orders.gd` untuk menguji antrean `BROWSING` vs `max_open_tickets`, penurunan kesabaran meja panjang vs meja kecil ($0.85\times$), logika `STEAL_RUN`, dan penyajian *Samperin*.
 
 ### M1.6 — Pertahanan Sutil, Kuali Dua Mode, & Kerupuk (`§11.1`)
 - **Referensi PRD v1.0:** `FR-CMB-01` s.d. `FR-CMB-08`, `FR-SRV-04`, `FR-MON-09`.
 - **Checklist Tugas:**
-  - [ ] Implementasikan aksi `strike` di `SimCook` dan resolusinya di simulasi dapur:
+  - [x] Implementasikan aksi `strike` di `SimCook` dan resolusinya di simulasi dapur:
     - `strike` memiliki prioritas di atas `work` dan langsung menghentikan pekerjaan manual yang sedang ditahan (`FR-CMB-08`).
     - Pukulan **hanya mengenai monster berstatus `ENRAGED`, `ATTACKING`, atau `STEAL_RUN`**; monster duduk lain (`BROWSING`, `WAITING`, `EATING`) di dalam hitbox diabaikan (`FR-SRV-04`).
-  - [ ] **Mode Sutil (Default saat tidak memegang Kuali — `FR-CMB-01`):**
+  - [x] **Mode Sutil (Default saat tidak memegang Kuali — `FR-CMB-01`):**
     - Hitbox AABB $1.2\text{ tile}$, aktif $0.12\text{ s}$, cooldown $0.4\text{ s}$. Mendorong monster kecil dan membutuhkan **3 pukulan** untuk mengusir (`EXPELLED`) monster yang sedang mengamuk (atau **1 pukulan** untuk menghentikan Goblin `STEAL_RUN` dan menjatuhkan item curiannya `FR-MON-13`).
-  - [ ] **Mode Kuali (`COOKWARE` di tangan — `FR-CMB-02` s.d. `FR-CMB-04`):**
+  - [x] **Mode Kuali (`COOKWARE` di tangan — `FR-CMB-02` s.d. `FR-CMB-04`):**
     - Hitbox AABB $1.6\text{ tile}$, cooldown $0.8\text{ s}$. **1 pukulan** langsung mengusir monster (`EXPELLED`).
     - **Aturan Tumpah (`FR-CMB-03`):** Jika kuali yang dipakai memukul berisi bahan mentah, setengah matang, atau matang, seluruh isinya hilang, memancarkan event noda tumpah di lantai, dan mengurangi skor **$-25\text{ poin}$**.
     - Setelah dipakai memukul (baik kosong maupun berisi), kuali terkena status `COOKWARE_LOCKED` selama **$4.0\text{ s}$** (tidak bisa dipakai memasak di tungku sampai timer habis `FR-CMB-04`).
-  - [ ] **Interaksi Kerupuk (`FR-MON-09`, `FR-MON-13`):**
+  - [x] **Interaksi Kerupuk (`FR-MON-09`, `FR-MON-13`):**
     - Memberikan atau melempar `item_kerupuk` (dalam radius $24\text{ px}$) ke monster `WAITING` menahan penurunan kesabaran selama $8.0\text{ s}$; jika mengenai Goblin `STEAL_RUN`, Goblin berhenti makan kerupuk $2.0\text{ s}$ dan menjatuhkan item curiannya.
 - **Verifikasi AI:** Buat `res://tests/test_combat_and_kuali.gd` untuk menguji 3 pukulan sutil vs 1 pukulan kuali, pengabaian monster duduk, penalti kuali tumpah ($-25\text{ poin}$), dan penguncian kuali $4.0\text{ s}$.
 
 ### M1.7 — Sistem Skor, Hati Dapur, Tamu Istimewa, & Level 1-1 s.d. 1-4 (`§9.5, §10.1, §12.2`)
 - **Referensi PRD v1.0:** `§9.5` (Tabel Parameter Level), `FR-MON-07`, `§12.2` (`MUSHROOM_SPORES`).
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/systems/scoring.gd` (`class_name SimScoring`):
+  - [x] Buat `res://sim/systems/scoring.gd` (`class_name SimScoring`):
     - Mengelola **5 Hati Dapur** bersama (level gagal jika mencapai $0$), skor tim, perhitungan bintang ($1..3$ bintang berdasarkan `LevelData.star_thresholds`), dan pengecekan Tamu Istimewa (kepuasan $\ge 80$ menjatuhkan Bahan Langka stage tersebut ke `Save` — `FR-MON-07`).
-  - [ ] Buat `res://sim/systems/hazards.gd` (`class_name SimHazardController`) dan implementasikan hazard pertama Stage 1: **`MUSHROOM_SPORES`** (tiap $25\text{ s}$ mengeluarkan awan spora yang menutupi sebagian pandangan layar selama $1.0\text{ s}$ di Level 1-3 dan 1-4).
-  - [ ] Buat konfigurasi data untuk ke-4 level Stage 1 sesuai tabel `§9.5` dan GDD:
+  - [x] Buat `res://sim/systems/hazards.gd` (`class_name SimHazardController`) dan implementasikan hazard pertama Stage 1: **`MUSHROOM_SPORES`** (tiap $25\text{ s}$ mengeluarkan awan spora yang menutupi sebagian pandangan layar selama $1.0\text{ s}$ di Level 1-3 dan 1-4).
+  - [x] Buat konfigurasi data untuk ke-4 level Stage 1 sesuai tabel `§9.5` dan GDD:
     - **Level 1-1 (`level_1_1` — Bekal Terakhir):** Durasi $180\text{ s}$, `max_open_tickets = 2`, `max_active_monsters = 4`, `plate_count = 3`, `washing_enabled = false`, Kursi panjang = 5, Meja kecil = `0/0`, Menu: Nasi Goreng Jamur, Bintang: `300 / 600 / 900`.
     - **Level 1-2 (`level_1_2` — Tungku Menyala):** Durasi $180\text{ s}$, `max_open_tickets = 3`, `max_active_monsters = 5`, `plate_count = 4`, `washing_enabled = true` (pop-up cuci piring `FR-TUT-07`), Kursi panjang = 5, Meja kecil = `0/0`, Menu: Nasi Goreng Jamur, Bintang: `350 / 700 / 1000`.
     - **Level 1-3 (`level_1_3` — Si Pencuri):** Durasi $180\text{ s}$, `max_open_tickets = 3`, `max_active_monsters = 5`, `plate_count = 4`, `washing_enabled = true`, Kursi panjang = 5, Meja kecil dekat = `1`, Menu: Nasi Goreng Jamur + Tempe Mendoan, Goblin `STEAL_RUN` aktif, Hazard `MUSHROOM_SPORES`, membuka skill `Dash` Rangga, Bintang: `400 / 800 / 1150`.

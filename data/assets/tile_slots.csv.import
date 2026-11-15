@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bhswwkgmvx557"
+
+[deps]
+
+files=["res://data/assets/tile_slots.slot.translation", "res://data/assets/tile_slots.name.translation", "res://data/assets/tile_slots.kind.translation"]
+
+source_file="res://data/assets/tile_slots.csv"
+dest_files=["res://data/assets/tile_slots.slot.translation", "res://data/assets/tile_slots.name.translation", "res://data/assets/tile_slots.kind.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

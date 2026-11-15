@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://data/level_data.gd" id="1"]
+[ext_resource type="Script" path="res://data/seating_data.gd" id="2"]
+[sub_resource type="Resource" id="Seat"]
+script = ExtResource("2")
+long_seats = 5
+small_tables = 1
+max_active_monsters = 5
+max_open_tickets = 3
+[resource]
+script = ExtResource("1")
+id = &"level_1_3"
+stage = 1
+duration_sec = 180.0
+seating = SubResource("Seat")
+active_recipes = [&"recipe_nasi_goreng_jamur", &"recipe_tempe_mendoan"]
+hazards = [&"MUSHROOM_SPORES"]
+unlocked_skills = [&"dash_rangga"]
+star_thresholds = Vector3i(400, 800, 1150)
+plate_count = 4
+washing_enabled = true
+max_open_tickets = 3
+max_active_monsters = 5
+long_table_bias = 0.6

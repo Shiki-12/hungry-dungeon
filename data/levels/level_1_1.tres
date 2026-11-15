@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/level_data.gd" id="1"]
+[ext_resource type="Script" path="res://data/seating_data.gd" id="2"]
+[sub_resource type="Resource" id="Seat"]
+script = ExtResource("2")
+long_seats = 5
+small_tables = 0
+max_active_monsters = 4
+max_open_tickets = 2
+[resource]
+script = ExtResource("1")
+id = &"level_1_1"
+stage = 1
+duration_sec = 180.0
+seating = SubResource("Seat")
+active_recipes = [&"recipe_nasi_goreng_jamur"]
+star_thresholds = Vector3i(300, 600, 900)
+plate_count = 3
+washing_enabled = false
+max_open_tickets = 2
+max_active_monsters = 4
+long_table_bias = 0.6

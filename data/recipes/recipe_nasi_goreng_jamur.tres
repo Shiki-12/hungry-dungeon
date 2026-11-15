@@ -1,0 +1,42 @@
+[gd_resource type="RecipeData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/recipe_data.gd" id="1_recipe"]
+[ext_resource type="Script" path="res://data/step_data.gd" id="2_step"]
+
+[sub_resource type="Resource" id="StepChopMushroom"]
+script = ExtResource("2_step")
+type = &"CHOP"
+inputs = [&"mushroom_raw"]
+output = &"jamur_prepped"
+station_type = &"MEJA_POTONG"
+duration = 3.0
+
+[sub_resource type="Resource" id="StepChopOnion"]
+script = ExtResource("2_step")
+type = &"CHOP"
+inputs = [&"bawang_raw"]
+output = &"bawang_prepped"
+station_type = &"MEJA_POTONG"
+duration = 2.0
+
+[sub_resource type="Resource" id="StepCookNasi"]
+script = ExtResource("2_step")
+type = &"COOK"
+inputs = [&"nasi_cooked", &"jamur_prepped", &"bawang_prepped"]
+output = &"dish_nasi_goreng_jamur"
+station_type = &"TUNGKU"
+duration = 10.0
+attention_interval = 4.0
+attention_window = 1.5
+
+[resource]
+script = ExtResource("1_recipe")
+id = &"recipe_nasi_goreng_jamur"
+display_name_key = &"recipe.nasi_goreng_jamur"
+steps = [SubResource("StepChopMushroom"), SubResource("StepChopOnion"), SubResource("StepCookNasi")]
+final_components = [&"nasi_cooked", &"jamur_prepped", &"bawang_prepped"]
+container_type = &"PAN"
+dish_item_id = &"dish_nasi_goreng_jamur"
+icon_id = &"icon_nasi_goreng_jamur"
+base_points = 150
+burn_time = 10.0

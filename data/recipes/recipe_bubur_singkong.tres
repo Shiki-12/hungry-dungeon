@@ -1,0 +1,32 @@
+[gd_resource type="RecipeData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://data/recipe_data.gd" id="1_recipe"]
+[ext_resource type="Script" path="res://data/step_data.gd" id="2_step"]
+
+[sub_resource type="Resource" id="StepPoundSingkong"]
+script = ExtResource("2_step")
+type = &"POUND"
+inputs = [&"singkong_raw"]
+output = &"singkong_prepped"
+station_type = &"COBEK"
+duration = 3.0
+
+[sub_resource type="Resource" id="StepBoilBubur"]
+script = ExtResource("2_step")
+type = &"BOIL"
+inputs = [&"singkong_prepped", &"santan_raw", &"gula_merah_raw"]
+output = &"dish_bubur_singkong"
+station_type = &"TUNGKU"
+duration = 12.0
+
+[resource]
+script = ExtResource("1_recipe")
+id = &"recipe_bubur_singkong"
+display_name_key = &"recipe.bubur_singkong"
+steps = [SubResource("StepPoundSingkong"), SubResource("StepBoilBubur")]
+final_components = [&"singkong_prepped", &"santan_raw", &"gula_merah_raw"]
+container_type = &"PAN"
+dish_item_id = &"dish_bubur_singkong"
+icon_id = &"icon_bubur_singkong"
+base_points = 150
+burn_time = 10.0
