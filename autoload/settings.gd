@@ -39,17 +39,17 @@ func _setup_default_input_map() -> void:
 		"p1_throw": [KEY_C],
 		"p1_pause": [KEY_ESCAPE],
 
-		"p2_move_left": [KEY_LEFT, KEY_KP_4],
-		"p2_move_right": [KEY_RIGHT, KEY_KP_6],
-		"p2_move_up": [KEY_UP, KEY_KP_8],
-		"p2_move_down": [KEY_DOWN, KEY_KP_2, KEY_KP_5],
-		"p2_interact": [KEY_KP_1, KEY_K],
-		"p2_work": [KEY_KP_2, KEY_L],
-		"p2_strike": [KEY_KP_0, KEY_KP_ENTER, KEY_M],
-		"p2_skill_1": [KEY_KP_7, KEY_U],
-		"p2_skill_2": [KEY_KP_9, KEY_O],
-		"p2_throw": [KEY_KP_3, KEY_I],
-		"p2_pause": [KEY_KP_PERIOD, KEY_BACKSLASH]
+		"p2_move_left": [KEY_LEFT],
+		"p2_move_right": [KEY_RIGHT],
+		"p2_move_up": [KEY_UP],
+		"p2_move_down": [KEY_DOWN],
+		"p2_interact": [KEY_PERIOD],
+		"p2_work": [KEY_COMMA],
+		"p2_strike": [KEY_SLASH],
+		"p2_skill_1": [KEY_SEMICOLON],
+		"p2_skill_2": [KEY_APOSTROPHE],
+		"p2_throw": [KEY_SHIFT],
+		"p2_pause": [KEY_BACKSPACE]
 	}
 
 	for action_name: String in default_actions.keys():

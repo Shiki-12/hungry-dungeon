@@ -1,21 +1,13 @@
 class_name StepData
 extends Resource
 
-enum StepType {
-	CHOP,
-	COOK,
-	STEAM,
-	GRILL,
-	FRY,
-	BOIL,
-	POUND,
-	WRAP,
-	ASSEMBLE
-}
-
-@export var id: String = ""
-@export var step_type: StepType = StepType.CHOP
-@export var input_items: Array[String] = []
-@export var output_item: String = ""
-@export var duration_seconds: float = 5.0
-@export var required_station_type: String = ""
+@export var type: StringName = &"CHOP"
+@export var inputs: Array[StringName] = []
+@export var output: StringName = &""
+@export var station_type: StringName = &""
+@export var duration: float = 0.0
+@export var rhythm_bpm: int = 0
+@export var rhythm_beats: int = 0
+@export var attention_interval: float = 0.0
+@export var attention_window: float = 0.0
+@export var attention_miss_penalty: float = 0.3
