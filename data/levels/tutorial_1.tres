@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/tutorial_data.gd" id="1_tut"]
+
+[resource]
+script = ExtResource("1_tut")
+id = &"tutorial_1"
+title_key = &"tutorial.t1_title"
+steps = [
+	{
+		"step_id": &"t1_step1",
+		"instruction_text": "Ambil bahan, potong di Meja Potong, dan rakit di Meja Alas.",
+		"event_trigger": &"prep_ingredient",
+		"target_count": 3,
+		"blocked_actions": [&"throw", &"strike"],
+		"target_highlight": &"peti_bahan"
+	},
+	{
+		"step_id": &"t1_step2",
+		"instruction_text": "Sajikan 3 hidangan langsung dengan jalan kaki (Samperin).",
+		"event_trigger": &"served_samperin",
+		"target_count": 3,
+		"blocked_actions": [&"throw", &"strike"],
+		"target_highlight": &"kursi_tamu"
+	}
+]
+popup_modal = &""
+required_players = 2
+is_adaptive_radius_enabled = false

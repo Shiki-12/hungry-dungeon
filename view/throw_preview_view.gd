@@ -61,6 +61,15 @@ func _draw() -> void:
 	# Bayangan di titik jatuh
 	draw_circle(landing, 4.0, Color(0.0, 0.0, 0.0, 0.35))
 	
+	# FR-UI-04: Indikator bidik - bar jarak kecil dekat koki saat throw ditahan
+	var bar_w: float = 16.0
+	var bar_h: float = 3.0
+	var bar_pos: Vector2 = origin + Vector2(-8.0, -20.0)
+	var r_pct: float = clampf((r_tiles - ThrowMathScript.MIN_R) / (ThrowMathScript.MAX_R - ThrowMathScript.MIN_R), 0.0, 1.0)
+	draw_rect(Rect2(bar_pos, Vector2(bar_w, bar_h)), Color(0.1, 0.12, 0.15, 0.85))
+	draw_rect(Rect2(bar_pos, Vector2(bar_w, bar_h)), Color.WHITE, false, 1.0)
+	draw_rect(Rect2(bar_pos, Vector2(bar_w * r_pct, bar_h)), color)
+
 	# Penanda titik jatuh berdasarkan bentuk (NFR-ACC-02)
 	match marker_type:
 		&"JITU":

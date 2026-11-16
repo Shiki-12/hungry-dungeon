@@ -11,6 +11,35 @@ const SEAT_COLUMN: int = 13
 var long_table: SimSeatingTable
 var small_tables: Array[SimSeatingTable] = []
 var stations: Array[Dictionary] = []
+var theme_variant: StringName = &"lapak" # lapak atau halaman (FR-TUT-09)
+var has_river: bool = false # Khusus T-4 seberang sungai kecil
+
+func setup_t4_layout() -> void:
+	# FR-TUT-09: T-4 punya tiga meja: dekat (3 petak), 6 petak, dan seberang sungai kecil (8 petak)
+	theme_variant = &"halaman"
+	has_river = true
+	small_tables.clear()
+	
+	# Meja 1: Dekat (jarak 3 petak dari koki x=5 -> meja x=8..14)
+	var t1: SimSeatingTable = SimSeatingTable.new(1, SimSeatingTable.KIND_SMALL)
+	var s1: SimSeat = SimSeat.new(10, t1.table_id, Vector2(14.0 * TILE_SIZE + 8.0, 3.0 * TILE_SIZE + 8.0))
+	s1.seat_type = SimSeat.TYPE_STOOL
+	t1.add_seat(s1)
+	small_tables.append(t1)
+
+	# Meja 2: 6 Petak (jarak 6 petak dari batas lapak x=12 -> meja x=18)
+	var t2: SimSeatingTable = SimSeatingTable.new(2, SimSeatingTable.KIND_SMALL)
+	var s2: SimSeat = SimSeat.new(11, t2.table_id, Vector2(18.0 * TILE_SIZE + 8.0, 6.0 * TILE_SIZE + 8.0))
+	s2.seat_type = SimSeat.TYPE_STOOL
+	t2.add_seat(s2)
+	small_tables.append(t2)
+
+	# Meja 3: Seberang Sungai Kecil (sungai di x=21..22, meja di x=24)
+	var t3: SimSeatingTable = SimSeatingTable.new(3, SimSeatingTable.KIND_SMALL)
+	var s3: SimSeat = SimSeat.new(12, t3.table_id, Vector2(24.0 * TILE_SIZE + 8.0, 9.0 * TILE_SIZE + 8.0))
+	s3.seat_type = SimSeat.TYPE_STOOL
+	t3.add_seat(s3)
+	small_tables.append(t3)
 
 func _init(long_seat_count: int = 5, small_table_count: int = 0) -> void:
 	long_table = SimSeatingTable.new(0, SimSeatingTable.KIND_LONG)

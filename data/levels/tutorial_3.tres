@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/tutorial_data.gd" id="1_tut"]
+
+[resource]
+script = ExtResource("1_tut")
+id = &"tutorial_3"
+title_key = &"tutorial.t3_title"
+steps = [
+	{
+		"step_id": &"t3_step1",
+		"instruction_text": "Oper 5 bahan mentah dengan Lempar Cepat (ketuk tombol lempar) ke stasiun atau rekan koki.",
+		"event_trigger": &"quick_throw_station",
+		"target_count": 5,
+		"blocked_actions": [&"strike"],
+		"target_highlight": &"station"
+	}
+]
+popup_modal = &""
+required_players = 2
+is_adaptive_radius_enabled = false

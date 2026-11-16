@@ -270,28 +270,28 @@ Berdasarkan struktur repositori saat ini:
 ### M2.4 — Tema UI (`theme.tres`), HUD Atas 30 px, HUD Bawah 16 px, & Balon Pesanan (`§14`)
 - **Referensi PRD v1.0:** `FR-UI-01` s.d. `FR-UI-08`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://ui/theme.tres` sebagai satu-satunya tempat gaya dasar font piksel ($8\text{ px}$ teks, $16\text{ px}$ judul), warna, dan *nine-patch* (`FR-UI-05`, `FR-UI-08`).
-  - [ ] Buat `res://ui/hud_top.gd` & `res://ui/hud_top.tscn` ($480 \times 30\text{ px}$ — `FR-UI-01`):
+  - [x] Buat `res://ui/theme.tres` sebagai satu-satunya tempat gaya dasar font piksel ($8\text{ px}$ teks, $16\text{ px}$ judul), warna, dan *nine-patch* (`FR-UI-05`, `FR-UI-08`).
+  - [x] Buat `res://ui/hud_top.gd` & `res://ui/hud_top.tscn` ($480 \times 30\text{ px}$ — `FR-UI-01`):
     - Menampilkan maksimal 6 kartu tiket pesanan ($40 \times 26\text{ px}$, ikon hidangan $24 \times 24\text{ px}$, bar waktu kesabaran) di sisi kiri, serta papan Skor dan Timer di sisi kanan.
-  - [ ] Buat `res://ui/hud_bottom.gd` & `res://ui/hud_bottom.tscn` ($480 \times 16\text{ px}$ — `FR-UI-02`):
+  - [x] Buat `res://ui/hud_bottom.gd` & `res://ui/hud_bottom.tscn` ($480 \times 16\text{ px}$ — `FR-UI-02`):
     - Menampilkan 5 ikon Hati Dapur ($12 \times 12\text{ px}$), ikon `skill_1` dan `skill_2` untuk Rangga (P1) dan Sekar (P2) ($16 \times 16\text{ px}$) dengan *sweep cooldown* yang digambar kode, serta indikator kesiapan Combo.
-  - [ ] Buat `res://view/order_bubble_view.gd` (`FR-UI-03`, `FR-SEAT-09`):
+  - [x] Buat `res://view/order_bubble_view.gd` (`FR-UI-03`, `FR-SEAT-09`):
     - Balon pesanan (ikon $24 \times 24\text{ px}$ + bar kesabaran $16 \times 3\text{ px}$ hijau/kuning/merah) yang berjangkar di **sisi kanan** monster pada kursi meja panjang dan di atas monster pada meja kecil.
 - **Verifikasi AI:** Buat `res://tests/test_ui_hud.gd` untuk menginstansiasi HUD atas dan bawah, memverifikasi dimensi $480 \times 30\text{ px}$ dan $480 \times 16\text{ px}$, serta pembaruan tiket, skor, dan hati saat sinyal `Events` dipancarkan.
 
 ### M2.5 — Sistem `TutorialRunner` & 5 Level Latihan (`T-1` s.d. `T-5`) (`§15`)
 - **Referensi PRD v1.0:** `FR-TUT-01` s.d. `FR-TUT-10`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/systems/tutorial_runner.gd` (`class_name TutorialRunner`) yang membaca `TutorialData`:
+  - [x] Buat `res://sim/systems/tutorial_runner.gd` (`class_name TutorialRunner`) yang membaca `TutorialData`:
     - Mengelola langkah aktif, target sorotan grup node, pemblokiran input yang belum diajarkan, dan penghitungan syarat selesai **gabungan kedua pemain** (`FR-TUT-01`, `FR-TUT-05`).
     - Level tutorial berjalan tanpa timer gagal, tanpa pengurangan Hati Dapur, dan tanpa penilaian bintang (`FR-TUT-03`), menggunakan pelanggan `mon_scarecrow` dan tema `tile_halaman` (`FR-TUT-09`).
-  - [ ] Buat data untuk **5 Level Tutorial (`FR-TUT-02`)**:
+  - [x] Buat data untuk **5 Level Tutorial (`FR-TUT-02`)**:
     - **`T-1` (Dasar & Samperin):** Ambil bahan, potong, rakit di Meja Alas, dan sajikan **3 hidangan** dengan jalan kaki (*samperin*).
     - **`T-2` (Tungku, Aduk, & Gosong):** Masak **3 Nasi Goreng Jamur** di kuali (termasuk **1 sengaja dibiarkan gosong** lalu dibuang ke Tempat Sampah dan mencuci piring).
     - **`T-3` (Lempar Cepat Bahan):** Oper **5 bahan** dengan *Lempar Cepat* ($4\text{ tile}$) ke rekan atau stasiun.
     - **`T-4` (Lempar Bidik ke 3 Meja):** Sajikan **5 lemparan hidangan** ke 3 meja (dekat, jarak 6 petak, dan seberang sungai kecil) dengan minimal **2 Lemparan Jitu**. Jika meleset 3 kali beruntun, radius zona saji latihan otomatis membesar $+25\%$ (`FR-TUT-08`).
     - **`T-5` (Pertahanan Sutil, Kuali Dua Mode, & Kerupuk):** Menampilkan pop-up Kuali Dua Mode (`FR-TUT-07`); syarat selesai: usir **3 monster dengan sutil**, **1 dengan kuali kosong**, lempar **1 kerupuk**, dan lakukan **1 pukulan kuali berisi (tumpah disengaja)**.
-  - [ ] Sediakan tombol **Lewati Tutorial** (dengan dialog konfirmasi) dan akses ulang tiap level `T-1..T-5` dari menu **Latihan** (`FR-TUT-04`).
+  - [x] Sediakan tombol **Lewati Tutorial** (dengan dialog konfirmasi) dan akses ulang tiap level `T-1..T-5` dari menu **Latihan** (`FR-TUT-04`).
 - **Verifikasi AI:** Buat `res://tests/test_tutorial_runner.gd` yang mensimulasikan event penyelesaian gabungan P1+P2 untuk kelima level `T-1` s.d. `T-5` dan memverifikasi adaptasi radius $+25\%$ di `T-4`.
 
 ---

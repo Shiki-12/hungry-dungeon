@@ -554,12 +554,75 @@
       "prefix": "center",
       "width": 16
     },
-    "ui_heart_full": {
+    "ui_button": {
       "animations": [],
       "height": 16,
+      "id": "ui_button",
+      "prefix": "center",
+      "width": 48
+    },
+    "ui_heart_empty": {
+      "animations": [],
+      "height": 12,
+      "id": "ui_heart_empty",
+      "prefix": "center",
+      "width": 12
+    },
+    "ui_heart_full": {
+      "animations": [],
+      "height": 12,
       "id": "ui_heart_full",
       "prefix": "center",
+      "width": 12
+    },
+    "ui_panel": {
+      "animations": [],
+      "height": 48,
+      "id": "ui_panel",
+      "prefix": "center",
+      "width": 48
+    },
+    "ui_popup_dialog": {
+      "animations": [],
+      "height": 48,
+      "id": "ui_popup_dialog",
+      "prefix": "center",
+      "width": 64
+    },
+    "ui_skill_slot": {
+      "animations": [],
+      "height": 16,
+      "id": "ui_skill_slot",
+      "prefix": "center",
       "width": 16
+    },
+    "ui_slider": {
+      "animations": [],
+      "height": 12,
+      "id": "ui_slider",
+      "prefix": "center",
+      "width": 48
+    },
+    "ui_star_empty": {
+      "animations": [],
+      "height": 16,
+      "id": "ui_star_empty",
+      "prefix": "center",
+      "width": 16
+    },
+    "ui_star_gold": {
+      "animations": [],
+      "height": 16,
+      "id": "ui_star_gold",
+      "prefix": "center",
+      "width": 16
+    },
+    "ui_ticket_card": {
+      "animations": [],
+      "height": 26,
+      "id": "ui_ticket_card",
+      "prefix": "center",
+      "width": 40
     },
     "vfx_steam": {
       "animations": [

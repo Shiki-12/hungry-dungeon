@@ -21,6 +21,9 @@ const ProjectileViewScript: Script = preload("res://view/projectile_view.gd")
 const SkillSystemScript: Script = preload("res://sim/systems/skills.gd")
 const EmoteViewScript: Script = preload("res://view/emote_view.gd")
 const CrowdControllerScript: Script = preload("res://view/crowd_controller.gd")
+const HudTopScene: PackedScene = preload("res://ui/hud_top.tscn")
+const HudBottomScene: PackedScene = preload("res://ui/hud_bottom.tscn")
+const PauseMenuScene: PackedScene = preload("res://ui/pause_menu.tscn")
 
 const TILE: float = 16.0
 const HUD_TOP_H: float = 30.0
@@ -79,31 +82,9 @@ func _ready() -> void:
 	load_level(LEVEL_PATHS[0])
 
 func _build_ui() -> void:
-	# HUD Top
-	hud_top = Control.new()
-	hud_top.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	hud_top.custom_minimum_size = Vector2(480, HUD_TOP_H)
-	hud_top.size = Vector2(480, HUD_TOP_H)
+	# HUD Top (480x30 px) — FR-UI-01
+	hud_top = HudTopScene.instantiate()
 	add_child(hud_top)
-	var top_bg: ColorRect = ColorRect.new()
-	top_bg.color = Color(0.1, 0.1, 0.15, 0.9)
-	top_bg.size = Vector2(480, HUD_TOP_H)
-	hud_top.add_child(top_bg)
-	tickets_label = Label.new()
-	tickets_label.position = Vector2(4, 2)
-	tickets_label.add_theme_font_size_override("font_size", 8)
-	tickets_label.text = "TIKET: --"
-	hud_top.add_child(tickets_label)
-	score_label = Label.new()
-	score_label.position = Vector2(200, 2)
-	score_label.add_theme_font_size_override("font_size", 8)
-	score_label.text = "SKOR: 0"
-	hud_top.add_child(score_label)
-	timer_label = Label.new()
-	timer_label.position = Vector2(380, 2)
-	timer_label.add_theme_font_size_override("font_size", 8)
-	timer_label.text = "03:00"
-	hud_top.add_child(timer_label)
 
 	# Kitchen layer
 	kitchen_layer = Node2D.new()
@@ -111,26 +92,16 @@ func _build_ui() -> void:
 	kitchen_layer.y_sort_enabled = true
 	add_child(kitchen_layer)
 
-	# HUD Bottom
-	hud_bot = Control.new()
+	# HUD Bottom (480x16 px) — FR-UI-02
+	hud_bot = HudBottomScene.instantiate()
 	hud_bot.position = Vector2(0, HUD_TOP_H + KITCHEN_H)
-	hud_bot.custom_minimum_size = Vector2(480, HUD_BOT_H)
-	hud_bot.size = Vector2(480, HUD_BOT_H)
 	add_child(hud_bot)
-	var bot_bg: ColorRect = ColorRect.new()
-	bot_bg.color = Color(0.1, 0.1, 0.15, 0.9)
-	bot_bg.size = Vector2(480, HUD_BOT_H)
-	hud_bot.add_child(bot_bg)
-	hearts_label = Label.new()
-	hearts_label.position = Vector2(4, 1)
-	hearts_label.add_theme_font_size_override("font_size", 7)
-	hearts_label.text = "♥♥♥♥♥"
-	hud_bot.add_child(hearts_label)
+
 	popup_label = Label.new()
-	popup_label.position = Vector2(160, 1)
+	popup_label.position = Vector2(160, HUD_TOP_H + KITCHEN_H + 1)
 	popup_label.add_theme_font_size_override("font_size", 7)
 	popup_label.text = ""
-	hud_bot.add_child(popup_label)
+	add_child(popup_label)
 
 func load_level(path: String) -> void:
 	# Clean previous
@@ -468,19 +439,23 @@ func _spawn_monster() -> void:
 	monsters.append(m)
 
 func _update_hud() -> void:
-	if score_label:
-		score_label.text = "SKOR: %d" % scoring.score
-	if timer_label:
-		var mins: int = int(level_timer) / 60
-		var secs: int = int(level_timer) % 60
-		timer_label.text = "%02d:%02d" % [mins, secs]
-	if hearts_label:
-		var h: String = ""
-		for i: int in range(5):
-			h += "♥" if i < scoring.hearts else "♡"
-		hearts_label.text = h
-	if tickets_label:
-		tickets_label.text = "TIKET: %d/%d" % [orders.open_ticket_count(), orders.max_open_tickets]
+	if hud_top != null:
+		if scoring != null:
+			hud_top.set_score(scoring.score)
+		hud_top.set_time(level_timer)
+		if orders != null:
+			var ticket_data: Array = []
+			for m: RefCounted in monsters:
+				if m.state == 3: # WAITING
+					var pct: float = m.patience / 100.0 if "patience" in m else 1.0
+					ticket_data.append({"order_id": m.monster_id, "recipe_id": m.requested_recipe, "patience_pct": pct})
+			hud_top.update_tickets(ticket_data)
+
+	if hud_bot != null and scoring != null:
+		hud_bot.set_hearts(scoring.hearts, 5)
+		if skills != null:
+			var cd1: float = skills.get_cooldown(1, 1)
+			hud_bot.set_cooldown(1, 1, cd1, 6.0)
 
 func _show_popup_for_level(id: StringName) -> void:
 	if popup_label == null:
@@ -500,6 +475,9 @@ func _show_popup_for_level(id: StringName) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("p1_pause") or event.is_action_pressed("p2_pause"):
 		Game.toggle_pause()
+		if Game.is_game_paused:
+			var pause_dlg: Node = PauseMenuScene.instantiate()
+			add_child(pause_dlg)
 	if event is InputEventKey and event.pressed:
 		match (event as InputEventKey).keycode:
 			KEY_F1:

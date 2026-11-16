@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/tutorial_data.gd" id="1_tut"]
+
+[resource]
+script = ExtResource("1_tut")
+id = &"tutorial_2"
+title_key = &"tutorial.t2_title"
+steps = [
+	{
+		"step_id": &"t2_step1",
+		"instruction_text": "Masak 2 Nasi Goreng Jamur di Tungku (jangan lupa aduk saat ikon muncul!).",
+		"event_trigger": &"cooked_nasi_goreng",
+		"target_count": 2,
+		"blocked_actions": [&"throw"],
+		"target_highlight": &"tungku"
+	},
+	{
+		"step_id": &"t2_step2",
+		"instruction_text": "Biarkan 1 masakan sengaja gosong, buang ke Tempat Sampah, lalu cuci piring.",
+		"event_trigger": &"dish_burnt_and_washed",
+		"target_count": 1,
+		"blocked_actions": [],
+		"target_highlight": &"tempat_sampah"
+	}
+]
+popup_modal = &"plate_washing"
+required_players = 2
+is_adaptive_radius_enabled = false

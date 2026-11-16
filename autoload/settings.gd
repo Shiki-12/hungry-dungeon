@@ -7,7 +7,11 @@ var music_volume: float = 0.8
 var sfx_volume: float = 1.0
 var ui_volume: float = 1.0
 
-var aim_assist: bool = false
+var aim_assist: bool = true
+var toggle_work: bool = false
+var wide_attention_window: bool = false
+var crowd_density: int = 2
+var reduce_motion: bool = false
 var screen_shake_enabled: bool = true
 var audio_offset_ms: float = 0.0
 var current_locale: String = "id"

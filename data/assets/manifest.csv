@@ -57,7 +57,16 @@ emote_scared,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster ketakutan
 emote_chat,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster mengobrol di kerumunan
 emote_music,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster menikmati musik
 emote_envy,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster iri melihat hidangan orang lain
-ui_heart_full,16,16,center,,box_green,,M1,
+ui_heart_full,12,12,center,,box_green,,M1,Ikon Hati Dapur Penuh
+ui_heart_empty,12,12,center,,box_green,,M2,Ikon Hati Dapur Kosong
+ui_ticket_card,40,26,center,,box_green,,M2,Kartu Tiket Pesanan HUD
+ui_skill_slot,16,16,center,,box_green,,M2,Slot Ikon Skill HUD
+ui_panel,48,48,center,,box_green,,M2,Panel Dasar UI
+ui_button,48,16,center,,box_green,,M2,Tombol Standar UI
+ui_slider,48,12,center,,box_green,,M2,Slider Standar UI
+ui_star_gold,16,16,center,,box_green,,M2,Bintang Emas Hasil Level
+ui_star_empty,16,16,center,,box_green,,M2,Bintang Kosong Hasil Level
+ui_popup_dialog,64,48,center,,box_green,,M2,Kotak Dialog Pop-up
 vfx_steam,16,16,center,loop:3:8:loop,box_white,,M1,
 portrait_sekar_happy,48,48,center,,box_purple,,M1,
 portrait_rangga_happy,48,48,center,,box_purple,,M1,

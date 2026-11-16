@@ -1,0 +1,55 @@
+extends Control
+
+## Layar Hasil Level (FR-UI-06).
+## Menampilkan status kemenangan, skor akhir, bintang 1–3, dan tombol navigasi.
+
+var is_win: bool = true
+var final_score: int = 0
+var stars_earned: int = 0
+
+func setup(p_win: bool, p_score: int, p_stars: int) -> void:
+	is_win = p_win
+	final_score = p_score
+	stars_earned = p_stars
+	_update_display()
+
+func _ready() -> void:
+	$Panel/VBox/BtnNext.pressed.connect(_on_next)
+	$Panel/VBox/BtnRetry.pressed.connect(_on_retry)
+	$Panel/VBox/BtnMenu.pressed.connect(_on_menu)
+	_update_display()
+
+func _update_display() -> void:
+	if not is_inside_tree():
+		return
+	var title_lbl: Label = $Panel/Title
+	var score_lbl: Label = $Panel/ScoreLabel
+	var stars_lbl: Label = $Panel/StarsLabel
+	
+	if is_win:
+		title_lbl.text = "LEVEL SELESAI!"
+		title_lbl.modulate = Color(0.3, 0.9, 0.4)
+	else:
+		title_lbl.text = "DAPUR RUNTUH!"
+		title_lbl.modulate = Color(0.95, 0.3, 0.3)
+
+	score_lbl.text = "Skor Akhir: %d" % final_score
+	
+	var s_text: String = ""
+	for i: int in range(3):
+		s_text += "★" if i < stars_earned else "☆"
+	stars_lbl.text = s_text
+
+func _on_next() -> void:
+	get_tree().change_scene_to_file("res://levels/kitchen_stage.tscn")
+
+func _on_retry() -> void:
+	if Engine.has_singleton("Game") or (Engine.get_main_loop() is SceneTree and Engine.get_main_loop().root.has_node("Game")):
+		var game_node: Node = Engine.get_main_loop().root.get_node("Game")
+		if game_node:
+			game_node.call("restart_current_level")
+			return
+	get_tree().reload_current_scene()
+
+func _on_menu() -> void:
+	get_tree().change_scene_to_file("res://ui/main_menu.tscn")

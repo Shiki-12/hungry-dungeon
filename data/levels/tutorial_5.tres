@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/tutorial_data.gd" id="1_tut"]
+
+[resource]
+script = ExtResource("1_tut")
+id = &"tutorial_5"
+title_key = &"tutorial.t5_title"
+steps = [
+	{
+		"step_id": &"t5_step1",
+		"instruction_text": "Usir 3 orang-orangan sawah mengamuk menggunakan Sutil (3 pukulan per monster).",
+		"event_trigger": &"strike_sutil",
+		"target_count": 3,
+		"blocked_actions": [&"throw"],
+		"target_highlight": &"monster"
+	},
+	{
+		"step_id": &"t5_step2",
+		"instruction_text": "Usir 1 orang-orangan sawah menggunakan Kuali Kosong (1 pukulan langsung terusir).",
+		"event_trigger": &"strike_pan_empty",
+		"target_count": 1,
+		"blocked_actions": [&"throw"],
+		"target_highlight": &"monster"
+	},
+	{
+		"step_id": &"t5_step3",
+		"instruction_text": "Lempar 1 kerupuk ke monster lapar untuk menahan kesabarannya.",
+		"event_trigger": &"throw_cracker",
+		"target_count": 1,
+		"blocked_actions": [],
+		"target_highlight": &"monster"
+	},
+	{
+		"step_id": &"t5_step4",
+		"instruction_text": "Lakukan 1 pukulan kuali berisi (tumpah disengaja) untuk memahami aturan tumpah.",
+		"event_trigger": &"spill_pan",
+		"target_count": 1,
+		"blocked_actions": [],
+		"target_highlight": &"monster"
+	}
+]
+popup_modal = &"pan_modes"
+required_players = 2
+is_adaptive_radius_enabled = false

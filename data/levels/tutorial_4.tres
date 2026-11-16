@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="TutorialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/tutorial_data.gd" id="1_tut"]
+
+[resource]
+script = ExtResource("1_tut")
+id = &"tutorial_4"
+title_key = &"tutorial.t4_title"
+steps = [
+	{
+		"step_id": &"t4_step1",
+		"instruction_text": "Sajikan 3 hidangan dengan Lempar Bidik busur ke meja dekat dan jauh.",
+		"event_trigger": &"throw_served",
+		"target_count": 3,
+		"blocked_actions": [&"strike"],
+		"target_highlight": &"kursi_tamu"
+	},
+	{
+		"step_id": &"t4_step2",
+		"instruction_text": "Sajikan minimal 2 Lemparan Jitu tepat ke pusat kursi (lingkaran penuh).",
+		"event_trigger": &"jitu_throw",
+		"target_count": 2,
+		"blocked_actions": [&"strike"],
+		"target_highlight": &"kursi_tamu"
+	}
+]
+popup_modal = &""
+required_players = 2
+is_adaptive_radius_enabled = true
