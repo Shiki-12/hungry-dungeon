@@ -38,8 +38,25 @@ cart_stall_loaded,24,32,bottom_center,,box_brown,,M1,
 tile_lapak,16,16,center,,box_gray,,M0,
 tile_gua,16,16,center,,box_gray,,M0,
 tile_halaman,16,16,center,,box_gray,,M0,
-emote_chop,16,16,center,loop:3:6:loop,box_pink,,M1,
-emote_stir,16,16,center,loop:3:6:loop,box_pink,,M1,
+emote_chop,16,16,center,loop:3:6:loop,box_pink,,M1,Emote memotong bahan
+emote_mix,16,16,center,loop:3:6:loop,box_pink,,M2,Emote mencampur bahan
+emote_pound,16,16,center,loop:3:6:loop,box_pink,,M2,Emote menumbuk atau mengulek
+emote_stir,16,16,center,loop:3:6:loop,box_pink,,M1,Emote mengaduk masakan
+emote_wash,16,16,center,loop:3:6:loop,box_pink,,M2,Emote mencuci piring
+emote_burn,16,16,center,loop:3:6:loop,box_pink,,M2,Emote masakan gosong
+emote_panic,16,16,center,loop:3:6:loop,box_pink,,M2,Emote koki panik
+emote_cheer,16,16,center,loop:3:6:loop,box_pink,,M2,Emote koki bergembira
+emote_no,16,16,center,loop:3:6:loop,box_pink,,M2,Emote koki menggeleng salah saji
+emote_menu,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster membaca menu
+emote_hungry,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster lapar tahap 1
+emote_grumble,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster menggerutu tahap 2
+emote_rage,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster mengamuk tahap 3
+emote_yum,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster makan enak
+emote_happy,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster puas selesai makan
+emote_scared,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster ketakutan
+emote_chat,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster mengobrol di kerumunan
+emote_music,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster menikmati musik
+emote_envy,16,16,center,loop:3:6:loop,box_pink,,M2,Emote monster iri melihat hidangan orang lain
 ui_heart_full,16,16,center,,box_green,,M1,
 vfx_steam,16,16,center,loop:3:8:loop,box_white,,M1,
 portrait_sekar_happy,48,48,center,,box_purple,,M1,

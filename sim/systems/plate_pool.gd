@@ -106,6 +106,22 @@ func tick(delta: float) -> void:
 					washing_queue[0].timer = WASH_SECONDS_PER_PLATE
 	washing_count = washing_queue.size()
 
+func break_plate(plate: SimPlate) -> void:
+	if plate != null:
+		plate.state = SimPlate.LOST
+		plate.timer = 10.0
+
+func return_lost_plate() -> bool:
+	for plate: SimPlate in plates:
+		if plate.state == SimPlate.LOST:
+			plate.state = SimPlate.CLEAN
+			plate.timer = 0.0
+			return true
+	return false
+
+func return_plate() -> bool:
+	return return_lost_plate()
+
 func invariant_holds() -> bool:
 	var active: int = 0
 	for plate: SimPlate in plates:

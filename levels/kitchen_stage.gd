@@ -15,6 +15,12 @@ const StationDataScript: Script = preload("res://data/station_data.gd")
 const ItemScript: Script = preload("res://sim/entities/item.gd")
 const PlatePoolScript: Script = preload("res://sim/systems/plate_pool.gd")
 const LevelDataScript: Script = preload("res://data/level_data.gd")
+const ThrowSystemScript: Script = preload("res://sim/systems/throw_system.gd")
+const ThrowPreviewScript: Script = preload("res://view/throw_preview_view.gd")
+const ProjectileViewScript: Script = preload("res://view/projectile_view.gd")
+const SkillSystemScript: Script = preload("res://sim/systems/skills.gd")
+const EmoteViewScript: Script = preload("res://view/emote_view.gd")
+const CrowdControllerScript: Script = preload("res://view/crowd_controller.gd")
 
 const TILE: float = 16.0
 const HUD_TOP_H: float = 30.0
@@ -31,6 +37,8 @@ var scoring: RefCounted
 var combat: RefCounted
 var hazards: RefCounted
 var plate_pool: RefCounted
+var throw_system: RefCounted
+var skills: RefCounted
 var level_data: Resource
 var monsters: Array = []
 var stations: Array = []
@@ -39,8 +47,9 @@ var level_timer: float = 0.0
 var level_active: bool = false
 var monster_spawn_timer: float = 0.0
 var next_monster_id: int = 100
+var throw_hold_times: Dictionary = {"p1": 0.0, "p2": 0.0}
 
-# --- View Nodes (created dynamically) ---
+# --- View Nodes ---
 var kitchen_layer: Node2D
 var hud_top: Control
 var hud_bot: Control
@@ -49,6 +58,13 @@ var timer_label: Label
 var hearts_label: Label
 var tickets_label: Label
 var popup_label: Label
+
+var throw_preview_p1: Node2D
+var throw_preview_p2: Node2D
+var projectile_view: Node2D
+var emote_view_p1: Node2D
+var emote_view_p2: Node2D
+var crowd_controller: Node2D
 
 # --- Level paths for debug switching ---
 const LEVEL_PATHS: Array[String] = [
@@ -132,6 +148,9 @@ func load_level(path: String) -> void:
 	orders = OrdersScript.new(42)
 	orders.max_open_tickets = level_data.max_open_tickets
 	plate_pool = PlatePoolScript.new(level_data.plate_count)
+	throw_system = ThrowSystemScript.new()
+	skills = SkillSystemScript.new()
+	skills.configure_from_level(level_data)
 
 	# Lapak
 	var small_count: int = 0
@@ -155,6 +174,24 @@ func load_level(path: String) -> void:
 	# Spawn station placeholders
 	_spawn_stations()
 
+	# Crowd controller
+	crowd_controller = CrowdControllerScript.new()
+	kitchen_layer.add_child(crowd_controller)
+
+	# Throw views
+	throw_preview_p1 = ThrowPreviewScript.new()
+	throw_preview_p2 = ThrowPreviewScript.new()
+	projectile_view = ProjectileViewScript.new()
+	kitchen_layer.add_child(throw_preview_p1)
+	kitchen_layer.add_child(throw_preview_p2)
+	kitchen_layer.add_child(projectile_view)
+
+	# Emote views for cooks
+	emote_view_p1 = EmoteViewScript.new()
+	emote_view_p2 = EmoteViewScript.new()
+	kitchen_layer.add_child(emote_view_p1)
+	kitchen_layer.add_child(emote_view_p2)
+
 	# Draw kitchen background
 	_draw_kitchen_bg()
 
@@ -170,11 +207,12 @@ func _clear_level() -> void:
 	monsters.clear()
 	stations.clear()
 	floor_items.clear()
+	throw_hold_times["p1"] = 0.0
+	throw_hold_times["p2"] = 0.0
 	for child: Node in kitchen_layer.get_children():
 		child.queue_free()
 
 func _spawn_stations() -> void:
-	# Place stations as colored placeholder rects in kitchen_layer
 	var station_defs: Array[Dictionary] = [
 		{"id": &"peti_bahan", "pos": Vector2(1, 1), "color": Color("#8d6e63")},
 		{"id": &"peti_nasi", "pos": Vector2(1, 3), "color": Color("#a1887f")},
@@ -217,7 +255,6 @@ func _draw() -> void:
 	for st: Dictionary in stations:
 		var px: Vector2 = Vector2(st["pos"].x * TILE, HUD_TOP_H + st["pos"].y * TILE)
 		draw_rect(Rect2(px, Vector2(TILE, TILE)), st["color"])
-		# Label
 		_draw_station_label(px, st["id"])
 	# Seats
 	if lapak:
@@ -240,10 +277,8 @@ func _draw() -> void:
 func _draw_cook(cook: RefCounted, color: Color) -> void:
 	var px: Vector2 = Vector2(cook.position.x, HUD_TOP_H + cook.position.y)
 	draw_rect(Rect2(px.x - 6, px.y - 7, 12, 14), color)
-	# Facing arrow
 	var arrow_end: Vector2 = px + cook.facing_direction * 10.0
 	draw_line(px, arrow_end, Color.WHITE, 1.0)
-	# Name tag
 	var tag: String = "P1" if cook.cook_id == 1 else "P2"
 	draw_string(ThemeDB.fallback_font, Vector2(px.x - 8, px.y - 10), tag, HORIZONTAL_ALIGNMENT_LEFT, -1, 6, Color.WHITE)
 
@@ -264,8 +299,8 @@ func _physics_process(delta: float) -> void:
 	if not level_active:
 		return
 	# Input
-	_handle_cook_input(cook_p1, "p1", delta)
-	_handle_cook_input(cook_p2, "p2", delta)
+	_handle_cook_input(cook_p1, "p1", delta, throw_preview_p1, emote_view_p1)
+	_handle_cook_input(cook_p2, "p2", delta, throw_preview_p2, emote_view_p2)
 	# Sim tick
 	if lapak:
 		lapak.tick(delta)
@@ -273,8 +308,26 @@ func _physics_process(delta: float) -> void:
 		orders.tick(delta)
 	if hazards:
 		hazards.tick(delta)
+	if skills:
+		skills.tick(delta)
 	for st: Dictionary in stations:
 		(st["sim"] as RefCounted).tick(delta)
+	
+	# Throw system tick
+	if throw_system and lapak:
+		var seats: Array = lapak.all_seats()
+		var resolved: Array[Dictionary] = throw_system.tick(delta, seats, cook_p2, stations, monsters, plate_pool, scoring)
+		for ev: Dictionary in resolved:
+			_handle_throw_resolved_event(ev)
+		if projectile_view:
+			projectile_view.update_projectiles(throw_system.active_projectiles)
+
+	# Update emote view positions
+	if emote_view_p1 and cook_p1:
+		emote_view_p1.position = cook_p1.position
+	if emote_view_p2 and cook_p2:
+		emote_view_p2.position = cook_p2.position
+
 	# Monster spawning
 	_tick_monster_spawn(delta)
 	# Level timer
@@ -287,7 +340,7 @@ func _physics_process(delta: float) -> void:
 	_update_hud()
 	queue_redraw()
 
-func _handle_cook_input(cook: RefCounted, prefix: String, delta: float) -> void:
+func _handle_cook_input(cook: RefCounted, prefix: String, delta: float, preview_view: Node2D, emote_view: Node2D) -> void:
 	var input_vec: Vector2 = Vector2.ZERO
 	if Input.is_action_pressed(prefix + "_move_up"):
 		input_vec.y -= 1.0
@@ -298,6 +351,86 @@ func _handle_cook_input(cook: RefCounted, prefix: String, delta: float) -> void:
 	if Input.is_action_pressed(prefix + "_move_right"):
 		input_vec.x += 1.0
 	cook.step(input_vec, delta)
+
+	# Skill 1 (Rangga Dash)
+	if Input.is_action_just_pressed(prefix + "_skill_1"):
+		if cook.cook_id == 1 and skills != null:
+			skills.trigger_dash(cook, [], [], monsters)
+
+	# Strike (Space / Slash) — Disabled during aiming (FR-THR-05)
+	if Input.is_action_just_pressed(prefix + "_strike") and not cook.is_aiming_throw:
+		if combat != null:
+			combat.strike(cook.cook_id, cook.position, cook.facing_direction, monsters, null, scoring)
+
+	# Work (F / Comma) & Emote
+	var is_working: bool = Input.is_action_pressed(prefix + "_work")
+	if emote_view != null:
+		emote_view.update_cook_work(is_working, &"meja_potong", delta)
+
+	# Throw logic (Tap = Quick, Hold = Aimed) (FR-THR-01 s.d. 06)
+	if Input.is_action_just_pressed(prefix + "_throw"):
+		cook.is_aiming_throw = true
+		throw_hold_times[prefix] = 0.0
+		if throw_system:
+			throw_system.start_aim(cook.cook_id, cook.position, cook.facing_direction)
+
+	if Input.is_action_pressed(prefix + "_throw"):
+		var cur_hold: float = float(throw_hold_times[prefix]) + delta
+		throw_hold_times[prefix] = cur_hold
+		if throw_system and preview_view:
+			var seats: Array = lapak.all_seats() if lapak else []
+			var recipe_hint: StringName = StringName(cook.held_item_id) if cook.held_item_id != "" else &""
+			var aim_data: Dictionary = throw_system.update_aim(cook.cook_id, cook.position, cook.facing_direction, delta, recipe_hint, seats, true)
+			var marker_type: StringName = &"TERSAJI"
+			if aim_data.get("would_be_jitu", false):
+				marker_type = &"JITU"
+			elif aim_data.get("target_seat") == null:
+				marker_type = &"MISSED"
+			preview_view.update_preview(true, cook.position, aim_data["landing"], aim_data["r_tiles"], marker_type)
+
+	if Input.is_action_just_released(prefix + "_throw"):
+		cook.is_aiming_throw = false
+		if preview_view:
+			preview_view.update_preview(false, Vector2.ZERO, Vector2.ZERO, 0.0, &"")
+		var hold_t: float = float(throw_hold_times[prefix])
+		var seats: Array = lapak.all_seats() if lapak else []
+		var item_name: StringName = StringName(cook.held_item_id)
+		var is_dish: bool = String(item_name).begins_with("dish_")
+		
+		if throw_system:
+			if hold_t < 0.18 and not is_dish:
+				# Quick throw bahan
+				throw_system.throw_quick(cook.cook_id, item_name, cook.position, cook.facing_direction)
+				cook.held_item_id = ""
+			else:
+				# Aimed throw
+				throw_system.throw_aimed(cook.cook_id, item_name, is_dish, item_name, cook.position, cook.facing_direction, seats, monsters, true)
+				cook.held_item_id = ""
+
+func _handle_throw_resolved_event(ev: Dictionary) -> void:
+	var r_type: StringName = ev.get("result", &"MISSED")
+	var l_pos: Vector2 = ev.get("landing_pos", Vector2.ZERO)
+	
+	if projectile_view:
+		match r_type:
+			&"JITU":
+				projectile_view.add_floating_label("JITU! +25", l_pos, Color(0.2, 0.9, 0.3))
+			&"TERSAJI":
+				projectile_view.add_floating_label("TERSAJI", l_pos, Color(1.0, 0.85, 0.2))
+			&"WRONG_TABLE":
+				projectile_view.add_floating_label("MEJA SALAH! -50", l_pos, Color(0.9, 0.2, 0.2))
+			&"HIT_MONSTER":
+				projectile_view.add_floating_label("KENA MONSTER! -25", l_pos, Color(0.95, 0.5, 0.1))
+			&"MISSED":
+				projectile_view.add_floating_label("MELESET! -25", l_pos, Color(0.8, 0.2, 0.2))
+			&"AUTOCATCH":
+				projectile_view.add_floating_label("TERTANGKAP!", l_pos, Color(0.3, 0.8, 1.0))
+
+	if crowd_controller:
+		if r_type == &"JITU" or r_type == &"TERSAJI":
+			crowd_controller.trigger_reaction(&"served")
+		elif r_type == &"WRONG_TABLE" or r_type == &"HIT_MONSTER" or r_type == &"MISSED":
+			crowd_controller.trigger_reaction(&"rage")
 
 func _tick_monster_spawn(delta: float) -> void:
 	if orders == null or lapak == null:
@@ -313,7 +446,6 @@ func _tick_monster_spawn(delta: float) -> void:
 func _spawn_monster() -> void:
 	var m: RefCounted = MonsterScript.new(next_monster_id, &"goblin")
 	next_monster_id += 1
-	# Pick a free seat
 	var free: Array = []
 	for seat: RefCounted in lapak.all_seats():
 		if seat.is_free():
@@ -324,7 +456,6 @@ func _spawn_monster() -> void:
 	seat.occupy(m.monster_id)
 	m.seat_id = seat.seat_id
 	m.position = seat.position
-	# Pick recipe
 	var recipes: Array = []
 	if level_data:
 		for r: StringName in level_data.active_recipes:
@@ -369,7 +500,6 @@ func _show_popup_for_level(id: StringName) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("p1_pause") or event.is_action_pressed("p2_pause"):
 		Game.toggle_pause()
-	# Debug: F1-F4 switch levels
 	if event is InputEventKey and event.pressed:
 		match (event as InputEventKey).keycode:
 			KEY_F1:

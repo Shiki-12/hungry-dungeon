@@ -15,6 +15,7 @@ duration_sec = 240.0
 seating = SubResource("Seat")
 active_recipes = [&"recipe_nasi_goreng_jamur", &"recipe_tempe_mendoan", &"recipe_bubur_singkong"]
 special_guest_id = &"mon_goblin_chief"
+unlocked_skills = [&"dash", &"dash_rangga"]
 hazards = []
 star_thresholds = Vector3i(550, 1100, 1550)
 plate_count = 5

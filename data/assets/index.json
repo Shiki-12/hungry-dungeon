@@ -110,6 +110,33 @@
       "prefix": "bottom_center",
       "width": 16
     },
+    "emote_burn": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_burn",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_chat": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_chat",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_cheer": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_cheer",
+      "prefix": "center",
+      "width": 16
+    },
     "emote_chop": {
       "animations": [
         "loop:3:6:loop"
@@ -119,12 +146,138 @@
       "prefix": "center",
       "width": 16
     },
+    "emote_envy": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_envy",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_grumble": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_grumble",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_happy": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_happy",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_hungry": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_hungry",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_menu": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_menu",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_mix": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_mix",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_music": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_music",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_no": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_no",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_panic": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_panic",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_pound": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_pound",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_rage": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_rage",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_scared": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_scared",
+      "prefix": "center",
+      "width": 16
+    },
     "emote_stir": {
       "animations": [
         "loop:3:6:loop"
       ],
       "height": 16,
       "id": "emote_stir",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_wash": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_wash",
+      "prefix": "center",
+      "width": 16
+    },
+    "emote_yum": {
+      "animations": [
+        "loop:3:6:loop"
+      ],
+      "height": 16,
+      "id": "emote_yum",
       "prefix": "center",
       "width": 16
     },

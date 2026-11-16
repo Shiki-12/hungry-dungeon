@@ -231,8 +231,8 @@ Berdasarkan struktur repositori saat ini:
 ### M2.1 — Sistem Lempar Cepat, Lempar Bidik Busur, & Bantuan Bidik (`§9.6`)
 - **Referensi PRD v1.0:** `FR-THR-01` s.d. `FR-THR-16`, rumus `throw_math.gd`.
 - **Checklist Tugas:**
-  - [ ] Perbarui `res://sim/systems/throw_math.gd` agar memuat seluruh konstanta dan fungsi PRD v1.0 (`TILE = 16.0`, `MIN_R = 2.0`, `MAX_R = 8.0`, `RAMP_TIME = 1.2`, `SERVE_RADIUS = 12.0`, `JITU_RADIUS = 6.0`, `ASSIST_RADIUS = 20.0`, `range_at`, `flight_time`, `landing_point`, serta kalkulasi bantuan bidik).
-  - [ ] Buat `res://sim/entities/projectile.gd` (`class_name SimProjectile`) dan `res://sim/systems/throw_system.gd` (`class_name SimThrowSystem`):
+  - [x] Perbarui `res://sim/systems/throw_math.gd` agar memuat seluruh konstanta dan fungsi PRD v1.0 (`TILE = 16.0`, `MIN_R = 2.0`, `MAX_R = 8.0`, `RAMP_TIME = 1.2`, `SERVE_RADIUS = 12.0`, `JITU_RADIUS = 6.0`, `ASSIST_RADIUS = 20.0`, `range_at`, `flight_time`, `landing_point`, serta kalkulasi bantuan bidik).
+  - [x] Buat `res://sim/entities/projectile.gd` (`class_name SimProjectile`) dan `res://sim/systems/throw_system.gd` (`class_name SimThrowSystem`):
     - **Lempar Cepat (`FR-THR-01`):** Ketuk `throw` ($< 0.18\text{ s}$) saat memegang **bahan (`INGREDIENT` / `SNACK`)** melempar lurus sejauh $4.0\text{ tile}$ ke arah `Facing8`. Hidangan (`DISH`) tidak bisa dilempar cepat (`FR-THR-02`). Kuali dan sutil tidak bisa dilempar (`FR-THR-05`).
     - **Lempar Bidik (`FR-THR-02` s.d. `FR-THR-06`):** Tahan `throw` memperlambat gerak koki $50\%$, menonaktifkan `strike`, dan mengayunkan jarak antara $2.0..8.0\text{ tile}$ setiap $1.2\text{ s}$ (gelombang segitiga). Waktu terbang proyektil $0.4\text{ s}$ (pada $2\text{ tile}$) hingga $0.9\text{ s}$ (pada $8\text{ tile}$), cooldown lempar $0.3\text{ s}$ (`FR-THR-13`).
     - **Bantuan Bidik (`FR-THR-12`):** Aktif secara *default* untuk keyboard dan mati untuk gamepad (bisa diubah di `Settings`). Menempelkan titik jatuh ke pusat kursi berpesanan cocok terdekat dalam radius $20.0\text{ px}$. Hasil bantuan bidik dihitung **Tersaji**, kecuali titik jatuh *mentah* (sebelum ditempel) sudah berada dalam radius $\le 6.0\text{ px}$ DAN jarak lempar $\ge 3.0\text{ tile}$ (`FR-THR-14`), maka tetap dihitung **Jitu**.
@@ -243,27 +243,27 @@ Berdasarkan struktur repositori saat ini:
       4. **Mengenai Monster (mendarat di monster yang tidak duduk, misal antre/mengamuk):** Hancur, $-25\text{ poin}$, kesabaran $-25$, piring kembali ke rak setelah $10.0\text{ s}$.
       5. **Meleset (jatuh di lantai):** Hancur, $-25\text{ poin}$, kesabaran monster berpesanan cocok terdekat dalam $40\text{ px}$ berkurang $-15$, piring kembali ke rak setelah $10.0\text{ s}$.
     - **Resolusi Titik Jatuh Bahan (`FR-THR-10`):** Jika mendarat dalam $16\text{ px}$ dari rekan koki bertangan kosong $\rightarrow$ tertangkap otomatis. Jika masuk area terima stasiun yang cocok $\rightarrow$ masuk stasiun. Jika jatuh di lantai biasa $\rightarrow$ bisa dipungut.
-  - [ ] Buat `res://view/throw_preview_view.gd` dan `res://view/projectile_view.gd`:
+  - [x] Buat `res://view/throw_preview_view.gd` dan `res://view/projectile_view.gd`:
     - Menggambar garis busur putus-putus parabola ($h = r_{\text{tiles}} \times 4.0\text{ px}$) dan penanda titik jatuh dengan bentuk berbeda untuk aksesibilitas buta warna (`FR-THR-03`, `NFR-ACC-02`): **Lingkaran Penuh Hijau** (Jitu), **Setengah Lingkaran Kuning** (Tersaji), dan **Silang Merah** (Meleset/Salah).
     - Menampilkan `Label` melayang untuk hasil lemparan (`FR-THR-15`).
-- **Verifikasi AI:** Perluas `res://tests/test_throw_math.gd` untuk menguji kelima hasil lemparan (`Jitu`, `Tersaji`, `Meja Salah`, `Mengenai Monster`, `Meleset`), streak 3x Jitu ($+50$), syarat minimal $3\text{ tile}$ untuk Jitu, Bantuan Bidik $20\text{ px}$, tangkapan otomatis rekan $16\text{ px}$, dan pengembalian piring hancur ke rak setelah $10.0\text{ s}$.
+- **Verifikasi AI:** Perluas `res://tests/test_throw_math.gd` dan `res://tests/test_throw_and_aim.gd` untuk menguji kelima hasil lemparan (`Jitu`, `Tersaji`, `Meja Salah`, `Mengenai Monster`, `Meleset`), streak 3x Jitu ($+50$), syarat minimal $3\text{ tile}$ untuk Jitu, Bantuan Bidik $20\text{ px}$, tangkapan otomatis rekan $16\text{ px}$, dan pengembalian piring hancur ke rak setelah $10.0\text{ s}$.
 
 ### M2.2 — Sistem Skill Koki Pertama (`Dash` Rangga) (`§7, §11`)
 - **Referensi PRD v1.0:** `FR-MOV-09`, Lampiran Konstanta Skill (`Dash` jarak $4\text{ tile}$, cooldown $6.0\text{ s}$).
 - **Checklist Tugas:**
-  - [ ] Buat `res://sim/systems/skills.gd` (`class_name SimSkillSystem`).
-  - [ ] Implementasikan `skill_1` milik Rangga (**`Dash`**): melesat cepat sejauh $4.0\text{ tile}$ ke arah `Facing8` (berhenti bila terhalang dinding/stasiun menggunakan `SimCollision`), cooldown $6.0\text{ s}$, dapat menghentikan Goblin `STEAL_RUN` saat menabraknya (`FR-MON-13`).
-- **Verifikasi AI:** Buat `res://tests/test_skills_and_combos.gd` yang menguji jarak `Dash`, benturan dinding saat `Dash`, cooldown $6.0\text{ s}$, dan penghentian Goblin pencuri.
+  - [x] Buat `res://sim/systems/skills.gd` (`class_name SimSkillSystem`).
+  - [x] Implementasikan `skill_1` milik Rangga (**`Dash`**): melesat cepat sejauh $4.0\text{ tile}$ ke arah `Facing8` (berhenti bila terhalang dinding/stasiun menggunakan `SimCollision`), cooldown $6.0\text{ s}$, dapat menghentikan Goblin `STEAL_RUN` saat menabraknya (`FR-MON-13`).
+- **Verifikasi AI:** Buat `res://tests/test_skills_dash.gd` yang menguji jarak `Dash`, benturan dinding saat `Dash`, cooldown $6.0\text{ s}$, dan penghentian Goblin pencuri.
 
 ### M2.3 — Sistem 19 Emoticon (`EmoteView`) & Kerumunan Latar (`CrowdController`) (`§10.2, §13.2`)
 - **Referensi PRD v1.0:** `FR-EMO-01` s.d. `FR-EMO-06`, `FR-CRD-01` s.d. `FR-CRD-04`.
 - **Checklist Tugas:**
-  - [ ] Buat `res://view/emote_view.gd`:
+  - [x] Buat `res://view/emote_view.gd`:
     - Memetakan state dan event `sim/` ke 19 emoticon $16 \times 16\text{ px}$ lewat `EmoteMapData` (`FR-EMO-01`, `FR-EMO-02`):
       - Koki (9): `emote_chop`, `emote_mix`, `emote_pound`, `emote_stir`, `emote_wash`, `emote_burn`, `emote_panic`, `emote_cheer`, `emote_no`.
       - Monster (10): `emote_menu`, `emote_hungry`, `emote_grumble`, `emote_rage`, `emote_yum`, `emote_happy`, `emote_scared`, `emote_chat`, `emote_music`, `emote_envy`.
     - Satu emoticon per entitas pada satu waktu, tampil selama `work` ditahan + $0.3\text{ s}$ sesudahnya, digambar pada lapisan di atas entitas tetangga tanpa menutupi balon pesanan (`FR-EMO-03` s.d. `FR-EMO-05`).
-  - [ ] Buat `res://view/crowd_controller.gd` (`class_name CrowdController`):
+  - [x] Buat `res://view/crowd_controller.gd` (`class_name CrowdController`):
     - Menampilkan monster latar murni di `view/` (antre di terowongan, berjalan lewat, menonton) menggunakan RNG tampilan sendiri (`FR-CRD-01`, `FR-CRD-04`), bereaksi dengan emoticon saat ada event dapur (`FR-CRD-02`), dan mematuhi pengaturan kepadatan (`OFF`, `LOW`, `NORMAL` — `FR-CRD-03`).
 - **Verifikasi AI:** Tambahkan pengujian unit pada `res://tests/test_emote_and_crowd.gd` bahwa seluruh 19 ID emoticon terdaftar di `Assets` dan pemetaan `EmoteMapData` mengembalikan ID yang tepat untuk tiap aksi kerja dan tahap kesabaran.
 
