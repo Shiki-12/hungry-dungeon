@@ -16,7 +16,6 @@ var active_tickets: Array[Dictionary] = [] # Array of { order_id, recipe_id, pat
 
 func _init() -> void:
 	custom_minimum_size = Vector2(HUD_W, HUD_H)
-	size = Vector2(HUD_W, HUD_H)
 
 func _ready() -> void:
 	_build_hud()

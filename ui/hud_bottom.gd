@@ -21,7 +21,6 @@ var skill_cooldowns: Dictionary = {
 
 func _init() -> void:
 	custom_minimum_size = Vector2(HUD_W, HUD_H)
-	size = Vector2(HUD_W, HUD_H)
 
 func _ready() -> void:
 	_connect_events()

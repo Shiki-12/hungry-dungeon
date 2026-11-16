@@ -16,7 +16,7 @@ var facing_direction: Vector2 = Vector2.DOWN
 var is_aiming_throw: bool = false
 var held_item_id: String = ""
 
-func step(input_vector: Vector2, delta: float, blocked_cells: Array[Vector2i] = [], obstacles: Array[Rect2] = []) -> void:
+func step(input_vector: Vector2, delta: float, blocked_cells: Array = [], obstacles: Array = []) -> void:
 	var direction: Vector2 = input_vector
 	if direction.length_squared() > 1.0:
 		direction = direction.normalized()
