@@ -86,7 +86,18 @@ const LEVEL_PATHS: Array[String] = [
 
 func _ready() -> void:
 	_build_ui()
-	load_level(LEVEL_PATHS[0])
+	var target_path: String = LEVEL_PATHS[0]
+	var loop: MainLoop = Engine.get_main_loop()
+	if loop is SceneTree and (loop as SceneTree).root:
+		var game_node: Node = (loop as SceneTree).root.get_node_or_null("Game")
+		if game_node and not String(game_node.get("current_level_id")).is_empty():
+			var cur_id: String = String(game_node.get("current_level_id")).replace("-", "_")
+			if not cur_id.begins_with("level_") and not cur_id.begins_with("tutorial_"):
+				cur_id = "level_" + cur_id
+			var test_path: String = "res://data/levels/%s.tres" % cur_id
+			if ResourceLoader.exists(test_path):
+				target_path = test_path
+	load_level(target_path)
 
 func _build_ui() -> void:
 	# HUD Top (480x30 px) — FR-UI-01
@@ -964,8 +975,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("p1_pause") or event.is_action_pressed("p2_pause"):
 		Game.toggle_pause()
 		if Game.is_game_paused:
+			var canvas_layer := CanvasLayer.new()
+			canvas_layer.layer = 30
+			canvas_layer.process_mode = Node.PROCESS_MODE_ALWAYS
 			var pause_dlg: Node = PauseMenuScene.instantiate()
-			add_child(pause_dlg)
+			canvas_layer.add_child(pause_dlg)
+			add_child(canvas_layer)
+			pause_dlg.tree_exited.connect(canvas_layer.queue_free)
 	if event is InputEventKey and event.pressed:
 		match (event as InputEventKey).keycode:
 			KEY_F1:

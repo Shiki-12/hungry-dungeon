@@ -1,8 +1,12 @@
 extends RefCounted
 
-## Test: Main Menu flow — phases, submenus, readiness widget, project.godot main_scene.
+## Test: Main Menu flow, World Map, Coop Ready Screen, Settings Menu, & Pause Menu.
 
 const MainMenuScript: Script = preload("res://ui/main_menu.gd")
+const WorldMapScript: Script = preload("res://ui/world_map.gd")
+const CoopReadyScript: Script = preload("res://ui/coop_ready_screen.gd")
+const PauseMenuScript: Script = preload("res://ui/pause_menu.gd")
+const SettingsMenuScript: Script = preload("res://ui/settings_menu.gd")
 
 var _pass_count: int = 0
 var _fail_count: int = 0
@@ -14,9 +18,14 @@ func run_all() -> bool:
 	_test_advance_to_menu()
 	_test_menu_items_count()
 	_test_submenu_open_close()
-	_test_readiness_widget()
+	_test_no_readiness_widget_in_main_menu()
+	_test_settings_menu_no_freeze()
 	_test_locked_button_no_crash()
 	_test_navigate_menu()
+	_test_world_map_chapter_locks()
+	_test_world_map_level_selection()
+	_test_coop_ready_screen_flow()
+	_test_pause_menu_centered_and_buttons()
 
 	print("  test_main_menu_flow: %d passed, %d failed" % [_pass_count, _fail_count])
 	return _fail_count == 0
@@ -31,7 +40,6 @@ func _assert(condition: bool, msg: String) -> void:
 # ── Tests ────────────────────────────────────────────────────────────────────
 
 func _test_project_main_scene() -> void:
-	# Verify project.godot points to main_menu.tscn
 	var file: FileAccess = FileAccess.open("res://project.godot", FileAccess.READ)
 	if file == null:
 		_assert(false, "Cannot open project.godot")
@@ -43,7 +51,6 @@ func _test_project_main_scene() -> void:
 
 func _test_initial_phase_is_loading() -> void:
 	var menu: Control = MainMenuScript.new()
-	# Phase.LOADING == 0
 	_assert(menu.get_phase() == 0, "Initial phase should be LOADING (0)")
 	_assert(menu.get_loading_progress() == 0.0, "Initial loading progress should be 0.0")
 	menu.free()
@@ -51,7 +58,6 @@ func _test_initial_phase_is_loading() -> void:
 func _test_skip_intro_moves_to_title_gate() -> void:
 	var menu: Control = MainMenuScript.new()
 	menu.skip_intro()
-	# Phase.TITLE_GATE == 1
 	_assert(menu.get_phase() == 1, "After skip_intro, phase should be TITLE_GATE (1)")
 	_assert(menu.get_loading_progress() >= 1.0, "After skip_intro, loading progress should be 1.0")
 	menu.free()
@@ -59,14 +65,11 @@ func _test_skip_intro_moves_to_title_gate() -> void:
 func _test_advance_to_menu() -> void:
 	var menu: Control = MainMenuScript.new()
 	menu.advance_to_menu()
-	# Phase.MENU == 2
 	_assert(menu.get_phase() == 2, "After advance_to_menu, phase should be MENU (2)")
 	menu.free()
 
 func _test_menu_items_count() -> void:
-	# Verify 6 menu items exist in const
 	_assert(MainMenuScript.MENU_ITEMS.size() == 6, "Should have 6 menu items")
-	# Check IDs
 	var ids: Array = []
 	for item: Dictionary in MainMenuScript.MENU_ITEMS:
 		ids.append(item["id"])
@@ -83,32 +86,92 @@ func _test_submenu_open_close() -> void:
 	_assert(menu.get_submenu_active() == "", "No submenu active initially")
 	menu.free()
 
-func _test_readiness_widget() -> void:
+func _test_no_readiness_widget_in_main_menu() -> void:
 	var menu: Control = MainMenuScript.new()
 	menu.advance_to_menu()
-	_assert(not menu.is_p1_ready(), "P1 should not be ready initially")
-	_assert(not menu.is_p2_ready(), "P2 should not be ready initially")
-
-	menu.set_p1_ready(true)
-	_assert(menu.is_p1_ready(), "P1 should be ready after set_p1_ready(true)")
-	_assert(not menu.is_p2_ready(), "P2 should still not be ready")
-
-	menu.set_p2_ready(true)
-	_assert(menu.is_p2_ready(), "P2 should be ready after set_p2_ready(true)")
+	# Readiness widget has been removed from Main Menu (moved to coop_ready_screen)
+	_assert(not menu.has_method("is_p1_ready"), "Main Menu should NOT have is_p1_ready (moved to coop_ready_screen)")
+	_assert(not menu.has_method("is_p2_ready"), "Main Menu should NOT have is_p2_ready (moved to coop_ready_screen)")
 	menu.free()
 
+func _test_settings_menu_no_freeze() -> void:
+	var settings: Control = SettingsMenuScript.new()
+	settings._ready()
+	_assert(settings.size == Vector2(480, 270), "SettingsMenu size must be 480x270")
+	_assert(SettingsMenuScript.OPTIONS.size() >= 5, "SettingsMenu must provide audio & gameplay options")
+	var vals: Array = settings.get_values()
+	_assert(vals.size() == SettingsMenuScript.OPTIONS.size(), "Settings values match options size")
+	settings.free()
+
 func _test_locked_button_no_crash() -> void:
-	# MODE WARUNG is at index 3 and locked — verify no crash on access
 	var item: Dictionary = MainMenuScript.MENU_ITEMS[3] as Dictionary
 	var locked: bool = item.get("locked", false) as bool
 	_assert(locked, "Item at index 3 (warung) should be locked")
 	_assert(item["id"] as String == "warung", "Item at index 3 should be 'warung'")
 
 func _test_navigate_menu() -> void:
-	# Simple navigation logic test via menu state
 	var menu: Control = MainMenuScript.new()
 	menu.advance_to_menu()
-	# Selected index starts at 0
-	# We can't directly test _selected_index (private), but menu doesn't crash on creation
 	_assert(menu.get_phase() == 2, "Menu should be in MENU phase for navigation")
 	menu.free()
+
+func _test_world_map_chapter_locks() -> void:
+	var wm: Control = WorldMapScript.new()
+	wm._ready()
+	_assert(wm.size == Vector2(480, 270), "WorldMap size must be 480x270")
+	_assert(WorldMapScript.CHAPTERS.size() == 5, "WorldMap must have 5 chapters")
+	# Chapter 1 unlocked by default
+	_assert(wm.is_chapter_unlocked(0), "Chapter 1 must be unlocked by default")
+	# Chapter 2-5 locked without save progression
+	_assert(not wm.is_chapter_unlocked(1), "Chapter 2 must be locked without completing 1-4")
+	_assert(not wm.is_chapter_unlocked(2), "Chapter 3 must be locked without completing 2-4")
+	_assert(not wm.is_chapter_unlocked(3), "Chapter 4 must be locked without completing 3-4")
+	_assert(not wm.is_chapter_unlocked(4), "Chapter 5 must be locked without completing 4-4")
+	wm.free()
+
+func _test_world_map_level_selection() -> void:
+	var wm: Control = WorldMapScript.new()
+	wm._ready()
+	_assert(wm.get_mode() == 0, "Initial mode must be CHAPTER_SELECT (0)")
+	_assert(wm.get_selected_chapter() == 0, "Default chapter selection must be Chapter 1 (0)")
+	wm.free()
+
+func _test_coop_ready_screen_flow() -> void:
+	var ready_scr: Control = CoopReadyScript.new()
+	ready_scr._ready()
+	_assert(ready_scr.size == Vector2(480, 270), "CoopReadyScreen size must be 480x270")
+	_assert(not ready_scr.is_p1_ready(), "P1 initially not ready")
+	_assert(not ready_scr.is_p2_ready(), "P2 initially not ready")
+	_assert(not ready_scr.is_countdown_active(), "Countdown not active initially")
+
+	# Set P1 ready
+	ready_scr.set_p1_ready(true)
+	ready_scr._check_both_ready()
+	_assert(ready_scr.is_p1_ready(), "P1 should be ready")
+	_assert(not ready_scr.is_countdown_active(), "Countdown should NOT trigger with only P1 ready")
+
+	# Set P2 ready -> Countdown triggers!
+	ready_scr.set_p2_ready(true)
+	ready_scr._check_both_ready()
+	_assert(ready_scr.is_p2_ready(), "P2 should be ready")
+	_assert(ready_scr.is_countdown_active(), "Countdown MUST be active when both P1 & P2 are ready")
+
+	ready_scr.free()
+
+func _test_pause_menu_centered_and_buttons() -> void:
+	var pm: Control = PauseMenuScript.new()
+	pm._ready()
+	_assert(pm.size == Vector2(480, 270), "PauseMenu canvas size must be 480x270")
+	_assert(pm.custom_minimum_size == Vector2(480, 270), "PauseMenu custom_minimum_size must be 480x270")
+
+	# Panel 200x160 centered at (240, 135)
+	var prect: Rect2 = pm.get_panel_rect()
+	var expected_x: float = (480.0 - 200.0) / 2.0 # 140.0
+	var expected_y: float = (270.0 - 160.0) / 2.0 # 55.0
+	_assert(is_equal_approx(prect.position.x, expected_x), "Pause panel x centered: %f == %f" % [prect.position.x, expected_x])
+	_assert(is_equal_approx(prect.position.y, expected_y), "Pause panel y centered: %f == %f" % [prect.position.y, expected_y])
+	_assert(is_equal_approx(prect.size.x, 200.0), "Pause panel width is 200")
+	_assert(is_equal_approx(prect.size.y, 160.0), "Pause panel height is 160")
+	_assert(PauseMenuScript.BUTTONS.size() == 5, "PauseMenu must have 5 buttons")
+
+	pm.free()

@@ -6,6 +6,7 @@ extends RefCounted
 const HudTopScript: Script = preload("res://ui/hud_top.gd")
 const HudBottomScript: Script = preload("res://ui/hud_bottom.gd")
 const OrderBubbleScript: Script = preload("res://view/order_bubble_view.gd")
+const PauseMenuScript: Script = preload("res://ui/pause_menu.gd")
 
 static func run_all() -> bool:
 	if not _test_theme_resource():
@@ -15,6 +16,8 @@ static func run_all() -> bool:
 	if not _test_hud_bottom_dimensions_and_cooldown():
 		return false
 	if not _test_order_bubble_offsets_and_patience():
+		return false
+	if not _test_pause_menu_centered():
 		return false
 	return true
 
@@ -122,4 +125,19 @@ static func _test_order_bubble_offsets_and_patience() -> bool:
 		return false
 
 	bubble.free()
+	return true
+
+static func _test_pause_menu_centered() -> bool:
+	var pm: Control = PauseMenuScript.new()
+	pm._ready()
+	if not pm.size.is_equal_approx(Vector2(480.0, 270.0)):
+		push_error("Pause menu canvas size mismatch: %s" % pm.size)
+		pm.free()
+		return false
+	var prect: Rect2 = pm.get_panel_rect()
+	if not is_equal_approx(prect.position.x, 140.0) or not is_equal_approx(prect.position.y, 55.0):
+		push_error("Pause menu panel not centered at (240, 135): %s" % prect)
+		pm.free()
+		return false
+	pm.free()
 	return true
