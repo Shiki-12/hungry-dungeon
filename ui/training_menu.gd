@@ -12,13 +12,15 @@ func _ready() -> void:
 	$BtnBack.pressed.connect(_on_back_pressed)
 
 func _load_tutorial(idx: int) -> void:
-	var path: String = "res://data/levels/tutorial_%d.tres" % idx
+	var _path: String = "res://data/levels/tutorial_%d.tres" % idx
 	# Ubah level aktif di Game autoload dan muat stage
 	if Engine.has_singleton("Game") or (Engine.get_main_loop() is SceneTree and Engine.get_main_loop().root.has_node("Game")):
 		var game_node: Node = Engine.get_main_loop().root.get_node("Game")
 		if game_node:
 			game_node.set("current_level_id", "tutorial_%d" % idx)
-	get_tree().change_scene_to_file("res://levels/kitchen_stage.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://levels/kitchen_stage.tscn")
 
 func _on_back_pressed() -> void:
-	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://ui/main_menu.tscn")

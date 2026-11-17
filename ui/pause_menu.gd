@@ -42,27 +42,31 @@ func _ready() -> void:
 	set_process(true)
 	set_process_input(true)
 
+func _mark_input_handled() -> void:
+	if is_inside_tree() and get_viewport() != null:
+		get_viewport().set_input_as_handled()
+
 func _input(event: InputEvent) -> void:
 	# Esc -> resume
 	if event is InputEventKey and event.pressed:
 		var kc: int = (event as InputEventKey).keycode
 		if kc == KEY_ESCAPE:
+			_mark_input_handled()
 			_do_resume()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_ENTER or kc == KEY_KP_ENTER:
+			_mark_input_handled()
 			_activate(_selected)
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_W or kc == KEY_UP:
+			_mark_input_handled()
 			_selected = (_selected - 1 + BUTTONS.size()) % BUTTONS.size()
 			queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_S or kc == KEY_DOWN:
+			_mark_input_handled()
 			_selected = (_selected + 1) % BUTTONS.size()
 			queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 
 	if event is InputEventMouseButton and event.pressed:
@@ -70,8 +74,8 @@ func _input(event: InputEvent) -> void:
 		if mb.button_index == MOUSE_BUTTON_LEFT:
 			var idx: int = _get_button_at(mb.position)
 			if idx >= 0:
+				_mark_input_handled()
 				_activate(idx)
-			get_viewport().set_input_as_handled()
 
 	if event is InputEventMouseMotion:
 		var idx: int = _get_button_at((event as InputEventMouseMotion).position)
@@ -128,13 +132,15 @@ func _do_chapter() -> void:
 	var game_node: Node = _get_autoload("Game")
 	if game_node:
 		game_node.call("set_paused", false)
-	get_tree().change_scene_to_file("res://ui/world_map.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://ui/world_map.tscn")
 
 func _do_main_menu() -> void:
 	var game_node: Node = _get_autoload("Game")
 	if game_node:
 		game_node.call("set_paused", false)
-	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://ui/main_menu.tscn")
 
 func _draw() -> void:
 	# Overlay gelap penuh

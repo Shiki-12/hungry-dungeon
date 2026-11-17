@@ -62,6 +62,10 @@ func _process(delta: float) -> void:
 
 	queue_redraw()
 
+func _mark_input_handled() -> void:
+	if is_inside_tree() and get_viewport() != null:
+		get_viewport().set_input_as_handled()
+
 func _input(event: InputEvent) -> void:
 	if _countdown_active:
 		return
@@ -70,33 +74,35 @@ func _input(event: InputEvent) -> void:
 		var kc: int = (event as InputEventKey).keycode
 		# Esc -> cancel ready or go back
 		if kc == KEY_ESCAPE:
+			_mark_input_handled()
 			if _p1_ready or _p2_ready:
 				_p1_ready = false
 				_p2_ready = false
 			else:
-				get_tree().change_scene_to_file("res://ui/world_map.tscn")
-			get_viewport().set_input_as_handled()
+				if is_inside_tree() and get_tree():
+					get_tree().change_scene_to_file.call_deferred("res://ui/world_map.tscn")
 			return
 
 		# P1: E or Space
 		if kc == KEY_E or kc == KEY_SPACE:
+			_mark_input_handled()
 			_p1_ready = true
 			_p1_bounce = 1.0
 			_check_both_ready()
-			get_viewport().set_input_as_handled()
 			return
 
 		# P2: Period or Enter
 		if kc == KEY_PERIOD or kc == KEY_ENTER or kc == KEY_KP_ENTER:
+			_mark_input_handled()
 			_p2_ready = true
 			_p2_bounce = 1.0
 			_check_both_ready()
-			get_viewport().set_input_as_handled()
 			return
 
 	if event is InputEventMouseButton and event.pressed:
 		var mb: InputEventMouseButton = event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
+			_mark_input_handled()
 			# Click on P1 card
 			if mb.position.x >= 30.0 and mb.position.x <= 220.0 and mb.position.y >= 90.0 and mb.position.y <= 220.0:
 				_p1_ready = true
@@ -107,7 +113,6 @@ func _input(event: InputEvent) -> void:
 				_p2_ready = true
 				_p2_bounce = 1.0
 				_check_both_ready()
-			get_viewport().set_input_as_handled()
 
 func _check_both_ready() -> void:
 	if _p1_ready and _p2_ready and not _countdown_active:
@@ -118,7 +123,8 @@ func _go_to_kitchen() -> void:
 	var game_node: Node = _get_autoload("Game")
 	if game_node and "current_level_id" in game_node:
 		game_node.set("current_level_id", _level_id)
-	get_tree().change_scene_to_file("res://levels/kitchen_stage.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://levels/kitchen_stage.tscn")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # DRAWING
@@ -161,7 +167,7 @@ func _draw() -> void:
 	draw_rect(Rect2(0, VIEWPORT_H - 14, VIEWPORT_W, 14), Color(0.06, 0.06, 0.08, 0.9))
 	draw_string(font, Vector2(4.0, float(VIEWPORT_H) - 4.0), "Esc: Batalkan / Kembali", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
 
-func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls: String, ready: bool, bounce: float, letter: String) -> void:
+func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls: String, is_ready: bool, bounce: float, letter: String) -> void:
 	var font: Font = get_theme_default_font()
 	var card_w: float = 190.0
 	var card_h: float = 155.0
@@ -169,7 +175,7 @@ func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls
 
 	# Card BG
 	draw_rect(Rect2(cx, cy + bounce_offset, card_w, card_h), COL_CARD_BG)
-	var border: Color = COL_READY if ready else COL_CARD_BORDER
+	var border: Color = COL_READY if is_ready else COL_CARD_BORDER
 	draw_rect(Rect2(cx, cy + bounce_offset, card_w, 1.0), border)
 	draw_rect(Rect2(cx, cy + bounce_offset + card_h - 1.0, card_w, 1.0), border)
 	draw_rect(Rect2(cx, cy + bounce_offset, 1.0, card_h), border)
@@ -189,13 +195,13 @@ func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls
 	draw_string(font, Vector2(cx + 8.0, cy + bounce_offset + 110.0), controls, HORIZONTAL_ALIGNMENT_LEFT, int(card_w - 16.0), 8, COL_HINT)
 
 	# Ready status
-	var status: String = "SIAP!" if ready else "BELUM SIAP"
-	var status_col: Color = COL_READY if ready else COL_NOT_READY
+	var status: String = "SIAP!" if is_ready else "BELUM SIAP"
+	var status_col: Color = COL_READY if is_ready else COL_NOT_READY
 	var status_w: Vector2 = font.get_string_size(status, HORIZONTAL_ALIGNMENT_LEFT, -1, 10)
 	draw_string(font, Vector2(cx + (card_w - status_w.x) / 2.0, cy + bounce_offset + card_h - 16.0), status, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, status_col)
 
 	# Glow border if ready
-	if ready:
+	if is_ready:
 		var glow_alpha: float = 0.15 + 0.1 * sin(_time * 4.0)
 		draw_rect(Rect2(cx - 1.0, cy + bounce_offset - 1.0, card_w + 2.0, card_h + 2.0), Color(COL_READY.r, COL_READY.g, COL_READY.b, glow_alpha))
 

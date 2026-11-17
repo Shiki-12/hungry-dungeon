@@ -26,6 +26,7 @@ func run_all() -> bool:
 	_test_world_map_level_selection()
 	_test_coop_ready_screen_flow()
 	_test_pause_menu_centered_and_buttons()
+	_test_input_events_in_scene_tree_no_null_crash()
 
 	print("  test_main_menu_flow: %d passed, %d failed" % [_pass_count, _fail_count])
 	return _fail_count == 0
@@ -175,3 +176,92 @@ func _test_pause_menu_centered_and_buttons() -> void:
 	_assert(PauseMenuScript.BUTTONS.size() == 5, "PauseMenu must have 5 buttons")
 
 	pm.free()
+
+func _test_input_events_in_scene_tree_no_null_crash() -> void:
+	var root: Window = null
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	if tree != null:
+		root = tree.root
+
+	var make_key: Callable = func(code: Key) -> InputEventKey:
+		var ev := InputEventKey.new()
+		ev.keycode = code
+		ev.pressed = true
+		return ev
+
+	# 1. Test world_map
+	var wm: Control = WorldMapScript.new()
+	if root != null:
+		root.add_child(wm)
+	wm._ready()
+	wm._input(make_key.call(KEY_ENTER))
+	wm._input(make_key.call(KEY_ESCAPE))
+	wm._input(make_key.call(KEY_W))
+	wm._input(make_key.call(KEY_S))
+	_assert(true, "world_map handles input inside tree without null viewport crash")
+	if root != null:
+		root.remove_child(wm)
+	wm.free()
+
+	var wm_orphan: Control = WorldMapScript.new()
+	wm_orphan._input(make_key.call(KEY_ENTER))
+	wm_orphan._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "world_map handles input when outside tree without crash")
+	wm_orphan.free()
+
+	# 2. Test coop_ready_screen
+	var cr: Control = CoopReadyScript.new()
+	if root != null:
+		root.add_child(cr)
+	cr._ready()
+	cr._input(make_key.call(KEY_ENTER))
+	cr._input(make_key.call(KEY_ESCAPE))
+	cr._input(make_key.call(KEY_E))
+	cr._input(make_key.call(KEY_PERIOD))
+	_assert(true, "coop_ready_screen handles input inside tree without null viewport crash")
+	if root != null:
+		root.remove_child(cr)
+	cr.free()
+
+	var cr_orphan: Control = CoopReadyScript.new()
+	cr_orphan._input(make_key.call(KEY_ENTER))
+	cr_orphan._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "coop_ready_screen handles input when outside tree without crash")
+	cr_orphan.free()
+
+	# 3. Test main_menu
+	var mm: Control = MainMenuScript.new()
+	if root != null:
+		root.add_child(mm)
+	mm._ready()
+	mm.advance_to_menu()
+	mm._input(make_key.call(KEY_ENTER))
+	mm._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "main_menu handles input inside tree without null viewport crash")
+	if root != null:
+		root.remove_child(mm)
+	mm.free()
+
+	var mm_orphan: Control = MainMenuScript.new()
+	mm_orphan._input(make_key.call(KEY_ENTER))
+	mm_orphan._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "main_menu handles input when outside tree without crash")
+	mm_orphan.free()
+
+	# 4. Test pause_menu
+	var pm: Control = PauseMenuScript.new()
+	if root != null:
+		root.add_child(pm)
+	pm._ready()
+	pm._input(make_key.call(KEY_ENTER))
+	pm._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "pause_menu handles input inside tree without null viewport crash")
+	if root != null:
+		root.remove_child(pm)
+	pm.free()
+
+	var pm_orphan: Control = PauseMenuScript.new()
+	pm_orphan._input(make_key.call(KEY_ENTER))
+	pm_orphan._input(make_key.call(KEY_ESCAPE))
+	_assert(true, "pause_menu handles input when outside tree without crash")
+	pm_orphan.free()

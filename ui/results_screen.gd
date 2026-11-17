@@ -41,7 +41,8 @@ func _update_display() -> void:
 	stars_lbl.text = s_text
 
 func _on_next() -> void:
-	get_tree().change_scene_to_file("res://levels/kitchen_stage.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://levels/kitchen_stage.tscn")
 
 func _on_retry() -> void:
 	if Engine.has_singleton("Game") or (Engine.get_main_loop() is SceneTree and Engine.get_main_loop().root.has_node("Game")):
@@ -49,7 +50,9 @@ func _on_retry() -> void:
 		if game_node:
 			game_node.call("restart_current_level")
 			return
-	get_tree().reload_current_scene()
+	if is_inside_tree() and get_tree():
+		get_tree().reload_current_scene.call_deferred()
 
 func _on_menu() -> void:
-	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://ui/main_menu.tscn")

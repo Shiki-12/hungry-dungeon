@@ -64,34 +64,39 @@ func _load_values() -> void:
 			else:
 				_values.append(false)
 
+func _mark_input_handled() -> void:
+	if is_inside_tree() and get_viewport() != null:
+		get_viewport().set_input_as_handled()
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		var kc: int = (event as InputEventKey).keycode
 		if kc == KEY_ESCAPE:
+			_mark_input_handled()
 			_save_and_close()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_W or kc == KEY_UP:
+			_mark_input_handled()
 			_selected = (_selected - 1 + OPTIONS.size()) % OPTIONS.size()
 			queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_S or kc == KEY_DOWN:
+			_mark_input_handled()
 			_selected = (_selected + 1) % OPTIONS.size()
 			queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 		# Adjust value
 		var opt: Dictionary = OPTIONS[_selected] as Dictionary
 		var opt_type: String = opt["type"] as String
 		if kc == KEY_ENTER or kc == KEY_KP_ENTER:
+			_mark_input_handled()
 			if opt_type == "toggle":
 				_values[_selected] = not (_values[_selected] as bool)
 				_apply_value(_selected)
 				queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_A or kc == KEY_LEFT:
+			_mark_input_handled()
 			if opt_type == "slider":
 				_values[_selected] = maxf(0.0, (_values[_selected] as float) - 0.1)
 				_apply_value(_selected)
@@ -100,9 +105,9 @@ func _input(event: InputEvent) -> void:
 				_values[_selected] = false
 				_apply_value(_selected)
 				queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 		if kc == KEY_D or kc == KEY_RIGHT:
+			_mark_input_handled()
 			if opt_type == "slider":
 				_values[_selected] = minf(1.0, (_values[_selected] as float) + 0.1)
 				_apply_value(_selected)
@@ -111,12 +116,12 @@ func _input(event: InputEvent) -> void:
 				_values[_selected] = true
 				_apply_value(_selected)
 				queue_redraw()
-			get_viewport().set_input_as_handled()
 			return
 
 	if event is InputEventMouseButton and event.pressed:
 		var mb: InputEventMouseButton = event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
+			_mark_input_handled()
 			var idx: int = _get_row_at(mb.position)
 			if idx >= 0:
 				_selected = idx
@@ -139,7 +144,6 @@ func _input(event: InputEvent) -> void:
 			var back_y: float = panel_y2 + PANEL_H - 24.0
 			if mb.position.x >= panel_x2 + 10.0 and mb.position.x <= panel_x2 + 110.0 and mb.position.y >= back_y and mb.position.y <= back_y + 18.0:
 				_save_and_close()
-			get_viewport().set_input_as_handled()
 
 	if event is InputEventMouseMotion:
 		var idx: int = _get_row_at((event as InputEventMouseMotion).position)

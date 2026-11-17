@@ -60,18 +60,23 @@ func _process(delta: float) -> void:
 			_shake_target = -1
 	queue_redraw()
 
+func _mark_input_handled() -> void:
+	if is_inside_tree() and get_viewport() != null:
+		get_viewport().set_input_as_handled()
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		var kc: int = (event as InputEventKey).keycode
+		_mark_input_handled()
 		if _mode == ViewMode.CHAPTER_SELECT:
 			_handle_chapter_input(kc)
 		else:
 			_handle_level_input(kc)
-		get_viewport().set_input_as_handled()
 
-	if event is InputEventMouseButton and event.pressed:
+	elif event is InputEventMouseButton and event.pressed:
 		var mb: InputEventMouseButton = event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
+			_mark_input_handled()
 			if _mode == ViewMode.CHAPTER_SELECT:
 				var idx: int = _get_chapter_at(mb.position)
 				if idx >= 0:
@@ -85,9 +90,8 @@ func _input(event: InputEvent) -> void:
 				# Check back button
 				if mb.position.x >= 10.0 and mb.position.x <= 110.0 and mb.position.y >= float(VIEWPORT_H) - 24.0 and mb.position.y <= float(VIEWPORT_H) - 6.0:
 					_mode = ViewMode.CHAPTER_SELECT
-			get_viewport().set_input_as_handled()
 
-	if event is InputEventMouseMotion:
+	elif event is InputEventMouseMotion:
 		if _mode == ViewMode.CHAPTER_SELECT:
 			var idx: int = _get_chapter_at((event as InputEventMouseMotion).position)
 			if idx >= 0:
@@ -106,7 +110,8 @@ func _handle_chapter_input(kc: int) -> void:
 		KEY_ENTER, KEY_KP_ENTER:
 			_try_enter_chapter()
 		KEY_ESCAPE:
-			get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+			if is_inside_tree() and get_tree():
+				get_tree().change_scene_to_file.call_deferred("res://ui/main_menu.tscn")
 
 func _handle_level_input(kc: int) -> void:
 	var chapter: Dictionary = CHAPTERS[_selected_chapter] as Dictionary
@@ -143,7 +148,8 @@ func _try_select_level() -> void:
 	var game_node: Node = _get_autoload("Game")
 	if game_node:
 		game_node.set("current_level_id", level_id.replace("-", "_"))
-	get_tree().change_scene_to_file("res://ui/coop_ready_screen.tscn")
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred("res://ui/coop_ready_screen.tscn")
 
 func _is_chapter_unlocked(chapter_idx: int) -> bool:
 	if chapter_idx == 0:
@@ -154,7 +160,7 @@ func _is_chapter_unlocked(chapter_idx: int) -> bool:
 		return true
 	return _has_completed_level(unlock_after)
 
-func _is_level_unlocked(level_id: String, level_idx: int) -> bool:
+func _is_level_unlocked(_level_id: String, level_idx: int) -> bool:
 	if level_idx == 0:
 		return true
 	var chapter: Dictionary = CHAPTERS[_selected_chapter] as Dictionary

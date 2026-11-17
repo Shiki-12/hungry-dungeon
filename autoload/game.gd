@@ -84,11 +84,13 @@ func end_level(is_win: bool, stars: int) -> void:
 
 func restart_current_level() -> void:
 	set_paused(false)
-	get_tree().reload_current_scene()
+	if is_inside_tree() and get_tree():
+		get_tree().reload_current_scene.call_deferred()
 
 func change_scene(scene_path: String) -> void:
 	set_paused(false)
-	get_tree().change_scene_to_file(scene_path)
+	if is_inside_tree() and get_tree():
+		get_tree().change_scene_to_file.call_deferred(scene_path)
 
 func _calculate_stars(score: int) -> int:
 	# Bintang default sebelum ada resource LevelData spesifik

@@ -203,6 +203,10 @@ func _input(event: InputEvent) -> void:
 	if _phase == Phase.MENU:
 		_handle_menu_input(event)
 
+func _mark_input_handled() -> void:
+	if is_inside_tree() and get_viewport() != null:
+		get_viewport().set_input_as_handled()
+
 func _handle_menu_input(event: InputEvent) -> void:
 	# If submenu overlay (settings) is open, let it handle input
 	if _submenu_active == "settings_overlay":
@@ -212,22 +216,22 @@ func _handle_menu_input(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed:
 			var kc: int = (event as InputEventKey).keycode
 			if kc == KEY_ESCAPE:
+				_mark_input_handled()
 				_close_submenu()
-				get_viewport().set_input_as_handled()
 		return
 
 	if event is InputEventKey and event.pressed:
 		var kc: int = (event as InputEventKey).keycode
 		match kc:
 			KEY_W, KEY_UP:
+				_mark_input_handled()
 				_navigate_menu(-1)
-				get_viewport().set_input_as_handled()
 			KEY_S, KEY_DOWN:
+				_mark_input_handled()
 				_navigate_menu(1)
-				get_viewport().set_input_as_handled()
 			KEY_ENTER, KEY_KP_ENTER:
+				_mark_input_handled()
 				_activate_menu_item(_selected_index)
-				get_viewport().set_input_as_handled()
 			KEY_ESCAPE:
 				pass # Already on main menu
 
@@ -242,6 +246,7 @@ func _handle_menu_input(event: InputEvent) -> void:
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
 			var idx: int = _get_button_at(mb.position)
 			if idx >= 0:
+				_mark_input_handled()
 				_activate_menu_item(idx)
 
 func _get_button_at(pos: Vector2) -> int:
@@ -312,7 +317,8 @@ func _set_curtain_alpha(alpha: float) -> void:
 
 func _on_curtain_covered() -> void:
 	if not _curtain_target_scene.is_empty():
-		get_tree().change_scene_to_file(_curtain_target_scene)
+		if is_inside_tree() and get_tree():
+			get_tree().change_scene_to_file.call_deferred(_curtain_target_scene)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SUBMENU MANAGEMENT

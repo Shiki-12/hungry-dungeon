@@ -7,7 +7,6 @@ var _manifest: Dictionary = {}
 var _textures: Dictionary = {}
 var _frames: Dictionary = {}
 var _statuses: Dictionary = {}
-var _factory: RefCounted = PF.new()
 
 func _ready() -> void:
 	reload()
@@ -19,7 +18,7 @@ func reload() -> void:
 	var file: FileAccess = FileAccess.open("res://data/assets/manifest.csv", FileAccess.READ)
 	if file == null:
 		return
-	var header: PackedStringArray = file.get_csv_line()
+	var _header: PackedStringArray = file.get_csv_line()
 	while not file.eof_reached():
 		var row: PackedStringArray = file.get_csv_line()
 		if row.size() < 6 or row[0].is_empty():
@@ -63,10 +62,10 @@ func frames(id: StringName) -> SpriteFrames:
 	_statuses[id] = entry["placeholder"]
 	return result
 
-func audio(id: StringName) -> AudioStream:
+func audio(_id: StringName) -> AudioStream:
 	return PF.audio()
 
-func status(id: StringName, anim: StringName = &"") -> StringName:
+func status(id: StringName, _anim: StringName = &"") -> StringName:
 	if not _manifest.has(id):
 		return StringName("MISSING:%s" % id)
 	if not _statuses.has(id):
