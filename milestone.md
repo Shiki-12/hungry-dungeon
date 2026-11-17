@@ -1,8 +1,8 @@
-# Master Milestone & Autonomous AI Execution Plan — Koki Dungeon (v1.0)
+# Master Milestone & Autonomous AI Execution Plan — Hungry Dungeon (v1.0)
 
 > **Acuan Utama:**
-> 1. `docs/PRD Teknis v1.0 Koki Dungeon (Working Title).md` (**Satu-satunya acuan teknis utama**)
-> 2. `docs/Daftar Aset Game Koki Dungeon (Working Title) (2).pdf` (Daftar ID aset, ukuran frame, & palet)
+> 1. `docs/PRD Teknis v1.0 Hungry Dungeon.md` (**Satu-satunya acuan teknis utama**)
+> 2. `docs/Daftar Aset Game Hungry Dungeon (2).pdf` (Daftar ID aset, ukuran frame, & palet)
 > 3. **Revisi Mutlak Proyek:** Game ini **WAJIB 2 PEMAIN (Co-op Murni: 2P Lokal di Fase 1 & 2P Online di Fase 2)**. Seluruh fitur 1 pemain (`swap_cook`, tombol `Tab`, `FR-MOV-05`, dan `FR-SKL-10`) **DIHAPUS & DILARANG DIIMPLEMENTASIKAN**.
 
 ---

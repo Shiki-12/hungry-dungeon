@@ -21,7 +21,7 @@ static func run_all() -> bool:
 		push_error("Rangga texture missing")
 		return false
 	var frame_result: SpriteFrames = Assets.frames(&"cook_rangga")
-	if frame_result == null or frame_result.get_frame_count(&"default") < 1:
+	if frame_result == null or frame_result.get_animation_names().is_empty():
 		push_error("Asset frames missing")
 		return false
 

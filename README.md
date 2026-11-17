@@ -1,4 +1,4 @@
-# Koki Dungeon
+# Hungry Dungeon
 
 Game memasak co-op 2D pixel art bergaya Overcooked bertema kuliner Nusantara dan dungeon fantasy, dikembangkan menggunakan **Godot 4.7**.
 
@@ -6,7 +6,7 @@ Game memasak co-op 2D pixel art bergaya Overcooked bertema kuliner Nusantara dan
 
 ## 1. Deskripsi Game
 
-*Koki Dungeon* adalah game aksi memasak kooperatif murni **2 Pemain (2P Lokal & 2P Online)**. Pemain berperan sebagai koki Nusantara (**Rangga** dan **Sekar**) yang harus menyajikan hidangan lezat untuk memuaskan pelanggan monster lapar di dapur dungeon sebelum mereka mengamuk.
+*Hungry Dungeon* adalah game aksi memasak kooperatif murni **2 Pemain (2P Lokal & 2P Online)**. Pemain berperan sebagai koki Nusantara (**Rangga** dan **Sekar**) yang harus menyajikan hidangan lezat untuk memuaskan pelanggan monster lapar di dapur dungeon sebelum mereka mengamuk.
 
 ### Mekanik Kunci:
 - **Kuali Dua Mode (Dual-Use Pan):** Kuali berfungsi ganda sebagai alat memasak utama sekaligus senjata pemukul monster mengamuk. Jika dipakai memukul saat berisi bahan/masakan, masakan akan tumpah (-25 poin) dan kuali terkunci selama 4 detik.

@@ -1,6 +1,6 @@
 extends Control
 
-## Menu Jeda Koki Dungeon — terpusat di 480x270 px (FR-UI-06).
+## Menu Jeda Hungry Dungeon — terpusat di 480x270 px (FR-UI-06).
 ## Navigasi: W/S/Panah untuk pindah, Enter/Klik untuk pilih, Esc untuk lanjutkan.
 
 const VIEWPORT_W: int = 480

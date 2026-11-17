@@ -1,7 +1,7 @@
-# Project Rules: Koki Dungeon (PRD Teknis v1.0 — Wajib 2 Pemain)
+# Project Rules: Hungry Dungeon (PRD Teknis v1.0 — Wajib 2 Pemain)
 
-Kamu adalah Lead Godot 4 Developer otonom untuk proyek **Koki Dungeon**.
-Satu-satunya acuan teknis adalah `docs/PRD Teknis v1.0 Koki Dungeon (Working Title).md` dan rencana kerja di `milestone.md`.
+Kamu adalah Lead Godot 4 Developer otonom untuk proyek **Hungry Dungeon**.
+Satu-satunya acuan teknis adalah `docs/PRD Teknis v1.0 Hungry Dungeon.md` dan rencana kerja di `milestone.md`.
 
 ## 1. Aturan Mutlak Proyek
 1. **Engine & Bahasa:** Godot 4.7.x stable, Renderer `Compatibility` (`gl_compatibility`), Web export single-thread. Gunakan **GDScript dengan Static Typing penuh** (`var x: int = 0`, `func foo(dt: float) -> void:`). Dilarang menggunakan C#.
@@ -24,7 +24,7 @@ Satu-satunya acuan teknis adalah `docs/PRD Teknis v1.0 Koki Dungeon (Working Tit
 ## 2. Siklus Kerja Mandiri Berdasarkan `milestone.md`
 Setiap kali diminta mengerjakan milestone:
 1. Baca `milestone.md` dan temukan sub-milestone pertama yang masih berstatus `[ ]`.
-2. Baca persyaratan terkait di `docs/PRD Teknis v1.0 Koki Dungeon (Working Title).md`.
+2. Baca persyaratan terkait di `docs/PRD Teknis v1.0 Hungry Dungeon.md`.
 3. Tulis atau perbarui kode di `res://` dengan static typing penuh dan komentar seperlunya.
 4. Buat/perbarui unit test untuk fitur tersebut di `res://tests/` dan jalankan:
    - `godot --headless --script res://tests/run_tests.gd`

@@ -1,6 +1,6 @@
 extends Control
 
-## Menu Utama Koki Dungeon — Nusantara Fantasy Aesthetic (FR-UI-05 s.d. 08, FR-WEB-01).
+## Menu Utama Hungry Dungeon — Nusantara Fantasy Aesthetic (FR-UI-05 s.d. 08, FR-WEB-01).
 ## Fase: LOADING -> TITLE_GATE -> MENU.
 ## Navigasi: W/S/Panah untuk pindah, Enter/Klik untuk pilih, Esc untuk tutup submenu.
 ## TIDAK ada widget P1/P2 readiness — kesiapan pemain ada di coop_ready_screen.
@@ -469,7 +469,7 @@ func _build_credits_submenu() -> void:
 	title_lbl.add_theme_color_override("font_color", COL_GOLD)
 	_submenu_panel.add_child(title_lbl)
 
-	var credits_text: String = "Koki Dungeon\nSedekah Dapur Dungeon Rahayu\n\nDesain & Pemrograman:\nTim Koki Dungeon\n\nEngine: Godot 4.7\n\nTerima kasih telah bermain!"
+	var credits_text: String = "Hungry Dungeon\nSedekah Dapur Dungeon Rahayu\n\nDesain & Pemrograman:\nTim Hungry Dungeon\n\nEngine: Godot 4.7\n\nTerima kasih telah bermain!"
 	var txt_lbl: Label = Label.new()
 	txt_lbl.text = credits_text
 	txt_lbl.position = Vector2(20.0, 40.0)
@@ -683,7 +683,7 @@ func _draw_title_gate() -> void:
 	draw_rect(Rect2(0, 0, vp.x, vp.y), Color(0.05, 0.04, 0.06, 1.0))
 	var cx: float = vp.x / 2.0
 	var font: Font = get_theme_default_font()
-	var title: String = "KOKI DUNGEON"
+	var title: String = "HUNGRY DUNGEON"
 	var title_w: Vector2 = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16)
 	var tx: float = cx - title_w.x / 2.0
 	draw_string(font, Vector2(tx + 1.0, 91.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.3, 0.15, 0.0, _title_alpha * 0.5))
@@ -797,8 +797,11 @@ func _draw_goblin_peek(gx: float, gy: float) -> void:
 
 func _draw_menu_buttons() -> void:
 	var font: Font = get_theme_default_font()
-	draw_rect(Rect2(0, 75, 185, float(MENU_ITEMS.size()) * float(BUTTON_HEIGHT + BUTTON_SPACING) + 30.0), Color(0.0, 0.0, 0.0, 0.35))
-	draw_string(font, Vector2(16.0, 85.0), "KOKI DUNGEON", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, COL_GOLD)
+	var menu_title: String = "HUNGRY DUNGEON"
+	var title_sz: Vector2 = font.get_string_size(menu_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16)
+	var panel_w: float = maxf(185.0, title_sz.x + 32.0)
+	draw_rect(Rect2(0, 75, panel_w, float(MENU_ITEMS.size()) * float(BUTTON_HEIGHT + BUTTON_SPACING) + 30.0), Color(0.0, 0.0, 0.0, 0.35))
+	draw_string(font, Vector2(16.0, 85.0), menu_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, COL_GOLD)
 
 	for i: int in range(MENU_ITEMS.size()):
 		var item: Dictionary = MENU_ITEMS[i] as Dictionary

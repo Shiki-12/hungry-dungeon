@@ -1,4 +1,4 @@
-# PRD Teknis v1.0: Koki Dungeon (Working Title)
+# PRD Teknis v1.0: Hungry Dungeon
 
 Nov 15, 2026 · @Glooms Sarpy
 
@@ -27,7 +27,7 @@ Dokumen ini adalah **satu-satunya acuan teknis**. Ia menggabungkan PRD v0.1 (gam
 
 ## 1. Ringkasan Produk dan Tujuan Teknis
 
-*Koki Dungeon* adalah game memasak co-op 1 sampai 2 pemain bergaya Overcooked dengan pixel art 2D. Pelanggannya monster yang bisa mengamuk, kuali berfungsi ganda sebagai alat masak dan senjata, dan hidangan bisa disamperin atau dilempar ke kursi monster.
+*Hungry Dungeon* adalah game memasak co-op 1 sampai 2 pemain bergaya Overcooked dengan pixel art 2D. Pelanggannya monster yang bisa mengamuk, kuali berfungsi ganda sebagai alat masak dan senjata, dan hidangan bisa disamperin atau dilempar ke kursi monster.
 
 **Tujuan teknis:**
 

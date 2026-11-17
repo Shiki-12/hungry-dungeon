@@ -1,6 +1,6 @@
 extends Control
 
-## Menu Latihan / Tutorial Koki Dungeon (FR-UI-06, FR-TUT-04).
+## Menu Latihan / Tutorial Hungry Dungeon (FR-UI-06, FR-TUT-04).
 ## Mengakses ulang level T-1 s.d. T-5.
 
 func _ready() -> void:
