@@ -84,10 +84,11 @@ func _input(event: InputEvent) -> void:
 			queue_redraw()
 
 func _get_button_at(pos: Vector2) -> int:
-	var panel_x: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-	var panel_y: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
-	var btn_x: float = panel_x + (PANEL_W - BTN_W) / 2.0
-	var btn_start_y: float = panel_y + 30.0
+	var vp: Vector2 = _get_vp_size()
+	var panel_x: float = (vp.x - PANEL_W) * 0.5
+	var panel_y: float = (vp.y - PANEL_H) * 0.5
+	var btn_x: float = panel_x + (PANEL_W - BTN_W) * 0.5
+	var btn_start_y: float = panel_y + 28.0
 	for i: int in range(BUTTONS.size()):
 		var by: float = btn_start_y + float(i) * (BTN_H + BTN_SPACING)
 		if pos.x >= btn_x and pos.x <= btn_x + BTN_W and pos.y >= by and pos.y <= by + BTN_H:
@@ -143,12 +144,13 @@ func _do_main_menu() -> void:
 		get_tree().change_scene_to_file.call_deferred("res://ui/main_menu.tscn")
 
 func _draw() -> void:
+	var vp: Vector2 = _get_vp_size()
 	# Overlay gelap penuh
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), COL_OVERLAY)
+	draw_rect(Rect2(0, 0, vp.x, vp.y), COL_OVERLAY)
 
 	# Panel tengah
-	var panel_x: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-	var panel_y: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
+	var panel_x: float = (vp.x - PANEL_W) * 0.5
+	var panel_y: float = (vp.y - PANEL_H) * 0.5
 	draw_rect(Rect2(panel_x, panel_y, PANEL_W, PANEL_H), COL_PANEL_BG)
 	# Border
 	draw_rect(Rect2(panel_x, panel_y, PANEL_W, 1.0), COL_PANEL_BORDER)
@@ -160,11 +162,11 @@ func _draw() -> void:
 	var font: Font = get_theme_default_font()
 	var title: String = "JEDA"
 	var title_sz: Vector2 = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10)
-	draw_string(font, Vector2(panel_x + (PANEL_W - title_sz.x) / 2.0, panel_y + 16.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
+	draw_string(font, Vector2(panel_x + (PANEL_W - title_sz.x) * 0.5, panel_y + 16.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
 
 	# Buttons
-	var btn_x: float = panel_x + (PANEL_W - BTN_W) / 2.0
-	var btn_start_y: float = panel_y + 30.0
+	var btn_x: float = panel_x + (PANEL_W - BTN_W) * 0.5
+	var btn_start_y: float = panel_y + 28.0
 	for i: int in range(BUTTONS.size()):
 		var by: float = btn_start_y + float(i) * (BTN_H + BTN_SPACING)
 		var is_sel: bool = (i == _selected)
@@ -184,7 +186,20 @@ func _draw() -> void:
 		draw_string(font, Vector2(btn_x + 8.0, by + BTN_H - 5.0), label, HORIZONTAL_ALIGNMENT_LEFT, int(BTN_W - 14.0), 8, COL_TEXT)
 
 	# Footer hint
-	draw_string(font, Vector2(panel_x + 10.0, panel_y + PANEL_H - 6.0), "W/S: Navigasi  |  Enter: Pilih  |  Esc: Lanjut", HORIZONTAL_ALIGNMENT_LEFT, int(PANEL_W - 20.0), 8, Color(0.6, 0.6, 0.55, 0.6))
+	var hint_text: String = "W/S: Navigasi | Enter: Pilih | Esc: Lanjut"
+	var hint_w: float = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	if hint_w > PANEL_W - 16.0:
+		hint_text = "W/S: Gerak | Enter: Pilih | Esc: Lanjut"
+		hint_w = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var hint_x: float = panel_x + (PANEL_W - hint_w) * 0.5
+	draw_string(font, Vector2(hint_x, panel_y + PANEL_H - 8.0), hint_text, HORIZONTAL_ALIGNMENT_LEFT, int(PANEL_W - 16.0), 8, Color(0.6, 0.6, 0.55, 0.6))
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
 
 func _get_autoload(autoload_name: String) -> Node:
 	var loop: MainLoop = Engine.get_main_loop()
@@ -197,6 +212,7 @@ func get_selected() -> int:
 	return _selected
 
 func get_panel_rect() -> Rect2:
-	var px: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-	var py: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
+	var vp: Vector2 = _get_vp_size()
+	var px: float = (vp.x - PANEL_W) * 0.5
+	var py: float = (vp.y - PANEL_H) * 0.5
 	return Rect2(px, py, PANEL_W, PANEL_H)

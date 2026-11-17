@@ -103,13 +103,19 @@ func _input(event: InputEvent) -> void:
 		var mb: InputEventMouseButton = event as InputEventMouseButton
 		if mb.button_index == MOUSE_BUTTON_LEFT:
 			_mark_input_handled()
+			var vp: Vector2 = _get_vp_size()
+			var card_w: float = 190.0
+			var card_gap: float = 40.0
+			var total_w: float = card_w * 2.0 + card_gap
+			var p1_x: float = (vp.x - total_w) / 2.0
+			var p2_x: float = p1_x + card_w + card_gap
 			# Click on P1 card
-			if mb.position.x >= 30.0 and mb.position.x <= 220.0 and mb.position.y >= 90.0 and mb.position.y <= 220.0:
+			if mb.position.x >= p1_x and mb.position.x <= p1_x + card_w and mb.position.y >= 65.0 and mb.position.y <= 220.0:
 				_p1_ready = true
 				_p1_bounce = 1.0
 				_check_both_ready()
 			# Click on P2 card
-			elif mb.position.x >= 260.0 and mb.position.x <= 450.0 and mb.position.y >= 90.0 and mb.position.y <= 220.0:
+			elif mb.position.x >= p2_x and mb.position.x <= p2_x + card_w and mb.position.y >= 65.0 and mb.position.y <= 220.0:
 				_p2_ready = true
 				_p2_bounce = 1.0
 				_check_both_ready()
@@ -131,41 +137,58 @@ func _go_to_kitchen() -> void:
 # ══════════════════════════════════════════════════════════════════════════════
 
 func _draw() -> void:
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), COL_BG)
+	var vp: Vector2 = _get_vp_size()
+	draw_rect(Rect2(0, 0, vp.x, vp.y), COL_BG)
 	var font: Font = get_theme_default_font()
 
 	# Level info header
 	var display_id: String = _level_id.replace("_", "-") if not _level_id.is_empty() else "1-1"
 	var chapter_num: String = display_id.substr(0, 1)
-	draw_string(font, Vector2(16.0, 24.0), "CHAPTER %s — LEVEL %s" % [chapter_num, display_id.to_upper()], HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
-	draw_string(font, Vector2(16.0, 40.0), "Siapkan Kedua Koki Sebelum Memasuki Dapur!", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+	draw_string(font, Vector2(8.0, 24.0), "CHAPTER %s — LEVEL %s" % [chapter_num, display_id.to_upper()], HORIZONTAL_ALIGNMENT_LEFT, int(vp.x - 16.0), 10, COL_GOLD)
+	draw_string(font, Vector2(8.0, 40.0), "Siapkan Kedua Koki Sebelum Memasuki Dapur!", HORIZONTAL_ALIGNMENT_LEFT, int(vp.x - 16.0), 8, COL_HINT)
 
 	# Separator
-	draw_rect(Rect2(16.0, 50.0, float(VIEWPORT_W) - 32.0, 1.0), COL_CARD_BORDER)
+	draw_rect(Rect2(8.0, 50.0, vp.x - 16.0, 1.0), COL_CARD_BORDER)
+
+	# Card geometry centered
+	var card_w: float = 190.0
+	var card_gap: float = 40.0
+	var total_w: float = card_w * 2.0 + card_gap
+	var p1_x: float = (vp.x - total_w) / 2.0
+	var p2_x: float = p1_x + card_w + card_gap
 
 	# P1 Card (left)
-	_draw_player_card(30.0, 65.0, "PEMAIN 1 — RANGGA", COL_RANGGA, "P1: WASD + E/F/Spasi/C", _p1_ready, _p1_bounce, "R")
+	_draw_player_card(p1_x, 65.0, "PEMAIN 1 — RANGGA", COL_RANGGA, "P1: WASD + E/F/Spasi/C", _p1_ready, _p1_bounce, "R")
 
 	# P2 Card (right)
-	_draw_player_card(260.0, 65.0, "PEMAIN 2 — SEKAR", COL_SEKAR, "P2: Panah + ./,//Shift", _p2_ready, _p2_bounce, "S")
+	_draw_player_card(p2_x, 65.0, "PEMAIN 2 — SEKAR", COL_SEKAR, "P2: Panah + ./,//Shift", _p2_ready, _p2_bounce, "S")
 
 	# VS / Ampersand
-	draw_string(font, Vector2(230.0, 160.0), "&", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, COL_GOLD)
+	var amp_w: float = font.get_string_size("&", HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	draw_string(font, Vector2(vp.x / 2.0 - amp_w / 2.0, 160.0), "&", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, COL_GOLD)
 
 	# Readiness instructions
 	var inst_y: float = 230.0
 	if not _countdown_active:
-		draw_string(font, Vector2(60.0, inst_y), "P1: Tekan [E] atau [Spasi]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_RANGGA if not _p1_ready else COL_READY)
-		draw_string(font, Vector2(280.0, inst_y), "P2: Tekan [.] atau [Enter]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_SEKAR if not _p2_ready else COL_READY)
+		var p1_text: String = "P1: Tekan [E] atau [Spasi]"
+		var p1_text_w: float = font.get_string_size(p1_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		var p1_text_x: float = p1_x + (card_w - p1_text_w) / 2.0
+		draw_string(font, Vector2(p1_text_x, inst_y), p1_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_RANGGA if not _p1_ready else COL_READY)
+
+		var p2_text: String = "P2: Tekan [.] atau [Enter]"
+		var p2_text_w: float = font.get_string_size(p2_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		var p2_text_x: float = p2_x + (card_w - p2_text_w) / 2.0
+		draw_string(font, Vector2(p2_text_x, inst_y), p2_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_SEKAR if not _p2_ready else COL_READY)
 	else:
 		# Countdown display
 		var cd_text: String = "DAPUR DIBUKA DALAM %s" % _countdown_text
 		var cd_w: Vector2 = font.get_string_size(cd_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
-		draw_string(font, Vector2(float(VIEWPORT_W) / 2.0 - cd_w.x / 2.0, inst_y + 5.0), cd_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, COL_COUNTDOWN)
+		draw_string(font, Vector2(vp.x / 2.0 - cd_w.x / 2.0, inst_y + 5.0), cd_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, COL_COUNTDOWN)
 
 	# Footer
-	draw_rect(Rect2(0, VIEWPORT_H - 14, VIEWPORT_W, 14), Color(0.06, 0.06, 0.08, 0.9))
-	draw_string(font, Vector2(4.0, float(VIEWPORT_H) - 4.0), "Esc: Batalkan / Kembali", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+	var fy: float = vp.y - 14.0
+	draw_rect(Rect2(0, fy, vp.x, 14), Color(0.06, 0.06, 0.08, 0.9))
+	draw_string(font, Vector2(8.0, fy + 10.0), "Esc: Batalkan / Kembali", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
 
 func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls: String, is_ready: bool, bounce: float, letter: String) -> void:
 	var font: Font = get_theme_default_font()
@@ -204,6 +227,13 @@ func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls
 	if is_ready:
 		var glow_alpha: float = 0.15 + 0.1 * sin(_time * 4.0)
 		draw_rect(Rect2(cx - 1.0, cy + bounce_offset - 1.0, card_w + 2.0, card_h + 2.0), Color(COL_READY.r, COL_READY.g, COL_READY.b, glow_alpha))
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
 
 func _get_autoload(autoload_name: String) -> Node:
 	var loop: MainLoop = Engine.get_main_loop()

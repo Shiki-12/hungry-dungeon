@@ -19,6 +19,21 @@ func _ready() -> void:
 	$Panel/VBox/BtnMenu.pressed.connect(_on_menu)
 	_update_display()
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		var kc: int = (event as InputEventKey).keycode
+		if kc == KEY_ESCAPE:
+			if is_inside_tree() and get_viewport() != null:
+				get_viewport().set_input_as_handled()
+			_on_menu()
+		elif kc == KEY_ENTER or kc == KEY_KP_ENTER:
+			if is_inside_tree() and get_viewport() != null:
+				get_viewport().set_input_as_handled()
+			if is_win:
+				_on_next()
+			else:
+				_on_retry()
+
 func _update_display() -> void:
 	if not is_inside_tree():
 		return

@@ -11,6 +11,14 @@ func _ready() -> void:
 	$VBox/BtnT5.pressed.connect(func(): _load_tutorial(5))
 	$BtnBack.pressed.connect(_on_back_pressed)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		var kc: int = (event as InputEventKey).keycode
+		if kc == KEY_ESCAPE:
+			if is_inside_tree() and get_viewport() != null:
+				get_viewport().set_input_as_handled()
+			_on_back_pressed()
+
 func _load_tutorial(idx: int) -> void:
 	var _path: String = "res://data/levels/tutorial_%d.tres" % idx
 	# Ubah level aktif di Game autoload dan muat stage

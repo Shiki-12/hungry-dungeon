@@ -7,7 +7,7 @@ extends Control
 const VIEWPORT_W: int = 480
 const VIEWPORT_H: int = 270
 const PANEL_W: float = 240.0
-const PANEL_H: float = 200.0
+const PANEL_H: float = 210.0
 
 const COL_OVERLAY := Color(0, 0, 0, 0.65)
 const COL_PANEL_BG := Color(0.12, 0.1, 0.07, 0.95)
@@ -131,18 +131,20 @@ func _input(event: InputEvent) -> void:
 					_apply_value(idx)
 				elif opt["type"] as String == "slider":
 					# Click on slider bar to set value
-					var panel_x: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-					var bar_x: float = panel_x + 140.0
-					var bar_w: float = 80.0
+					var vp: Vector2 = _get_vp_size()
+					var px: float = (vp.x - PANEL_W) * 0.5
+					var bar_x: float = px + 128.0
+					var bar_w: float = 60.0
 					var click_pct: float = clampf((mb.position.x - bar_x) / bar_w, 0.0, 1.0)
 					_values[idx] = click_pct
 					_apply_value(idx)
 				queue_redraw()
 			# Check KEMBALI button
-			var panel_x2: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-			var panel_y2: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
-			var back_y: float = panel_y2 + PANEL_H - 24.0
-			if mb.position.x >= panel_x2 + 10.0 and mb.position.x <= panel_x2 + 110.0 and mb.position.y >= back_y and mb.position.y <= back_y + 18.0:
+			var vp2: Vector2 = _get_vp_size()
+			var px2: float = (vp2.x - PANEL_W) * 0.5
+			var py2: float = (vp2.y - PANEL_H) * 0.5
+			var back_y: float = py2 + 165.0
+			if mb.position.x >= px2 + 8.0 and mb.position.x <= px2 + 104.0 and mb.position.y >= back_y and mb.position.y <= back_y + 18.0:
 				_save_and_close()
 
 	if event is InputEventMouseMotion:
@@ -152,12 +154,13 @@ func _input(event: InputEvent) -> void:
 			queue_redraw()
 
 func _get_row_at(pos: Vector2) -> int:
-	var panel_x: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-	var panel_y: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
-	var row_start_y: float = panel_y + 28.0
+	var vp: Vector2 = _get_vp_size()
+	var px: float = (vp.x - PANEL_W) * 0.5
+	var py: float = (vp.y - PANEL_H) * 0.5
+	var row_start_y: float = py + 26.0
 	for i: int in range(OPTIONS.size()):
-		var ry: float = row_start_y + float(i) * 20.0
-		if pos.x >= panel_x + 8.0 and pos.x <= panel_x + PANEL_W - 8.0 and pos.y >= ry and pos.y <= ry + 18.0:
+		var ry: float = row_start_y + float(i) * 19.0
+		if pos.x >= px + 4.0 and pos.x <= px + PANEL_W - 4.0 and pos.y >= ry and pos.y <= ry + 17.0:
 			return i
 	return -1
 
@@ -177,12 +180,13 @@ func _save_and_close() -> void:
 	queue_free()
 
 func _draw() -> void:
+	var vp: Vector2 = _get_vp_size()
 	# Overlay
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), COL_OVERLAY)
+	draw_rect(Rect2(0, 0, vp.x, vp.y), COL_OVERLAY)
 
-	# Panel
-	var px: float = (float(VIEWPORT_W) - PANEL_W) / 2.0
-	var py: float = (float(VIEWPORT_H) - PANEL_H) / 2.0
+	# Panel terpusat
+	var px: float = (vp.x - PANEL_W) * 0.5
+	var py: float = (vp.y - PANEL_H) * 0.5
 	draw_rect(Rect2(px, py, PANEL_W, PANEL_H), COL_PANEL_BG)
 	# Border
 	draw_rect(Rect2(px, py, PANEL_W, 1.0), COL_PANEL_BORDER)
@@ -195,56 +199,71 @@ func _draw() -> void:
 	# Title
 	var title: String = "PENGATURAN"
 	var title_sz: Vector2 = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10)
-	draw_string(font, Vector2(px + (PANEL_W - title_sz.x) / 2.0, py + 16.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
+	draw_string(font, Vector2(px + (PANEL_W - title_sz.x) * 0.5, py + 16.0), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
 
 	# Options rows
-	var row_y: float = py + 28.0
+	var row_y: float = py + 26.0
 	for i: int in range(OPTIONS.size()):
 		var opt: Dictionary = OPTIONS[i] as Dictionary
 		var is_sel: bool = (i == _selected)
-		var ry: float = row_y + float(i) * 20.0
+		var ry: float = row_y + float(i) * 19.0
 
 		# Row background
-		draw_rect(Rect2(px + 4.0, ry, PANEL_W - 8.0, 18.0), COL_SEL if is_sel else COL_ROW)
+		draw_rect(Rect2(px + 4.0, ry, PANEL_W - 8.0, 17.0), COL_SEL if is_sel else COL_ROW)
 
 		# Selection indicator
 		if is_sel:
-			draw_circle(Vector2(px + 10.0, ry + 9.0), 2.0, COL_GOLD)
+			draw_circle(Vector2(px + 8.0, ry + 8.5), 2.0, COL_GOLD)
 
-		# Label
-		draw_string(font, Vector2(px + 16.0, ry + 12.0), opt["label"] as String, HORIZONTAL_ALIGNMENT_LEFT, 120, 8, COL_TEXT)
+		# Label (width clamped to 110 px)
+		draw_string(font, Vector2(px + 14.0, ry + 12.0), opt["label"] as String, HORIZONTAL_ALIGNMENT_LEFT, 110, 8, COL_TEXT)
 
 		# Value
 		if opt["type"] as String == "slider":
 			var val: float = _values[i] as float
-			var bar_x: float = px + 140.0
-			var bar_w: float = 80.0
+			var bar_x: float = px + 128.0
+			var bar_w: float = 60.0
 			# Bar BG
-			draw_rect(Rect2(bar_x, ry + 5.0, bar_w, 8.0), COL_BAR_BG)
+			draw_rect(Rect2(bar_x, ry + 4.5, bar_w, 8.0), COL_BAR_BG)
 			# Bar fill
-			draw_rect(Rect2(bar_x, ry + 5.0, bar_w * val, 8.0), COL_BAR_FILL)
-			# Percentage
+			draw_rect(Rect2(bar_x, ry + 4.5, bar_w * val, 8.0), COL_BAR_FILL)
+			# Percentage — with at least 8 px safe padding on the right edge
 			var pct_str: String = "%d%%" % int(val * 100.0)
-			draw_string(font, Vector2(bar_x + bar_w + 4.0, ry + 12.0), pct_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+			draw_string(font, Vector2(px + 194.0, ry + 12.0), pct_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
 		else: # toggle
 			var toggled: bool = _values[i] as bool
-			var check_x: float = px + 155.0
+			var check_x: float = px + 148.0
 			var check_col: Color = COL_CHECK_ON if toggled else COL_CHECK_OFF
-			draw_rect(Rect2(check_x, ry + 4.0, 10.0, 10.0), check_col)
+			draw_rect(Rect2(check_x, ry + 3.5, 10.0, 10.0), check_col)
 			if toggled:
-				draw_string(font, Vector2(check_x + 2.0, ry + 12.0), "V", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
+				draw_string(font, Vector2(check_x + 2.0, ry + 11.5), "V", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)
 			var state_str: String = "YA" if toggled else "TIDAK"
-			draw_string(font, Vector2(check_x + 14.0, ry + 12.0), state_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_TEXT)
+			draw_string(font, Vector2(check_x + 16.0, ry + 12.0), state_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_TEXT)
 
 	# KEMBALI button
-	var back_y: float = py + PANEL_H - 24.0
-	draw_rect(Rect2(px + 10.0, back_y, 100.0, 18.0), COL_PANEL_BG.lightened(0.1))
-	draw_rect(Rect2(px + 10.0, back_y, 100.0, 1.0), COL_PANEL_BORDER)
-	draw_rect(Rect2(px + 10.0, back_y + 17.0, 100.0, 1.0), COL_PANEL_BORDER)
-	draw_string(font, Vector2(px + 18.0, back_y + 12.0), "KEMBALI [Esc]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_GOLD)
+	var back_y: float = py + 165.0
+	draw_rect(Rect2(px + 8.0, back_y, 96.0, 18.0), COL_PANEL_BG.lightened(0.1))
+	draw_rect(Rect2(px + 8.0, back_y, 96.0, 1.0), COL_PANEL_BORDER)
+	draw_rect(Rect2(px + 8.0, back_y + 17.0, 96.0, 1.0), COL_PANEL_BORDER)
+	draw_rect(Rect2(px + 8.0, back_y, 1.0, 18.0), COL_PANEL_BORDER)
+	draw_rect(Rect2(px + 103.0, back_y, 1.0, 18.0), COL_PANEL_BORDER)
+	draw_string(font, Vector2(px + 16.0, back_y + 12.0), "KEMBALI [Esc]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_GOLD)
 
 	# Footer hint
-	draw_string(font, Vector2(px + 10.0, py + PANEL_H - 6.0), "W/S: Pindah  A/D: Ubah  Enter: Toggle  Esc: Tutup", HORIZONTAL_ALIGNMENT_LEFT, int(PANEL_W - 20.0), 8, COL_HINT)
+	var hint_text: String = "W/S: Pindah | A/D: Ubah | Enter: Toggle | Esc: Tutup"
+	var hint_w: float = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	if hint_w > PANEL_W - 16.0:
+		hint_text = "W/S: Pindah | A/D: Ubah | Esc: Tutup"
+		hint_w = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var hint_x: float = px + (PANEL_W - hint_w) * 0.5
+	draw_string(font, Vector2(hint_x, py + 198.0), hint_text, HORIZONTAL_ALIGNMENT_LEFT, int(PANEL_W - 16.0), 8, COL_HINT)
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
 
 func _get_autoload(autoload_name: String) -> Node:
 	var loop: MainLoop = Engine.get_main_loop()

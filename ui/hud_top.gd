@@ -22,42 +22,56 @@ func _ready() -> void:
 	_connect_events()
 
 func _build_hud() -> void:
+	var vp: Vector2 = _get_vp_size()
 	# Latar belakang gelap
 	var bg: ColorRect = ColorRect.new()
 	bg.color = Color(0.1, 0.12, 0.15, 0.95)
-	bg.size = Vector2(HUD_W, HUD_H)
+	bg.size = Vector2(vp.x, HUD_H)
 	add_child(bg)
 	
 	# Garis pembatas bawah 1 px
 	var border: ColorRect = ColorRect.new()
 	border.color = Color(0.2, 0.3, 0.25, 0.8)
 	border.position = Vector2(0.0, HUD_H - 1.0)
-	border.size = Vector2(HUD_W, 1.0)
+	border.size = Vector2(vp.x, 1.0)
 	add_child(border)
 
-	# Container tiket pesanan di kiri
+	# Container tiket pesanan di kiri (safe margin 8 px)
 	tickets_container = HBoxContainer.new()
-	tickets_container.position = Vector2(4.0, 2.0)
-	tickets_container.custom_minimum_size = Vector2(250.0, 26.0)
+	tickets_container.position = Vector2(8.0, 2.0)
+	tickets_container.custom_minimum_size = Vector2(255.0, 26.0)
 	tickets_container.add_theme_constant_override("separation", 3)
 	add_child(tickets_container)
 
-	# Papan skor di kanan
-	score_label = Label.new()
-	score_label.position = Vector2(280.0, 7.0)
-	score_label.custom_minimum_size = Vector2(100.0, 16.0)
-	score_label.add_theme_font_size_override("font_size", 8)
-	score_label.text = "SKOR: 0"
-	add_child(score_label)
-
-	# Timer di ujung kanan
+	# Timer di ujung kanan (safe margin 8 px dari sisi kanan)
+	var timer_w: float = 48.0
+	var timer_x: float = vp.x - 8.0 - timer_w
 	timer_label = Label.new()
-	timer_label.position = Vector2(400.0, 7.0)
-	timer_label.custom_minimum_size = Vector2(70.0, 16.0)
+	timer_label.position = Vector2(timer_x, 7.0)
+	timer_label.custom_minimum_size = Vector2(timer_w, 16.0)
+	timer_label.size = Vector2(timer_w, 16.0)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	timer_label.add_theme_font_size_override("font_size", 8)
 	timer_label.text = "03:00"
 	add_child(timer_label)
+
+	# Papan skor di antara tiket dan timer
+	var score_x: float = 272.0
+	var score_w: float = maxf(60.0, timer_x - score_x - 8.0)
+	score_label = Label.new()
+	score_label.position = Vector2(score_x, 7.0)
+	score_label.custom_minimum_size = Vector2(score_w, 16.0)
+	score_label.size = Vector2(score_w, 16.0)
+	score_label.add_theme_font_size_override("font_size", 8)
+	score_label.text = "SKOR: 0"
+	add_child(score_label)
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(HUD_W, HUD_H)
 
 func _connect_events() -> void:
 	var loop: MainLoop = Engine.get_main_loop()

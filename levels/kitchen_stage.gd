@@ -140,6 +140,22 @@ func show_banner(text: String, duration: float = 3.5) -> void:
 	if banner_label != null and banner_panel != null:
 		banner_label.text = text
 		banner_timer = duration
+
+		var vp_x: float = 480.0
+		if is_inside_tree() and get_viewport() != null:
+			var s: Vector2 = get_viewport_rect().size
+			if s.x > 0.0:
+				vp_x = s.x
+		var font: Font = banner_label.get_theme_font("font")
+		if font == null:
+			font = ThemeDB.fallback_font
+		var text_w: float = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		var banner_w: float = clampf(text_w + 24.0, 160.0, vp_x - 16.0)
+		banner_panel.size = Vector2(banner_w, 16.0)
+		banner_panel.position = Vector2((vp_x - banner_w) * 0.5, HUD_TOP_H + 4.0)
+		for child: Node in banner_panel.get_children():
+			if child is Control:
+				(child as Control).size = Vector2(banner_w, 16.0)
 		banner_panel.visible = true
 
 func _show_popup_for_level(id: StringName) -> void:

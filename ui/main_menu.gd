@@ -172,10 +172,11 @@ func _create_curtain_node() -> void:
 	add_child(_curtain_rect)
 
 func _create_submenu_panel() -> void:
+	var vp: Vector2 = _get_vp_size()
 	_submenu_panel = Control.new()
 	_submenu_panel.name = "SubmenuPanel"
-	_submenu_panel.position = Vector2(float(VIEWPORT_W), 0.0)
-	_submenu_panel.size = Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
+	_submenu_panel.position = Vector2(vp.x, 0.0)
+	_submenu_panel.size = Vector2(300.0, vp.y)
 	_submenu_panel.z_index = 10
 	_submenu_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_submenu_panel)
@@ -346,7 +347,9 @@ func _on_submenu_closed() -> void:
 
 func _set_submenu_slide(val: float) -> void:
 	_submenu_slide = val
-	_submenu_panel.position.x = lerpf(float(VIEWPORT_W), 170.0, val)
+	var vp: Vector2 = _get_vp_size()
+	var target_x: float = clampf(vp.x - 308.0, 168.0, vp.x - 8.0)
+	_submenu_panel.position.x = lerpf(vp.x, target_x, val)
 	queue_redraw()
 
 func _clear_submenu_content() -> void:
@@ -590,9 +593,10 @@ func _draw() -> void:
 # ── Loading Phase ────────────────────────────────────────────────────────────
 
 func _draw_loading() -> void:
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), Color(0.05, 0.04, 0.06, 1.0))
-	var cx: float = float(VIEWPORT_W) / 2.0
-	var cy: float = float(VIEWPORT_H) / 2.0 - 10.0
+	var vp: Vector2 = _get_vp_size()
+	draw_rect(Rect2(0, 0, vp.x, vp.y), Color(0.05, 0.04, 0.06, 1.0))
+	var cx: float = vp.x / 2.0
+	var cy: float = vp.y / 2.0 - 10.0
 	_draw_tungku(cx, cy + 20.0)
 	_draw_fire(cx, cy + 14.0)
 	_draw_kuali(cx, cy)
@@ -675,8 +679,9 @@ func _draw_sutil(cx: float, cy: float, angle: float) -> void:
 # ── Title Gate Phase ─────────────────────────────────────────────────────────
 
 func _draw_title_gate() -> void:
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), Color(0.05, 0.04, 0.06, 1.0))
-	var cx: float = float(VIEWPORT_W) / 2.0
+	var vp: Vector2 = _get_vp_size()
+	draw_rect(Rect2(0, 0, vp.x, vp.y), Color(0.05, 0.04, 0.06, 1.0))
+	var cx: float = vp.x / 2.0
 	var font: Font = get_theme_default_font()
 	var title: String = "KOKI DUNGEON"
 	var title_w: Vector2 = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16)
@@ -702,12 +707,13 @@ func _draw_title_gate() -> void:
 # ── Menu Phase — Diorama Background ─────────────────────────────────────────
 
 func _draw_diorama_bg() -> void:
+	var vp: Vector2 = _get_vp_size()
 	# Gradient
 	var steps: int = 16
-	var step_h: float = float(VIEWPORT_H) / float(steps)
+	var step_h: float = vp.y / float(steps)
 	for i: int in range(steps):
 		var t: float = float(i) / float(steps)
-		draw_rect(Rect2(0, t * float(VIEWPORT_H), VIEWPORT_W, step_h + 1.0), COL_DUNGEON_TOP.lerp(COL_DUNGEON_BOT, t))
+		draw_rect(Rect2(0, t * vp.y, vp.x, step_h + 1.0), COL_DUNGEON_TOP.lerp(COL_DUNGEON_BOT, t))
 	# Stalactites
 	for i: int in range(_stalactite_xs.size()):
 		var sx: float = _stalactite_xs[i] as float
@@ -715,8 +721,8 @@ func _draw_diorama_bg() -> void:
 		var sway: float = sin(_time * 0.3 + float(i)) * 1.0 if not _reduce_motion else 0.0
 		draw_colored_polygon(PackedVector2Array([Vector2(sx - 3.0 + sway, 0.0), Vector2(sx + 3.0 + sway, 0.0), Vector2(sx + sway, sh)]), COL_STALACTITE)
 	# Ground
-	draw_rect(Rect2(0, VIEWPORT_H - 20, VIEWPORT_W, 20), Color(0.08, 0.1, 0.07, 1.0))
-	draw_rect(Rect2(0, VIEWPORT_H - 22, VIEWPORT_W, 3), Color(0.15, 0.2, 0.12, 1.0))
+	draw_rect(Rect2(0, vp.y - 20.0, vp.x, 20.0), Color(0.08, 0.1, 0.07, 1.0))
+	draw_rect(Rect2(0, vp.y - 22.0, vp.x, 3.0), Color(0.15, 0.2, 0.12, 1.0))
 	# Mushrooms
 	for m: Dictionary in _mushroom_data:
 		var mx: float = m["x"] as float
@@ -733,12 +739,12 @@ func _draw_diorama_bg() -> void:
 		for pos: Vector2 in _spore_positions:
 			draw_circle(pos, 1.0, COL_SPORE_GOLD if int(pos.x) % 2 == 0 else COL_SPORE_GREEN)
 	# Gerobak
-	_draw_gerobak(370.0, float(VIEWPORT_H) - 55.0)
+	_draw_gerobak(clampf(vp.x - 110.0, 320.0, vp.x - 68.0), vp.y - 55.0)
 	# Characters
-	_draw_cook_char(340.0, float(VIEWPORT_H) - 38.0 + _rangga_bob, COL_RANGGA_BLUE, "R")
-	_draw_cook_char(360.0, float(VIEWPORT_H) - 38.0 + _sekar_bob, COL_SEKAR_ORANGE, "S")
+	_draw_cook_char(clampf(vp.x - 140.0, 290.0, vp.x - 90.0), vp.y - 38.0 + _rangga_bob, COL_RANGGA_BLUE, "R")
+	_draw_cook_char(clampf(vp.x - 120.0, 310.0, vp.x - 70.0), vp.y - 38.0 + _sekar_bob, COL_SEKAR_ORANGE, "S")
 	# Goblin
-	_draw_goblin_peek(465.0, float(VIEWPORT_H) - 40.0)
+	_draw_goblin_peek(vp.x - 15.0, vp.y - 40.0)
 
 func _draw_gerobak(gx: float, gy: float) -> void:
 	draw_rect(Rect2(gx, gy, 60.0, 30.0), COL_GEROBAK_WOOD)
@@ -812,15 +818,46 @@ func _draw_menu_buttons() -> void:
 # ── Footer Bar ───────────────────────────────────────────────────────────────
 
 func _draw_footer() -> void:
+	var vp: Vector2 = _get_vp_size()
 	var font: Font = get_theme_default_font()
-	var fy: float = float(VIEWPORT_H) - 14.0
-	draw_rect(Rect2(0, fy, VIEWPORT_W, 14), COL_FOOTER_BG)
-	draw_string(font, Vector2(4.0, fy + 10.0), "v0.2.0-m2 (Wajib 2 Pemain Co-op)", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_VERSION)
-	draw_string(font, Vector2(280.0, fy + 10.0), "WASD/Panah: Navigasi  |  Enter/Klik: Pilih  |  Esc: Kembali", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+	var fy: float = vp.y - 14.0
+	draw_rect(Rect2(0, fy, vp.x, 14), COL_FOOTER_BG)
+
+	var left_text: String = "v0.2.0-m2 (Wajib 2 Pemain Co-op)"
+	var left_w: float = font.get_string_size(left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var left_x: float = 8.0
+
+	var right_text: String = "WASD/Panah: Navigasi  |  Enter/Klik: Pilih  |  Esc: Kembali"
+	var right_w: float = font.get_string_size(right_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var right_x: float = vp.x - 8.0 - right_w
+
+	# Collision detection between left and right text in footer
+	if left_x + left_w + 12.0 > right_x:
+		right_text = "WASD: Gerak | Enter: Pilih | Esc: Kembali"
+		right_w = font.get_string_size(right_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		right_x = vp.x - 8.0 - right_w
+
+	if left_x + left_w + 12.0 > right_x:
+		left_text = "v0.2.0-m2"
+		left_w = font.get_string_size(left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		if left_x + left_w + 12.0 > right_x:
+			right_text = "Enter: Pilih | Esc: Batal"
+			right_w = font.get_string_size(right_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+			right_x = vp.x - 8.0 - right_w
+
+	draw_string(font, Vector2(left_x, fy + 10.0), left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_VERSION)
+	draw_string(font, Vector2(right_x, fy + 10.0), right_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # UTILITY
 # ══════════════════════════════════════════════════════════════════════════════
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
 
 func _get_autoload(autoload_name: String) -> Node:
 	var loop: MainLoop = Engine.get_main_loop()

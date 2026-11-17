@@ -88,7 +88,10 @@ func _input(event: InputEvent) -> void:
 					_selected_level = idx
 					_try_select_level()
 				# Check back button
-				if mb.position.x >= 10.0 and mb.position.x <= 110.0 and mb.position.y >= float(VIEWPORT_H) - 24.0 and mb.position.y <= float(VIEWPORT_H) - 6.0:
+				var vp: Vector2 = _get_vp_size()
+				var fy: float = vp.y - 14.0
+				var back_y: float = fy - 22.0
+				if mb.position.x >= 8.0 and mb.position.x <= 104.0 and mb.position.y >= back_y and mb.position.y <= back_y + 18.0:
 					_mode = ViewMode.CHAPTER_SELECT
 
 	elif event is InputEventMouseMotion:
@@ -193,9 +196,10 @@ func _get_level_stars(level_id: String) -> int:
 	return 0
 
 func _get_chapter_at(pos: Vector2) -> int:
-	var card_w: float = 440.0
-	var card_x: float = 20.0
-	var card_start_y: float = 32.0
+	var vp: Vector2 = _get_vp_size()
+	var card_w: float = minf(440.0, vp.x - 32.0)
+	var card_x: float = (vp.x - card_w) / 2.0
+	var card_start_y: float = 30.0
 	for i: int in range(CHAPTERS.size()):
 		var cy: float = card_start_y + float(i) * 42.0
 		if pos.x >= card_x and pos.x <= card_x + card_w and pos.y >= cy and pos.y <= cy + 38.0:
@@ -203,11 +207,12 @@ func _get_chapter_at(pos: Vector2) -> int:
 	return -1
 
 func _get_level_at(pos: Vector2) -> int:
+	var vp: Vector2 = _get_vp_size()
 	var chapter: Dictionary = CHAPTERS[_selected_chapter] as Dictionary
 	var levels: Array = chapter["levels"] as Array
-	var card_x: float = 60.0
-	var card_w: float = 360.0
-	var start_y: float = 80.0
+	var card_w: float = minf(360.0, vp.x - 32.0)
+	var card_x: float = (vp.x - card_w) / 2.0
+	var start_y: float = 74.0
 	for i: int in range(levels.size()):
 		var ly: float = start_y + float(i) * 36.0
 		if pos.x >= card_x and pos.x <= card_x + card_w and pos.y >= ly and pos.y <= ly + 30.0:
@@ -219,16 +224,17 @@ func _get_level_at(pos: Vector2) -> int:
 # ══════════════════════════════════════════════════════════════════════════════
 
 func _draw() -> void:
-	draw_rect(Rect2(0, 0, VIEWPORT_W, VIEWPORT_H), COL_BG)
+	var vp: Vector2 = _get_vp_size()
+	draw_rect(Rect2(0, 0, vp.x, vp.y), COL_BG)
 	var font: Font = get_theme_default_font()
 
 	# Header
-	draw_rect(Rect2(0, 0, VIEWPORT_W, 24), COL_HEADER_BG)
+	draw_rect(Rect2(0, 0, vp.x, 24), COL_HEADER_BG)
 	draw_string(font, Vector2(8.0, 16.0), "PILIH CHAPTER & LEVEL", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, COL_GOLD)
 
 	# Rare ingredient slots (placeholder)
 	for i: int in range(4):
-		var rx: float = float(VIEWPORT_W) - 100.0 + float(i) * 22.0
+		var rx: float = vp.x - 100.0 + float(i) * 22.0
 		draw_rect(Rect2(rx, 4.0, 16.0, 16.0), Color(0.15, 0.15, 0.18, 0.8))
 		draw_rect(Rect2(rx, 4.0, 16.0, 1.0), COL_CARD_BORDER)
 		draw_rect(Rect2(rx, 19.0, 16.0, 1.0), COL_CARD_BORDER)
@@ -240,9 +246,10 @@ func _draw() -> void:
 		_draw_level_select(font)
 
 func _draw_chapter_select(font: Font) -> void:
-	var card_w: float = 440.0
-	var card_x: float = 20.0
-	var card_start_y: float = 32.0
+	var vp: Vector2 = _get_vp_size()
+	var card_w: float = minf(440.0, vp.x - 32.0)
+	var card_x: float = (vp.x - card_w) / 2.0
+	var card_start_y: float = 30.0
 
 	for i: int in range(CHAPTERS.size()):
 		var ch: Dictionary = CHAPTERS[i] as Dictionary
@@ -291,7 +298,14 @@ func _draw_chapter_select(font: Font) -> void:
 		# Padlock icon for locked chapters
 		if not unlocked:
 			_draw_padlock(card_x + shake_x + card_w - 24.0, cy + 10.0)
-			draw_string(font, Vector2(card_x + shake_x + 200.0, cy + 32.0), "Selesaikan Chapter sebelumnya", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_LOCKED)
+			var lock_str: String = "Selesaikan Chapter sebelumnya"
+			var lock_str_w: float = font.get_string_size(lock_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+			var lock_x: float = card_x + shake_x + card_w - 32.0 - lock_str_w
+			if lock_x < card_x + shake_x + 130.0:
+				lock_str = "Terkunci"
+				lock_str_w = font.get_string_size(lock_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+				lock_x = card_x + shake_x + card_w - 32.0 - lock_str_w
+			draw_string(font, Vector2(lock_x, cy + 32.0), lock_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_LOCKED)
 
 	# Gerobak icon on selected chapter (if unlocked)
 	if _is_chapter_unlocked(_selected_chapter):
@@ -303,19 +317,20 @@ func _draw_chapter_select(font: Font) -> void:
 	_draw_map_footer(font)
 
 func _draw_level_select(font: Font) -> void:
+	var vp: Vector2 = _get_vp_size()
 	var chapter: Dictionary = CHAPTERS[_selected_chapter] as Dictionary
 	var ch_col: Color = chapter["color"] as Color
 	var levels: Array = chapter["levels"] as Array
 
 	# Chapter header
-	draw_rect(Rect2(0, 24, VIEWPORT_W, 44), Color(ch_col.r * 0.12, ch_col.g * 0.12, ch_col.b * 0.12, 0.9))
+	draw_rect(Rect2(0, 24, vp.x, 44), Color(ch_col.r * 0.12, ch_col.g * 0.12, ch_col.b * 0.12, 0.9))
 	draw_string(font, Vector2(16.0, 42.0), chapter["name"] as String, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, ch_col)
 	draw_string(font, Vector2(16.0, 58.0), "Pelanggan: " + (chapter["monster"] as String), HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
 
 	# Level cards
-	var card_x: float = 60.0
-	var card_w: float = 360.0
-	var start_y: float = 80.0
+	var card_w: float = minf(360.0, vp.x - 32.0)
+	var card_x: float = (vp.x - card_w) / 2.0
+	var start_y: float = 74.0
 	for i: int in range(levels.size()):
 		var level_id: String = levels[i] as String
 		var ly: float = start_y + float(i) * 36.0
@@ -340,7 +355,7 @@ func _draw_level_select(font: Font) -> void:
 
 		var text_col2: Color = COL_TEXT if unlocked else COL_LOCKED
 		var level_name: String = LEVEL_NAMES.get(level_id, level_id) as String
-		draw_string(font, Vector2(card_x + shake_x + 10.0, ly + 14.0), "Level %s: %s" % [level_id, level_name], HORIZONTAL_ALIGNMENT_LEFT, -1, 8, text_col2)
+		draw_string(font, Vector2(card_x + shake_x + 10.0, ly + 14.0), "Level %s: %s" % [level_id, level_name], HORIZONTAL_ALIGNMENT_LEFT, int(card_w - 70.0), 8, text_col2)
 
 		# Stars
 		var stars: int = _get_level_stars(level_id)
@@ -352,12 +367,18 @@ func _draw_level_select(font: Font) -> void:
 		if not unlocked:
 			_draw_padlock(card_x + shake_x + card_w - 20.0, ly + 8.0)
 
-	# Back button
-	var back_y: float = float(VIEWPORT_H) - 24.0
-	draw_rect(Rect2(10.0, back_y, 100.0, 18.0), Color(0.14, 0.1, 0.07, 0.95))
-	draw_rect(Rect2(10.0, back_y, 100.0, 1.0), COL_CARD_BORDER)
-	draw_rect(Rect2(10.0, back_y + 17.0, 100.0, 1.0), COL_CARD_BORDER)
-	draw_string(font, Vector2(18.0, back_y + 12.0), "< KEMBALI [Esc]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_GOLD)
+	# Back button — safely placed above footer (no overlap)
+	var fy: float = vp.y - 14.0
+	var back_y: float = fy - 22.0
+	var back_w: float = 96.0
+	var back_h: float = 18.0
+	var back_x: float = 8.0
+	draw_rect(Rect2(back_x, back_y, back_w, back_h), Color(0.14, 0.1, 0.07, 0.95))
+	draw_rect(Rect2(back_x, back_y, back_w, 1.0), COL_CARD_BORDER)
+	draw_rect(Rect2(back_x, back_y + back_h - 1.0, back_w, 1.0), COL_CARD_BORDER)
+	draw_rect(Rect2(back_x, back_y, 1.0, back_h), COL_CARD_BORDER)
+	draw_rect(Rect2(back_x + back_w - 1.0, back_y, 1.0, back_h), COL_CARD_BORDER)
+	draw_string(font, Vector2(back_x + 8.0, back_y + 12.0), "< KEMBALI [Esc]", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_GOLD)
 
 	_draw_map_footer(font)
 
@@ -372,10 +393,41 @@ func _draw_padlock(px: float, py: float) -> void:
 	draw_circle(Vector2(px + 6.0, py + 9.0), 1.5, Color(0.2, 0.2, 0.2, 1.0))
 
 func _draw_map_footer(font: Font) -> void:
-	var fy: float = float(VIEWPORT_H) - 14.0
-	draw_rect(Rect2(0, fy, VIEWPORT_W, 14), COL_HEADER_BG)
-	draw_string(font, Vector2(4.0, fy + 10.0), "v0.2.0-m2 (Wajib 2 Pemain Co-op)", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(0.5, 0.65, 0.55, 0.8))
-	draw_string(font, Vector2(280.0, fy + 10.0), "W/S: Navigasi  |  Enter/Klik: Pilih  |  Esc: Kembali", HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+	var vp: Vector2 = _get_vp_size()
+	var fy: float = vp.y - 14.0
+	draw_rect(Rect2(0, fy, vp.x, 14), COL_HEADER_BG)
+
+	var left_text: String = "v0.2.0-m2 (Wajib 2 Pemain Co-op)"
+	var left_w: float = font.get_string_size(left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var left_x: float = 8.0
+
+	var hint_text: String = "W/S: Navigasi  |  Enter/Klik: Pilih  |  Esc: Kembali"
+	var hint_w: float = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+	var right_x: float = vp.x - 8.0 - hint_w
+
+	# Collision detection between left and right text in footer
+	if left_x + left_w + 12.0 > right_x:
+		hint_text = "W/S: Gerak | Enter: Pilih | Esc: Kembali"
+		hint_w = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		right_x = vp.x - 8.0 - hint_w
+
+	if left_x + left_w + 12.0 > right_x:
+		left_text = "v0.2.0-m2"
+		left_w = font.get_string_size(left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+		if left_x + left_w + 12.0 > right_x:
+			hint_text = "Enter: Pilih | Esc: Batal"
+			hint_w = font.get_string_size(hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8).x
+			right_x = vp.x - 8.0 - hint_w
+
+	draw_string(font, Vector2(left_x, fy + 10.0), left_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color(0.5, 0.65, 0.55, 0.8))
+	draw_string(font, Vector2(right_x, fy + 10.0), hint_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, COL_HINT)
+
+func _get_vp_size() -> Vector2:
+	if is_inside_tree() and get_viewport() != null:
+		var s: Vector2 = get_viewport_rect().size
+		if s.x > 0.0 and s.y > 0.0:
+			return s
+	return Vector2(float(VIEWPORT_W), float(VIEWPORT_H))
 
 func _get_autoload(autoload_name: String) -> Node:
 	var loop: MainLoop = Engine.get_main_loop()
