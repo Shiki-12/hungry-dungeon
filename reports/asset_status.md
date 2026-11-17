@@ -1,4 +1,206 @@
 # Asset Status
 
+**cook_rangga**: FINAL (200 frames across 43 canonical animations)
+
 | File | ID | Status |
 |---|---|---|
+| assets/rangga/Diam/battle/cook_rangga_idle_down1 (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_down1 (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_side_left1 (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_side_left1 (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_side_right1 (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_side_right1 (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_up1 (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/battle/cook_rangga_idle_up1 (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_down (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_down (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_down_up (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_down_up (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/Diam/biasa/cook_rangga_idle_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (1).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (2).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (3).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (4).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (5).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (6).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (7).png | cook_rangga | VALID |
+| assets/rangga/bekerja/cook_rangga__work (8).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_down1 (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_down1 (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_down1 (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_down1 (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_left1 (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_left1 (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_left1 (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_left1 (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_right1 (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_right1 (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_right1 (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_side_right1 (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_up1 (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_up1 (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_up1 (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/battle/cook_rangga__walk_up1 (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_down. (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_down. (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_down. (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_down. (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_left (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_right (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_side_right (4).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_up. (1).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_up. (2).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_up. (3).png | cook_rangga | VALID |
+| assets/rangga/berjalan/biasa/cook_rangga__walk_up. (4).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (1).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (2).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (3).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (4).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (5).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_down1 (6).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (1).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (2).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (3).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (4).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (5).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (6).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_left1 (7).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (1).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (2).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (3).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (4).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (5).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (6).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_side_right1 (7).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (1).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (2).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (3).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (4).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (5).png | cook_rangga | VALID |
+| assets/rangga/dash/battle/cook_rangga__dash_up1 (6).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (1).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (2).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (3).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (4).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (5).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_down (6).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (4).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (5).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (6).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_left (7).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (3).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (4).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (5).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (6).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_side_right (7).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (1).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (2).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (3).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (4).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (5).png | cook_rangga | VALID |
+| assets/rangga/dash/biasa/cook_rangga__dash_up (6).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_left (4).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_right (3).png | cook_rangga | VALID |
+| assets/rangga/lempar/cook_rangga_idle_side_right (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_down (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_left (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_side_right (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 1/cook_rangga__strike_up (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_down1 (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_left1 (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_side_right1 (7).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (1).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (2).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (3).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (4).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (5).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (6).png | cook_rangga | VALID |
+| assets/rangga/memukul/memukul 2/cook_rangga__strike_up1 (7).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_left (4).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_right (3).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_idle_side_right (4).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_down (1).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_down (2).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_down (3).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_down (4).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_up (1).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_up (2).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_up (3).png | cook_rangga | VALID |
+| assets/rangga/menangkis/cook_rangga_shield_up (4).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga__knocked_up (1).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga__knocked_up (2).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga__knocked_up (3).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_down (1).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_down (2).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_down (3).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_left (1).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_left (2).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_left (3).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_right (1).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_right (2).png | cook_rangga | VALID |
+| assets/rangga/terpental/cook_rangga_knocked_side_right (3).png | cook_rangga | VALID |

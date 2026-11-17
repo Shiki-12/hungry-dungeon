@@ -24,6 +24,7 @@ const CrowdControllerScript: Script = preload("res://view/crowd_controller.gd")
 const OrderBubbleViewScript: Script = preload("res://view/order_bubble_view.gd")
 const LapakModuleScript: Script = preload("res://levels/lapak_module.gd")
 const SeatScript: Script = preload("res://sim/entities/seat.gd")
+const CookViewScript: Script = preload("res://view/cook_view.gd")
 
 const HudTopScene: PackedScene = preload("res://ui/hud_top.tscn")
 const HudBottomScene: PackedScene = preload("res://ui/hud_bottom.tscn")
@@ -75,6 +76,8 @@ var emote_view_p1: Node2D
 var emote_view_p2: Node2D
 var crowd_controller: Node2D
 var monster_bubbles: Dictionary = {}
+var cook_view_p1: Node2D
+var cook_view_p2: Node2D
 
 # --- Level paths for debug switching ---
 const LEVEL_PATHS: Array[String] = [
@@ -209,6 +212,15 @@ func load_level(path: String) -> void:
 	cook_p2.cook_name = "Sekar"
 	cook_p2.position = Vector2(7 * TILE, 7 * TILE)
 
+	# Cook Views (FR-AST-01, AnimatedSprite2D / placeholder)
+	cook_view_p1 = CookViewScript.new()
+	cook_view_p1.setup(cook_p1, &"cook_rangga")
+	kitchen_layer.add_child(cook_view_p1)
+
+	cook_view_p2 = CookViewScript.new()
+	cook_view_p2.setup(cook_p2, &"cook_sekar")
+	kitchen_layer.add_child(cook_view_p2)
+
 	# Stations & Obstacles
 	_spawn_stations()
 	_build_obstacles()
@@ -249,6 +261,8 @@ func _clear_level() -> void:
 	static_obstacles.clear()
 	eating_timers.clear()
 	monster_bubbles.clear()
+	cook_view_p1 = null
+	cook_view_p2 = null
 	throw_hold_times["p1"] = 0.0
 	throw_hold_times["p2"] = 0.0
 	if kitchen_layer != null:
@@ -361,10 +375,10 @@ func _draw() -> void:
 				draw_rect(Rect2(sx - 5, sy - 9, 10, 4), Color(1.0, 0.95, 0.8))
 				draw_rect(Rect2(sx - 5, sy - 9, 10, 4), Color(0.8, 0.5, 0.2), false, 1.0)
 
-	# 5. Cooks
-	if cook_p1:
+	# 5. Cooks (hanya digambar primitive jika belum FINAL)
+	if cook_p1 and Assets.status(&"cook_rangga") != &"FINAL":
 		_draw_cook(cook_p1, Color(0.16, 0.5, 0.73))
-	if cook_p2:
+	if cook_p2 and Assets.status(&"cook_sekar") != &"FINAL":
 		_draw_cook(cook_p2, Color(0.83, 0.33, 0.0))
 
 	# 6. Monsters
@@ -489,6 +503,20 @@ func _physics_process(delta: float) -> void:
 	_tick_monsters(delta)
 	_tick_monster_spawn(delta)
 
+	# Hostile threat detection for cook battle mode
+	var p1_threat: bool = false
+	var p2_threat: bool = false
+	for m: RefCounted in monsters:
+		if m.state in [7, 8, 9]:
+			if cook_p1 and m.position.distance_to(cook_p1.position) < 140.0:
+				p1_threat = true
+			if cook_p2 and m.position.distance_to(cook_p2.position) < 140.0:
+				p2_threat = true
+	if cook_view_p1 != null:
+		cook_view_p1.hostile_threat_nearby = p1_threat
+	if cook_view_p2 != null:
+		cook_view_p2.hostile_threat_nearby = p2_threat
+
 	# Level timer
 	level_timer -= delta
 	if level_timer <= 0.0:
@@ -552,6 +580,10 @@ func _handle_cook_input(cook: RefCounted, prefix: String, delta: float, preview_
 	_handle_cook_work(cook, is_working)
 	if emote_view != null:
 		emote_view.update_cook_work(is_working, &"meja_potong", delta)
+	if cook.cook_id == 1 and cook_view_p1 != null:
+		cook_view_p1.is_working = is_working
+	elif cook.cook_id == 2 and cook_view_p2 != null:
+		cook_view_p2.is_working = is_working
 
 	# 4. Skill 1 (Rangga Dash) — FR-SKL-01, FR-SKL-09, FR-MON-13
 	if Input.is_action_just_pressed(prefix + "_skill_1"):
@@ -560,6 +592,10 @@ func _handle_cook_input(cook: RefCounted, prefix: String, delta: float, preview_
 
 	# 5. Strike (Space / Slash) — Sutil (3x usir) / Kuali Dua Mode (1x usir, 4s lock) (FR-COM-01 s.d. 06)
 	if Input.is_action_just_pressed(prefix + "_strike") and not cook.is_aiming_throw:
+		if cook.cook_id == 1 and cook_view_p1 != null:
+			cook_view_p1.trigger_strike()
+		elif cook.cook_id == 2 and cook_view_p2 != null:
+			cook_view_p2.trigger_strike()
 		if combat != null:
 			var cookware_item: RefCounted = null
 			if cook.held_item_id == "kuali":
@@ -575,6 +611,10 @@ func _handle_cook_input(cook: RefCounted, prefix: String, delta: float, preview_
 	if Input.is_action_just_pressed(prefix + "_throw"):
 		cook.is_aiming_throw = true
 		throw_hold_times[prefix] = 0.0
+		if cook.cook_id == 1 and cook_view_p1 != null:
+			cook_view_p1.trigger_throw()
+		elif cook.cook_id == 2 and cook_view_p2 != null:
+			cook_view_p2.trigger_throw()
 		if throw_system:
 			throw_system.start_aim(cook.cook_id, cook.position, cook.facing_direction)
 

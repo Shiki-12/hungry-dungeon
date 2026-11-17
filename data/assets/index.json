@@ -4,6 +4,7 @@
       "animations": [],
       "height": 96,
       "id": "art_select_rangga",
+      "placeholder": "box_purple",
       "prefix": "center",
       "width": 64
     },
@@ -11,6 +12,7 @@
       "animations": [],
       "height": 96,
       "id": "art_select_sekar",
+      "placeholder": "box_purple",
       "prefix": "center",
       "width": 64
     },
@@ -18,6 +20,7 @@
       "animations": [],
       "height": 32,
       "id": "cart_stall_clean",
+      "placeholder": "box_brown",
       "prefix": "bottom_center",
       "width": 24
     },
@@ -25,6 +28,7 @@
       "animations": [],
       "height": 32,
       "id": "cart_stall_dusty",
+      "placeholder": "box_brown",
       "prefix": "bottom_center",
       "width": 24
     },
@@ -32,10 +36,98 @@
       "animations": [],
       "height": 32,
       "id": "cart_stall_loaded",
+      "placeholder": "box_brown",
       "prefix": "bottom_center",
       "width": 24
     },
     "cook_rangga": {
+      "animation_names": [
+        "dash",
+        "dash_battle",
+        "dash_battle_down",
+        "dash_battle_side",
+        "dash_battle_side_left",
+        "dash_battle_side_right",
+        "dash_battle_up",
+        "dash_down",
+        "dash_down1",
+        "dash_side",
+        "dash_side_left",
+        "dash_side_left1",
+        "dash_side_right",
+        "dash_side_right1",
+        "dash_up",
+        "dash_up1",
+        "default",
+        "idle",
+        "idle_battle",
+        "idle_battle_down",
+        "idle_battle_side",
+        "idle_battle_side_left",
+        "idle_battle_side_right",
+        "idle_battle_up",
+        "idle_down",
+        "idle_down1",
+        "idle_side",
+        "idle_side_left",
+        "idle_side_left1",
+        "idle_side_right",
+        "idle_side_right1",
+        "idle_up",
+        "idle_up1",
+        "knocked",
+        "knocked_down",
+        "knocked_side",
+        "knocked_side_left",
+        "knocked_side_right",
+        "knocked_up",
+        "shield",
+        "shield_down",
+        "shield_side",
+        "shield_side_left",
+        "shield_side_right",
+        "shield_up",
+        "strike",
+        "strike_1_down",
+        "strike_1_side_left",
+        "strike_1_side_right",
+        "strike_1_up",
+        "strike_2_down",
+        "strike_2_side_left",
+        "strike_2_side_right",
+        "strike_2_up",
+        "strike_down",
+        "strike_side",
+        "strike_side_left",
+        "strike_side_right",
+        "strike_up",
+        "throw",
+        "throw_down",
+        "throw_side",
+        "throw_side_left",
+        "throw_side_right",
+        "throw_up",
+        "walk",
+        "walk_battle",
+        "walk_battle_down",
+        "walk_battle_side",
+        "walk_battle_side_left",
+        "walk_battle_side_right",
+        "walk_battle_up",
+        "walk_down",
+        "walk_down1",
+        "walk_side",
+        "walk_side_left",
+        "walk_side_left1",
+        "walk_side_right",
+        "walk_side_right1",
+        "walk_up",
+        "walk_up1",
+        "work",
+        "work_down",
+        "work_side",
+        "work_up"
+      ],
       "animations": [
         "idle_down:2:4:loop",
         "idle_up:2:4:loop",
@@ -57,9 +149,12 @@
         "dash_up:4:12:once",
         "dash_side:4:12:once"
       ],
+      "frame_count": 200,
       "height": 32,
       "id": "cook_rangga",
+      "placeholder": "FINAL",
       "prefix": "bottom_center",
+      "status": "FINAL",
       "width": 32
     },
     "cook_sekar": {
@@ -86,6 +181,7 @@
       ],
       "height": 32,
       "id": "cook_sekar",
+      "placeholder": "box_blue",
       "prefix": "bottom_center",
       "width": 32
     },
@@ -93,6 +189,7 @@
       "animations": [],
       "height": 16,
       "id": "dish_bubur_singkong",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -100,6 +197,7 @@
       "animations": [],
       "height": 16,
       "id": "dish_nasi_goreng_jamur",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -107,6 +205,7 @@
       "animations": [],
       "height": 16,
       "id": "dish_tempe_mendoan",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -116,6 +215,7 @@
       ],
       "height": 16,
       "id": "emote_burn",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -125,6 +225,7 @@
       ],
       "height": 16,
       "id": "emote_chat",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -134,6 +235,7 @@
       ],
       "height": 16,
       "id": "emote_cheer",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -143,6 +245,7 @@
       ],
       "height": 16,
       "id": "emote_chop",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -152,6 +255,7 @@
       ],
       "height": 16,
       "id": "emote_envy",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -161,6 +265,7 @@
       ],
       "height": 16,
       "id": "emote_grumble",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -170,6 +275,7 @@
       ],
       "height": 16,
       "id": "emote_happy",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -179,6 +285,7 @@
       ],
       "height": 16,
       "id": "emote_hungry",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -188,6 +295,7 @@
       ],
       "height": 16,
       "id": "emote_menu",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -197,6 +305,7 @@
       ],
       "height": 16,
       "id": "emote_mix",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -206,6 +315,7 @@
       ],
       "height": 16,
       "id": "emote_music",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -215,6 +325,7 @@
       ],
       "height": 16,
       "id": "emote_no",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -224,6 +335,7 @@
       ],
       "height": 16,
       "id": "emote_panic",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -233,6 +345,7 @@
       ],
       "height": 16,
       "id": "emote_pound",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -242,6 +355,7 @@
       ],
       "height": 16,
       "id": "emote_rage",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -251,6 +365,7 @@
       ],
       "height": 16,
       "id": "emote_scared",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -260,6 +375,7 @@
       ],
       "height": 16,
       "id": "emote_stir",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -269,6 +385,7 @@
       ],
       "height": 16,
       "id": "emote_wash",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -278,6 +395,7 @@
       ],
       "height": 16,
       "id": "emote_yum",
+      "placeholder": "box_pink",
       "prefix": "center",
       "width": 16
     },
@@ -285,6 +403,7 @@
       "animations": [],
       "height": 16,
       "id": "furn_seat_bench",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -292,6 +411,7 @@
       "animations": [],
       "height": 16,
       "id": "furn_seat_stool",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -299,6 +419,7 @@
       "animations": [],
       "height": 16,
       "id": "furn_table_long",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 32
     },
@@ -306,6 +427,7 @@
       "animations": [],
       "height": 16,
       "id": "furn_table_small",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -313,6 +435,7 @@
       "animations": [],
       "height": 16,
       "id": "furn_tikar_lapak",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -320,6 +443,7 @@
       "animations": [],
       "height": 24,
       "id": "icon_bubur_singkong",
+      "placeholder": "box_orange",
       "prefix": "center",
       "width": 24
     },
@@ -327,6 +451,7 @@
       "animations": [],
       "height": 24,
       "id": "icon_nasi_goreng_jamur",
+      "placeholder": "box_orange",
       "prefix": "center",
       "width": 24
     },
@@ -334,6 +459,7 @@
       "animations": [],
       "height": 24,
       "id": "icon_tempe_mendoan",
+      "placeholder": "box_orange",
       "prefix": "center",
       "width": 24
     },
@@ -341,6 +467,7 @@
       "animations": [],
       "height": 16,
       "id": "item_bawang_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -348,6 +475,7 @@
       "animations": [],
       "height": 16,
       "id": "item_burnt_food",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -355,6 +483,7 @@
       "animations": [],
       "height": 16,
       "id": "item_daun_bawang_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -362,6 +491,7 @@
       "animations": [],
       "height": 16,
       "id": "item_gula_merah_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -369,6 +499,7 @@
       "animations": [],
       "height": 16,
       "id": "item_jamur_tiram_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -376,6 +507,7 @@
       "animations": [],
       "height": 16,
       "id": "item_kerupuk_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -383,6 +515,7 @@
       "animations": [],
       "height": 16,
       "id": "item_kuali",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -390,6 +523,7 @@
       "animations": [],
       "height": 16,
       "id": "item_nasi_cooked",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -397,6 +531,7 @@
       "animations": [],
       "height": 16,
       "id": "item_santan_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -404,6 +539,7 @@
       "animations": [],
       "height": 16,
       "id": "item_singkong_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -411,6 +547,7 @@
       "animations": [],
       "height": 16,
       "id": "item_sutil",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -418,6 +555,7 @@
       "animations": [],
       "height": 16,
       "id": "item_tempe_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -425,6 +563,7 @@
       "animations": [],
       "height": 16,
       "id": "item_tepung_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -432,6 +571,7 @@
       "animations": [],
       "height": 16,
       "id": "item_truffle_gua_raw",
+      "placeholder": "box_orange",
       "prefix": "bottom_center",
       "width": 16
     },
@@ -439,6 +579,7 @@
       "animations": [],
       "height": 270,
       "id": "map_layer_1",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 480
     },
@@ -455,6 +596,7 @@
       ],
       "height": 32,
       "id": "mon_goblin",
+      "placeholder": "box_red",
       "prefix": "bottom_center",
       "width": 32
     },
@@ -471,6 +613,7 @@
       ],
       "height": 32,
       "id": "mon_goblin_chief",
+      "placeholder": "box_red",
       "prefix": "bottom_center",
       "width": 32
     },
@@ -487,6 +630,7 @@
       ],
       "height": 32,
       "id": "mon_scarecrow",
+      "placeholder": "box_red",
       "prefix": "bottom_center",
       "width": 32
     },
@@ -494,6 +638,7 @@
       "animations": [],
       "height": 16,
       "id": "plate_clean",
+      "placeholder": "box_brown",
       "prefix": "center",
       "width": 16
     },
@@ -501,6 +646,7 @@
       "animations": [],
       "height": 16,
       "id": "plate_dirty",
+      "placeholder": "box_brown",
       "prefix": "center",
       "width": 16
     },
@@ -508,6 +654,7 @@
       "animations": [],
       "height": 48,
       "id": "portrait_rangga_happy",
+      "placeholder": "box_purple",
       "prefix": "center",
       "width": 48
     },
@@ -515,6 +662,7 @@
       "animations": [],
       "height": 48,
       "id": "portrait_sekar_happy",
+      "placeholder": "box_purple",
       "prefix": "center",
       "width": 48
     },
@@ -530,6 +678,7 @@
       ],
       "height": 16,
       "id": "station_tungku",
+      "placeholder": "box_brown",
       "prefix": "center",
       "width": 32
     },
@@ -537,6 +686,7 @@
       "animations": [],
       "height": 16,
       "id": "tile_gua",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -544,6 +694,7 @@
       "animations": [],
       "height": 16,
       "id": "tile_halaman",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -551,6 +702,7 @@
       "animations": [],
       "height": 16,
       "id": "tile_lapak",
+      "placeholder": "box_gray",
       "prefix": "center",
       "width": 16
     },
@@ -558,6 +710,7 @@
       "animations": [],
       "height": 16,
       "id": "ui_button",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 48
     },
@@ -565,6 +718,7 @@
       "animations": [],
       "height": 12,
       "id": "ui_heart_empty",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 12
     },
@@ -572,6 +726,7 @@
       "animations": [],
       "height": 12,
       "id": "ui_heart_full",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 12
     },
@@ -579,6 +734,7 @@
       "animations": [],
       "height": 48,
       "id": "ui_panel",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 48
     },
@@ -586,6 +742,7 @@
       "animations": [],
       "height": 48,
       "id": "ui_popup_dialog",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 64
     },
@@ -593,6 +750,7 @@
       "animations": [],
       "height": 16,
       "id": "ui_skill_slot",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 16
     },
@@ -600,6 +758,7 @@
       "animations": [],
       "height": 12,
       "id": "ui_slider",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 48
     },
@@ -607,6 +766,7 @@
       "animations": [],
       "height": 16,
       "id": "ui_star_empty",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 16
     },
@@ -614,6 +774,7 @@
       "animations": [],
       "height": 16,
       "id": "ui_star_gold",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 16
     },
@@ -621,6 +782,7 @@
       "animations": [],
       "height": 26,
       "id": "ui_ticket_card",
+      "placeholder": "box_green",
       "prefix": "center",
       "width": 40
     },
@@ -630,6 +792,7 @@
       ],
       "height": 16,
       "id": "vfx_steam",
+      "placeholder": "box_white",
       "prefix": "center",
       "width": 16
     }

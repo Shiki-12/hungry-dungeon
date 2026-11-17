@@ -769,6 +769,15 @@ func _draw_gerobak(gx: float, gy: float) -> void:
 			draw_circle(Vector2(gx + 20.0 + float(i) * 10.0 + sin(st) * 3.0, gy - 5.0 - fmod(st * 5.0, 20.0)), 2.0, Color(1.0, 1.0, 1.0, maxf(0.0, 0.25 * (1.0 - fmod(st * 0.3, 1.0)))))
 
 func _draw_cook_char(cx: float, cy: float, col: Color, letter: String) -> void:
+	if letter == "R" and Assets.status(&"cook_rangga") == &"FINAL":
+		var sf: SpriteFrames = Assets.frames(&"cook_rangga")
+		if sf != null and sf.has_animation(&"idle_down"):
+			var fc: int = sf.get_frame_count(&"idle_down")
+			var fi: int = int(_time * 4.0) % fc if fc > 0 else 0
+			var tex: Texture2D = sf.get_frame_texture(&"idle_down", fi)
+			if tex != null:
+				draw_texture_rect(tex, Rect2(cx - 20.0, cy - 40.0, 40.0, 40.0), false)
+				return
 	draw_rect(Rect2(cx - 6.0, cy - 12.0, 12.0, 12.0), col)
 	draw_circle(Vector2(cx, cy - 15.0), 4.0, col.lightened(0.2))
 	draw_string(get_theme_default_font(), Vector2(cx - 3.0, cy - 3.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 8, Color.WHITE)

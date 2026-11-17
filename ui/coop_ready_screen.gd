@@ -207,12 +207,23 @@ func _draw_player_card(cx: float, cy: float, title: String, col: Color, controls
 	# Title
 	draw_string(font, Vector2(cx + 8.0, cy + bounce_offset + 14.0), title, HORIZONTAL_ALIGNMENT_LEFT, int(card_w - 16.0), 8, col)
 
-	# Character box (placeholder idle bobbing)
+	# Character box / sprite (idle bobbing)
 	var char_cx: float = cx + card_w / 2.0
 	var char_cy: float = cy + bounce_offset + 65.0 + sin(_time * 2.5) * 2.0
-	draw_rect(Rect2(char_cx - 16.0, char_cy - 20.0, 32.0, 32.0), col)
-	draw_circle(Vector2(char_cx, char_cy - 24.0), 8.0, col.lightened(0.2))
-	draw_string(font, Vector2(char_cx - 4.0, char_cy - 5.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
+	var drew_sprite: bool = false
+	if letter == "R" and Assets.status(&"cook_rangga") == &"FINAL":
+		var sf: SpriteFrames = Assets.frames(&"cook_rangga")
+		if sf != null and sf.has_animation(&"idle_down"):
+			var fc: int = sf.get_frame_count(&"idle_down")
+			var fi: int = int(_time * 4.0) % fc if fc > 0 else 0
+			var tex: Texture2D = sf.get_frame_texture(&"idle_down", fi)
+			if tex != null:
+				draw_texture_rect(tex, Rect2(char_cx - 20.0, char_cy - 24.0, 40.0, 40.0), false)
+				drew_sprite = true
+	if not drew_sprite:
+		draw_rect(Rect2(char_cx - 16.0, char_cy - 20.0, 32.0, 32.0), col)
+		draw_circle(Vector2(char_cx, char_cy - 24.0), 8.0, col.lightened(0.2))
+		draw_string(font, Vector2(char_cx - 4.0, char_cy - 5.0), letter, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
 
 	# Controls
 	draw_string(font, Vector2(cx + 8.0, cy + bounce_offset + 110.0), controls, HORIZONTAL_ALIGNMENT_LEFT, int(card_w - 16.0), 8, COL_HINT)
