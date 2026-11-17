@@ -95,8 +95,9 @@ func set_score(score: int) -> void:
 
 func set_time(time_sec: float) -> void:
 	if timer_label:
-		var m: int = int(maxf(0.0, time_sec)) / 60
-		var s: int = int(maxf(0.0, time_sec)) % 60
+		var total_s: int = int(maxf(0.0, time_sec))
+		var m: int = int(float(total_s) / 60.0)
+		var s: int = total_s % 60
 		timer_label.text = "%02d:%02d" % [m, s]
 
 func update_tickets(tickets: Array) -> void:

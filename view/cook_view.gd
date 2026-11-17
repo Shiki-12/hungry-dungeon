@@ -25,6 +25,7 @@ var _current_action: String = ""
 var _action_timer: float = 0.0
 var _strike_combo: int = 1
 var is_working: bool = false
+var is_dashing: bool = false
 var hostile_threat_nearby: bool = false
 var _last_pos: Vector2 = Vector2.ZERO
 var _is_moving: bool = false
@@ -194,6 +195,10 @@ func is_battle_mode() -> bool:
 func enter_battle_mode(duration: float = 3.0) -> void:
 	battle_timer = maxf(battle_timer, duration)
 
+func trigger_dash(duration: float = 0.25) -> void:
+	_current_action = "dash_battle" if is_battle_mode() else "dash"
+	_action_timer = duration
+
 func trigger_strike() -> void:
 	enter_battle_mode(3.0)
 	_strike_combo = 2 if _strike_combo == 1 else 1
@@ -238,7 +243,7 @@ func _update_animation(facing: Vector2, _delta: float) -> void:
 		target_anim = "work"
 
 	# 3. Dash animation
-	elif cook_entity != null and bool(cook_entity.get("is_dashing")):
+	elif is_dashing or (cook_entity != null and "is_dashing" in cook_entity and cook_entity.get("is_dashing") == true):
 		var prefix: String = "dash_battle_" if is_battle_mode() else "dash_"
 		target_anim = prefix + dir_str
 

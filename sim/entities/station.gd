@@ -98,7 +98,7 @@ func begin_step(recipe: Resource, index: int = 0) -> bool:
 	state = State.PROCESSING
 	return true
 
-func attend(worker_id: int = 0) -> bool:
+func attend(_worker_id: int = 0) -> bool:
 	if needs_attention:
 		needs_attention = false
 		attention_window_timer = 0.0

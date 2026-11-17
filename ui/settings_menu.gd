@@ -57,7 +57,8 @@ func _load_values() -> void:
 			if opt_type == "slider":
 				_values.append(float(settings_node.get(prop)))
 			else:
-				_values.append(bool(settings_node.get(prop)))
+				var v: Variant = settings_node.get(prop)
+				_values.append(v == true)
 		else:
 			if opt_type == "slider":
 				_values.append(0.8)

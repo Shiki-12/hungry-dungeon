@@ -187,8 +187,10 @@ func load_level(path: String) -> void:
 	hazards = HazardScript.new()
 	hazards.configure_from_level(level_data)
 	orders = OrdersScript.new(42)
-	orders.max_open_tickets = level_data.max_open_tickets
-	plate_pool = PlatePoolScript.new(level_data.plate_count, level_data.washing_enabled)
+	orders.max_open_tickets = level_data.max_open_tickets if "max_open_tickets" in level_data else 2
+	var p_count: int = level_data.plate_count if "plate_count" in level_data else 4
+	var w_enabled: bool = level_data.washing_enabled if "washing_enabled" in level_data else false
+	plate_pool = PlatePoolScript.new(p_count, w_enabled)
 	throw_system = ThrowSystemScript.new()
 	skills = SkillSystemScript.new()
 	skills.configure_from_level(level_data)
@@ -247,11 +249,13 @@ func load_level(path: String) -> void:
 	_draw_kitchen_bg()
 
 	# Start level
-	level_timer = level_data.duration_sec
+	var dur: float = level_data.duration_sec if "duration_sec" in level_data else 180.0
+	level_timer = dur
 	level_active = true
 	monster_spawn_timer = 2.0
-	Game.start_level(level_data.id, level_data.duration_sec)
-	_show_popup_for_level(level_data.id)
+	var lid: StringName = level_data.id if "id" in level_data else &"level_1_1"
+	Game.start_level(lid, dur)
+	_show_popup_for_level(lid)
 
 func _clear_level() -> void:
 	level_active = false
@@ -521,7 +525,7 @@ func _physics_process(delta: float) -> void:
 	level_timer -= delta
 	if level_timer <= 0.0:
 		level_active = false
-		var stars: int = scoring.stars_for(level_data) if scoring else 1
+		var stars: int = scoring.stars_for(level_data) if (scoring and level_data and "one_star_score" in level_data) else 1
 		Game.end_level(true, stars)
 
 	# Update HUD & View
@@ -588,7 +592,9 @@ func _handle_cook_input(cook: RefCounted, prefix: String, delta: float, preview_
 	# 4. Skill 1 (Rangga Dash) — FR-SKL-01, FR-SKL-09, FR-MON-13
 	if Input.is_action_just_pressed(prefix + "_skill_1"):
 		if cook.cook_id == 1 and skills != null:
-			skills.trigger_dash(cook, [], static_obstacles, monsters)
+			var res: Dictionary = skills.trigger_dash(cook, [], static_obstacles, monsters)
+			if res.get("success", false) and cook_view_p1 != null:
+				cook_view_p1.trigger_dash()
 
 	# 5. Strike (Space / Slash) — Sutil (3x usir) / Kuali Dua Mode (1x usir, 4s lock) (FR-COM-01 s.d. 06)
 	if Input.is_action_just_pressed(prefix + "_strike") and not cook.is_aiming_throw:
@@ -949,7 +955,7 @@ func _tick_monsters(delta: float) -> void:
 				for seat: RefCounted in lapak.all_seats():
 					if seat.seat_id == m.seat_id:
 						seat.vacate()
-						if level_data and level_data.washing_enabled:
+						if level_data and "washing_enabled" in level_data and level_data.washing_enabled:
 							seat.plate_state = SeatScript.PLATE_DIRTY
 						break
 			to_remove.append(m)
@@ -975,7 +981,7 @@ func _tick_monsters(delta: float) -> void:
 func _tick_monster_spawn(delta: float) -> void:
 	if orders == null or lapak == null:
 		return
-	var max_active: int = level_data.max_active_monsters if level_data else 4
+	var max_active: int = level_data.max_active_monsters if (level_data and "max_active_monsters" in level_data) else 4
 	if monsters.size() >= max_active:
 		return
 	monster_spawn_timer -= delta
@@ -997,7 +1003,7 @@ func _spawn_monster() -> void:
 	m.seat_id = seat.seat_id
 	m.position = seat.position
 	var recipes: Array = []
-	if level_data:
+	if level_data and "active_recipes" in level_data and level_data.active_recipes != null:
 		for r: StringName in level_data.active_recipes:
 			recipes.append(r)
 	if recipes.is_empty():

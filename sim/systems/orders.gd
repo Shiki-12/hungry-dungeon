@@ -16,7 +16,7 @@ func open_ticket_count() -> int:
 			count += 1
 	return count
 
-func register(monster: RefCounted, has_small_tables: bool = true) -> bool:
+func register(monster: RefCounted, _has_small_tables: bool = true) -> bool:
 	if monster == null:
 		return false
 	var tickets_before: int = open_ticket_count()

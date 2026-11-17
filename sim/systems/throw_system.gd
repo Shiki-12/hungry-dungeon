@@ -61,7 +61,7 @@ func throw_aimed(
 	origin: Vector2,
 	facing: Vector2,
 	seats: Array,
-	monsters: Array = [],
+	_monsters: Array = [],
 	is_keyboard: bool = true
 ) -> RefCounted:
 	if not can_throw(cook_id):
